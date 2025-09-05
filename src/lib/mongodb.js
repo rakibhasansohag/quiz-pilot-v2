@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI || process.env.MONGODB_URL;
+
 if (!uri) throw new Error('MONGODB_URI or MONGODB_URL not set in .env');
 
 const dbNameFromEnv = process.env.MONGODB_DB || undefined;
