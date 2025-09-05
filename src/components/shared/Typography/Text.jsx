@@ -12,7 +12,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
         return (
           <h1
             className={cn(
-              'font-bold capitalize lg:text-3xl text-2xl',
+              'font-bold text-foreground capitalize text-3xl sm:text-4xl lg:text-5xl',
               className
             )}
             {...rest}
@@ -22,43 +22,43 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
         );
       case 'heading':
         return (
-					<h2
-						className={cn(
-							'font-bold capitalize sm:text-xl lg:text-3xl text-red-400',
-							className,
-						)}
-						{...rest}
-					>
-						{ReactHtmlParser(text || '')}
-					</h2>
-				);
+          <h2
+            className={cn(
+              'font-semibold text-primary capitalize text-2xl sm:text-3xl lg:text-4xl',
+              className,
+            )}
+            {...rest}
+          >
+            {ReactHtmlParser(text || '')}
+          </h2>
+        );
       case 'small':
         return (
           <span
-            className={cn('text-sm pl-1 leading-6', className)}
+            className={cn('block text-sm pl-1 leading-6 text-muted-foreground', className)}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
           </span>
         );
-      case 'terms':
+      case 'subheading':
         return (
-          <span
+          <p
             className={cn(
-              'block text-base sm:text-lg w-[100%] lg:w-[70%] text-stone-950 leading-6',
+              'text-base font-semibold text-foreground',
               className
             )}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
-          </span>
+          </p>
         );
       case 'link':
         return (
           <Link
             href={href}
             className={cn(
-              'text-white transition-all duration-300 ease-linear leading-9 text-base font-normal capitalize hover:text-[#2eca7f]',
+              'block text-primary hover:text-secondary-foreground transition-all duration-300 ease-linear leading-9 text-base font-normal capitalize',
               className
             )}
           >
@@ -68,9 +68,9 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
       case 'paragraph':
       default:
         return (
-          <div className={cn('text-base', className)} {...rest}>
+          <p className={cn('text-base text-foreground', className)} {...rest}>
             {ReactHtmlParser(text || '')}
-          </div>
+          </p>
         );
     }
   };
