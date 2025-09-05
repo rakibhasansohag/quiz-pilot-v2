@@ -25,7 +25,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
           <h2
             className={cn(
               'font-semibold text-primary capitalize text-2xl sm:text-3xl lg:text-4xl',
-              className,
+              className
             )}
             {...rest}
           >
@@ -35,7 +35,10 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
       case 'small':
         return (
           <span
-            className={cn('block text-sm pl-1 leading-6 text-muted-foreground', className)}
+            className={cn(
+              'block text-sm pl-1 leading-6 text-muted-foreground',
+              className
+            )}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
@@ -44,10 +47,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
       case 'subheading':
         return (
           <p
-            className={cn(
-              'text-base font-semibold text-foreground',
-              className
-            )}
+            className={cn('text-base font-semibold text-foreground', className)}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
