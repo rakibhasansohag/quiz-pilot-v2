@@ -60,10 +60,10 @@ export default function SignupPage() {
 	}
 
 	return (
-		<div className='min-h-screen flex items-center justify-center p-4'>
+		<div className='min-h-screen flex items-center justify-center p-4 '>
 			<Card className='w-full max-w-lg'>
 				<CardHeader>
-					<CardTitle>Create your account</CardTitle>
+					<CardTitle className='text-center'>Create your account</CardTitle>
 				</CardHeader>
 
 				<CardContent>
@@ -130,24 +130,26 @@ export default function SignupPage() {
 								</p>
 							)}
 						</div>
-
-						<div className='flex items-center justify-between gap-3'>
-							<Button type='submit' disabled={isSubmitting}>
-								{isSubmitting ? 'Creating...' : 'Create account'}
-							</Button>
-
-							<Button
+						<div className='flex flex-col'>
+							<p
+							   className='flex-start mb-5'
 								variant='ghost'
-								type='button'
 								onClick={() => router.push('/login')}
 								disabled={isSubmitting}
 							>
 								Already have an account?
+							</p>
+
+							<Button type='submit' disabled={isSubmitting}>
+								{isSubmitting ? 'Creating...' : 'Create account'}
 							</Button>
 						</div>
 					</form>
 				</CardContent>
 			</Card>
+			<div>
+				hello
+			</div>
 		</div>
 	);
 }
