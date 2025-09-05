@@ -30,7 +30,7 @@ export default async function RootLayout({ children }) {
 			<body className={`${parkinsans.className} antialiased bg-background`}>
 				<Providers session={session}>
 					<Navbar />
-					<main className=''>{children}</main>
+					<main className='min-h-screen'>{children}</main>
 				</Providers>
 			</body>
 		</html>
