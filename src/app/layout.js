@@ -25,9 +25,10 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body
-        className={`${parkinsans.className} antialiased bg-[#e8f0f8] dark:bg-[#131518]`}
-      >
+
+      {/* background color (light) ==>  #e8f0f8   bg-[#e8f0f8] */}
+      {/* background color (dark) ==>  #131518   bg-[#131518] */}
+      <body>
         <Providers session={session}>
           <Navbar />
           <main className="">{children}</main>
