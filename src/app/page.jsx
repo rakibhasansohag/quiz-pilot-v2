@@ -19,5 +19,7 @@ export default async function Home() {
 			<Text tag='subheading' className='text-center' text='Subheading' />
 
 		</div>
+		</div>
+
 	);
 }
