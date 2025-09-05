@@ -23,7 +23,10 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
       case 'heading':
         return (
 					<h2
-						className={cn('font-bold capitalize text-2xl ', className)}
+						className={cn(
+							'font-bold capitalize sm:text-xl lg:text-3xl text-red-400',
+							className,
+						)}
 						{...rest}
 					>
 						{ReactHtmlParser(text || '')}

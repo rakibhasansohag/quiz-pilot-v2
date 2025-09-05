@@ -4,7 +4,7 @@ import Image from 'next/image';
 export default function Home() {
 	return (
 		<div>
-			<Text tag='heading' text='hellooooo' className='' />
+			<Text tag='heading' text='Hello world' />
 		</div>
 	);
 }
