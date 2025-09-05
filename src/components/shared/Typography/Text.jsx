@@ -22,20 +22,20 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
         );
       case 'heading':
         return (
-          <h2
-            className={cn(
-              'font-bold capitalize text-[50px] text-red-400',
-              className
-            )}
-            {...rest}
-          >
-            {ReactHtmlParser(text || '')}
-          </h2>
-        );
+					<h2
+						className={cn(
+							'font-bold capitalize sm:text-xl lg:text-3xl text-red-400',
+							className,
+						)}
+						{...rest}
+					>
+						{ReactHtmlParser(text || '')}
+					</h2>
+				);
       case 'small':
         return (
           <span
-            className={cn('text-[14px] text-white pl-1 leading-6', className)}
+            className={cn('text-sm pl-1 leading-6', className)}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
@@ -68,7 +68,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
       case 'paragraph':
       default:
         return (
-          <div className={cn('text-[16px] text-[#888]', className)} {...rest}>
+          <div className={cn('text-base', className)} {...rest}>
             {ReactHtmlParser(text || '')}
           </div>
         );
