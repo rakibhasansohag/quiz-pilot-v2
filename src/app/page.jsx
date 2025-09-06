@@ -18,7 +18,7 @@ export default async function Home() {
         <Text
           tag="small"
           className="text-center"
-          text="Master whatever you’re learning with Quizlet’s interactive flashcards, practice tests, and study activities."
+          text="Japan is an island country in East Asia. Located in the Pacific Ocean off the northeast coast of the Asian mainland, it is bordered to the west by the Sea of Japan and extends from the Sea of Okhotsk in the north to the East China Sea in the south. The Japanese archipelago consists of four major islands alongside 14,121 smaller islands, covering 377,975 square kilometers (145,937 sq mi). "
         />
         <Text tag="link" className="text-center" text="this is link" />
         <Text tag="subheading" className="text-center" text="Subheading" />
