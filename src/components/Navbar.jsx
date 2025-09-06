@@ -9,6 +9,23 @@ import ResponsiveWidthProvider from './shared/ResponsiveWidthProvider/Responsive
 
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const user = session?.user;
+
+  const routes = [
+    { name: 'Home', href: '/', auth: user },
+    { name: 'Categories', href: '/categories', auth: user },
+    { name: 'Questions', href: '/questions', auth: user },
+    { name: 'Dashboard', href: '/dashboard', auth: user },
+  ];
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <nav className="bg-[#d9e0e8] dark:bg-[#131518] border-b-1 border-[#d9e0e8] dark:border-gray-600 shadow-sm">
