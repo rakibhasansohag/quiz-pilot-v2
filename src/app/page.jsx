@@ -7,8 +7,6 @@ export default async function Home() {
   const user = await getSession();
   return (
     <div>
-      <Text tag="heading" text="hellooooo" className="" />
-
       <div className="flex flex-col items-center gap-5">
         <Text
           tag="h1"
