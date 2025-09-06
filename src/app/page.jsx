@@ -13,7 +13,7 @@ export default async function Home() {
         <Navbar />
       </nav>
       <ResponsiveWidthProvider>
-        <main className="space-y-32">
+        <main className="space-y-32 pt-20">
           <HeroSection />
           <CountUpPage />
           <Marquee />

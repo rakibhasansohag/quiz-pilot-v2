@@ -24,7 +24,7 @@ export default function ThemeToggle() {
 			variant='ghost'
 			onClick={() => setTheme(isDark ? 'light' : 'dark')}
 			aria-label='Toggle theme'
-			className='w-10 h-10 p-2'
+			className='w-10 h-10 p-2 cursor-pointer'
 		>
 			{isDark ? (
 				// Sun icon (for switching to light)

@@ -50,7 +50,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
           <Link
             href={href}
             className={cn(
-              'block text-primary hover:text-secondary-foreground transition-all duration-300 ease-linear leading-9 text-base font-normal capitalize',
+              'block text-primary dark:text-white dark:hover:text-primary hover:text-secondary-foreground transition-all duration-300 ease-linear leading-9 text-base font-normal capitalize',
               className
             )}
           >
