@@ -2,10 +2,16 @@
 
 import * as React from "react"
 import {
+  BarChart2,
   BookOpen,
   Bot,
+  Clipboard,
+  HelpCircle,
+  History,
   Settings2,
   SquareTerminal,
+  Trophy,
+  User,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -22,36 +28,38 @@ import {
 import Link from "next/link"
 import { Separator } from "./ui/separator"
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navDetails = [
+  {
+    title: "Profile",
+    url: "/dashboard/profile",
+    icon: User, // 👤 for personal profile
   },
-  navMain: [
-    {
-      title: "Profile",
-      url: "#",
-      icon: SquareTerminal,
-    },
-    {
-      title: "Quiz History",
-      url: "#",
-      icon: Bot,
+  {
+    title: "Questions",
+    url: "/dashboard/questions",
+    icon: Clipboard, // 📝 exam/tests
+  },
+  {
+    title: "Quiz History",
+    url: "/dashboard/quiz-history",
+    icon: History, // 🕒 past attempts
+  },
+  {
+    title: "Results",
+    url: "/dashboard/results",
+    icon: BarChart2, // 📊 performance summary
+  },
+  {
+    title: "Leaderboard",
+    url: "/dashboard/leaderboard",
+    icon: Trophy, // 🏆 ranking
+  },
+]
 
-    },
-    {
-      title: "Results",
-      url: "#",
-      icon: BookOpen,
-    },
-    {
-      title: "Leaderboard",
-      url: "#",
-      icon: Settings2,
-    },
-  ],
+const user = {
+  name: "shadcn",
+  email: "m@example.com",
+  avatar: "/avatars/shadcn.jpg",
 }
 
 export function AppSidebar({
@@ -81,11 +89,11 @@ export function AppSidebar({
       <Separator />
 
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain navDetails={navDetails} />
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
