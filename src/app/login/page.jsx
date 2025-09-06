@@ -1,8 +1,17 @@
 'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { toast } from 'react-hot-toast';
+import animation from "@/components/animation";
+import Lottie from 'lottie-react';
+import Google from "@/components/google/Google"
+import { useState } from 'react';
+
+
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('');
@@ -10,6 +19,8 @@ export default function LoginPage() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const router = useRouter();
+
+	// alert(password)
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -44,100 +55,58 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '100vh',
-				backgroundColor: '#f0f2f5',
-			}}
-		>
-			<div
-				style={{
-					padding: '2rem',
-					borderRadius: '8px',
-					boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-					backgroundColor: '#fff',
-					width: '100%',
-					maxWidth: '400px',
-				}}
-			>
-				<h2 style={{ textAlign: 'center', color: '#333' }}>Login</h2>
-				<form
-					onSubmit={handleSubmit}
-					style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-				>
-					<div>
-						<label
-							htmlFor='email'
-							style={{
-								display: 'block',
-								marginBottom: '0.5rem',
-								color: '#555',
-							}}
-						>
-							Email:
-						</label>
-						<input
-							type='email'
-							id='email'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							required
-							style={{
-								width: '100%',
-								padding: '0.75rem',
-								borderRadius: '4px',
-								border: '1px solid #ccc',
-							}}
-						/>
-					</div>
-					<div>
-						<label
-							htmlFor='password'
-							style={{
-								display: 'block',
-								marginBottom: '0.5rem',
-								color: '#555',
-							}}
-						>
-							Password:
-						</label>
-						<input
-							type='password'
-							id='password'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-							style={{
-								width: '100%',
-								padding: '0.75rem',
-								borderRadius: '4px',
-								border: '1px solid #ccc',
-							}}
-						/>
-					</div>
-					{error && (
-						<p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-					)}
-					<button
-						type='submit'
-						disabled={loading}
-						style={{
-							padding: '0.75rem',
-							borderRadius: '4px',
-							border: 'none',
-							backgroundColor: '#0070f3',
-							color: '#fff',
-							cursor: loading ? 'not-allowed' : 'pointer',
-							opacity: loading ? 0.7 : 1,
-						}}
-					>
-						{loading ? 'Logging in...' : 'Login'}
-					</button>
-				</form>
+		<div className='min-h-screen  flex items-center justify-center p-4 lg:gap-15'>
+			<Card className='w-full max-w-lg flex'>
+				<CardHeader>
+					<CardTitle className='text-center'>Log in</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form onSubmit={handleSubmit} className='space-y-4'>
+						<div>
+							<Label htmlFor='email'>Email</Label>
+							<Input
+								id='email'
+								type='email'
+								placeholder='you@example.com'
+								className='mt-1'
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
+						<div>
+							<Label htmlFor='password'>Password</Label>
+							<Input
+								id='password'
+								type='password'
+								placeholder='At least 6 characters'
+								className='mt-1'
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
+
+						<div className='flex flex-col'>
+							<p
+								className='flex-start mb-5'
+								variant='ghost'
+								onClick={() => router.push('/signup')}
+							>
+								Create a new account?
+							</p>
+							{error && (
+								<p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+							)}
+
+							<Button type='submit' disabled={loading} >
+								{loading ? "Loging in .." : "Login"}
+							</Button>
+						</div>
+					</form>
+					<Google />
+				</CardContent>
+			</Card>
+			<div className='hidden sm:block'>
+				<Lottie className='bg-background' animationData={animation} />
 			</div>
+
 		</div>
 	);
 }

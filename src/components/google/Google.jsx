@@ -3,7 +3,8 @@ import { Button } from '../ui/button'
 
 export default function Google() {
     const handleGoogleLogin = () => {
-        alert('hello')
+        
+        alert("hiiii")
     }
     return (
         <div>
