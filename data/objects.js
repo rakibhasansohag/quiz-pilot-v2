@@ -20,29 +20,32 @@ USER_OBJECT = {
 };
 
 CATEGORIES_OBJECT = {
-	_id: 'ObjectId',
+	_id: ObjectId,
 	name: 'string (unique)',
 	description: 'string',
-	createdBy: 'ObjectId (ref: User)',
-	totalQuizzes: 'number',
-	totalAttempts: 'number',
+	createdBy: 'string (userId) | null',
+	createdByEmail: 'string | null',
+	updatedByEmail: 'string | null',
+	totalQuizzes: 0,
+	totalAttempts: 0,
+	createdAt: ISODate,
+	updatedAt: ISODate,
 };
 
 QUESTION_OBJECT = {
-	_id: 'ObjectId',
-	text: 'string',
-	type: "enum['mcq', 'true_false']",
-	options: [
-		{
-			id: 'number',
-			text: 'string',
-		},
-	],
-	correctAnswer: 'number (option id)',
-	category: 'ObjectId (ref: Category)',
-	difficulty: "enum['easy', 'medium', 'hard']",
-	explanation: 'string',
-	createdBy: 'ObjectId (ref: User)',
+	_id: ObjectId,
+	categoryId: ObjectId,
+	categoryName: 'string', // denormalized for fast reads (optional)
+	type: 'mcq' | 'tf', // question type
+	difficulty: 'easy' | 'medium' | 'hard',
+	text: 'What is X?',
+	options: ['A', 'B', 'C', 'D'], // for `tf` can be ["True","False"] OR you can omit
+	correctIndex: 1, // index into options OR for tf use correct = true/false
+	timeLimitSec: 30, // optional per-question timer
+	createdBy: 'string (userId)',
+	createdByEmail: 'string',
+	status: 'published' | 'draft' | 'archived',
+	createdAt: ISODate,
 };
 
 QUIZ_OBJECT = {
@@ -111,4 +114,20 @@ TEMPORARY_INVITE_OBJECT = {
 	invitedBy: 'ObjectId (ref: User)',
 	expiresAt: 'Date',
 	used: 'boolean',
+};
+
+RESULT_OBJECT = {
+	_id: ObjectId,
+	userId: 'string',
+	userEmail: 'string',
+	categoryId: ObjectId,
+	score: 7,
+	total: 10,
+	accuracy: 0.7,
+	timeTakenSec: 123,
+	answers: [
+		{ questionId: ObjectId, selectedIndex: 2, correct: true, timeSec: 10 },
+		{ questionId: ObjectId, selectedIndex: 2, correct: true, timeSec: 10 },
+	],
+	createdAt: ISODate,
 };
