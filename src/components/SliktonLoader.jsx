@@ -12,11 +12,11 @@ export default function SliktonLoader({
   // card layout classes (matches the question cards)
   const cardInner = (
     <>
-      <div className="h-6 bg-gray-200 dark:bg-neutral-700 rounded-md w-3/4 mb-3 animate-pulse" />
+      <div className="h-6 bg-gray-300 dark:bg-neutral-700 rounded-md w-3/4 mb-3 animate-pulse" />
       <div className="flex gap-2 mb-3">
-        <div className="h-7 w-20 bg-gray-200 dark:bg-neutral-700 rounded-full animate-pulse" />
-        <div className="h-7 w-14 bg-gray-200 dark:bg-neutral-700 rounded-full animate-pulse" />
-        <div className="h-7 w-16 bg-gray-200 dark:bg-neutral-700 rounded-full animate-pulse" />
+        <div className="h-7 w-20 bg-gray-300 dark:bg-neutral-700 rounded-full animate-pulse" />
+        <div className="h-7 w-14 bg-gray-300 dark:bg-neutral-700 rounded-full animate-pulse" />
+        <div className="h-7 w-16 bg-gray-300 dark:bg-neutral-700 rounded-full animate-pulse" />
       </div>
       <div className="h-4 bg-gray-200 dark:bg-neutral-700 rounded-md w-1/3 animate-pulse" />
     </>
@@ -25,8 +25,8 @@ export default function SliktonLoader({
   // compact/list layout classes (smaller)
   const compactInner = (
     <>
-      <div className="h-5 bg-gray-200 dark:bg-neutral-700 rounded-md w-4/5 mb-2 animate-pulse" />
-      <div className="h-3 bg-gray-200 dark:bg-neutral-700 rounded-md w-1/2 animate-pulse" />
+      <div className="h-5 bg-gray-300 dark:bg-neutral-700 rounded-md w-4/5 mb-2 animate-pulse" />
+      <div className="h-3 bg-gray-300 dark:bg-neutral-700 rounded-md w-1/2 animate-pulse" />
     </>
   );
 
