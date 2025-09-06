@@ -9,6 +9,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
+import animation from "@/components/animation";
+import Lottie from 'lottie-react';
+import Google from "@/components/google/Google"
+
 
 const signupSchema = z
 	.object({
@@ -60,12 +64,11 @@ export default function SignupPage() {
 	}
 
 	return (
-		<div className='min-h-screen flex items-center justify-center p-4'>
-			<Card className='w-full max-w-lg'>
-				<CardHeader>
-					<CardTitle>Create your account</CardTitle>
+		<div className='min-h-screen  flex items-center justify-center p-4 lg:gap-15'>
+			<Card className='w-full max-w-lg flex'>
+					<CardHeader>
+					<CardTitle className='text-center'>Create your account</CardTitle>
 				</CardHeader>
-
 				<CardContent>
 					<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 						<div>
@@ -130,24 +133,28 @@ export default function SignupPage() {
 								</p>
 							)}
 						</div>
-
-						<div className='flex items-center justify-between gap-3'>
-							<Button type='submit' disabled={isSubmitting}>
-								{isSubmitting ? 'Creating...' : 'Create account'}
-							</Button>
-
-							<Button
+						<div className='flex flex-col'>
+							<p
+							   className='flex-start mb-5'
 								variant='ghost'
-								type='button'
 								onClick={() => router.push('/login')}
 								disabled={isSubmitting}
 							>
 								Already have an account?
+							</p>
+
+							<Button type='submit' disabled={isSubmitting}>
+								{isSubmitting ? 'Creating...' : 'Create account'}
 							</Button>
 						</div>
 					</form>
+					<Google/>
 				</CardContent>
 			</Card>
+			<div className='hidden sm:block'>
+				<Lottie className='bg-background' animationData={animation} />
+			</div>
+			
 		</div>
 	);
 }
