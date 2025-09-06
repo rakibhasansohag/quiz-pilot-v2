@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button } from '../ui/button'
+import { signIn } from 'next-auth/react'
 
 export default function Google() {
     const handleGoogleLogin = () => {
-        
-        alert("hiiii")
+        signIn("google",{callbackUrl : "/"})
     }
+    
     return (
         <div>
             {/* OR divider */}
