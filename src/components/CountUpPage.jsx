@@ -2,20 +2,24 @@
 
 import React from 'react';
 import CountUp from 'react-countup';
+import Text from './shared/Typography/Text';
 
 export default function CountUpPage() {
   return (
     <div className="col-span-1 flex flex-col gap-5 max-w-4xl mx-auto py-10 px-4">
-      {/* Title */}
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-gray-800 mb-2">
-        Our Achievements
-      </h1>
-
-      {/* Description */}
-      <p className="text-center text-gray-500 text-base sm:text-lg mb-8 max-w-xl mx-auto">
-        We are proud of our growing community and the milestones we have
-        achieved together. Here are some key stats:
-      </p>
+      {/* Heading */}
+      <Text
+        tag="heading"
+        text="Our Achievements"
+        className="mb-4 text-center"
+      />
+      {/* Paragraph */}
+      <Text
+        tag="paragraph"
+        text="We are proud of our growing community and the milestones we have
+        achieved together. Here are some key stats:"
+        className="mb-8 text-center"
+      />
 
       {/* CountUp Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
