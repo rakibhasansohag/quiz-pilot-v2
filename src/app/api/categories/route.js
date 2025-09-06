@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getDb } from '@/lib/mongodb';
 import { getToken } from 'next-auth/jwt';
+import { getUserFromCookies } from '../../../lib/getUserFromCookies';
 
 const createSchema = z.object({
 	name: z.string().min(2, 'Name must be at least 2 characters').max(100),
@@ -27,6 +28,7 @@ export async function GET(req) {
 			totalAttempts: c.totalAttempts ?? 0,
 			createdAt: c.createdAt,
 			updatedAt: c.updatedAt,
+			createdByEmail: c.createdByEmail || '',
 		}));
 
 		return NextResponse.json({ categories: sanitized });
@@ -40,10 +42,10 @@ export async function POST(req) {
 	try {
 		const body = await req.json();
 
-		const token = await getToken({
-			req,
-			secret: process.env.NEXTAUTH_SECRET,
-		});
+		const token = await getUserFromCookies();
+
+		console.log('token', token);
+
 		if (!token || token.role !== 'admin') {
 			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 		}
@@ -68,16 +70,12 @@ export async function POST(req) {
 			);
 		}
 
-		// try to get user from token, but allow null (anyone can create while RESTRICT_CREATION=false)
 		let createdBy = null;
 		try {
-			const token = await getToken({
-				req,
-				secret: process.env.NEXTAUTH_SECRET,
-			});
 			if (token && token.sub) createdBy = token.sub;
 		} catch (e) {
 			// ignore token parsing errors - creation allowed for anonymous
+			console.error('Error parsing token', e);
 		}
 
 		const now = new Date();
@@ -85,10 +83,12 @@ export async function POST(req) {
 			name: name.trim(),
 			description: description?.trim() || '',
 			createdBy: createdBy, // string (userId) or null
+			createdByEmail: token ? token.email : null,
 			totalQuizzes: 0,
 			totalAttempts: 0,
 			createdAt: now,
 			updatedAt: now,
+			updatedByEmail: null, // when another admin update the category it will be passed here
 		};
 
 		const res = await db.collection('categories').insertOne(doc);

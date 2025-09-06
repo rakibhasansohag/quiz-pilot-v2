@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -9,6 +9,7 @@ export default function LoginPage() {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
+	const router = useRouter();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -22,6 +23,7 @@ export default function LoginPage() {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ email, password }),
+				credentials: 'include',
 			});
 
 			const data = await response.json();
@@ -32,6 +34,8 @@ export default function LoginPage() {
 
 			// Login successful, redirect to dashboard or home page
 			toast.success('Login successful');
+
+			router.push('/dashboard');
 		} catch (err) {
 			setError(err.message || 'An unexpected error occurred.');
 		} finally {

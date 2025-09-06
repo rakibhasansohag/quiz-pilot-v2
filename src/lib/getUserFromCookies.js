@@ -1,17 +1,22 @@
 import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
-export function getUserFromCookies() {
-	const cookieStore = cookies();
+export async function getUserFromCookies() {
+	const cookieStore = await cookies();
 	const token = cookieStore.get('token')?.value;
+
 	if (!token) return null;
 
 	try {
-		return jwt.verify(
+		const { payload } = await jwtVerify(
 			token,
-			process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET,
+			new TextEncoder().encode(
+				process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET,
+			),
 		);
+		return payload;
 	} catch (e) {
+		console.error('JWT verify failed', e);
 		return null;
 	}
 }
