@@ -1,21 +1,22 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { signOut, useSession } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
-import ThemeToggle from './ThemeToggle';
-import ResponsiveWidthProvider from './shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
+import Link from "next/link";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import ThemeToggle from "./ThemeToggle";
+import ResponsiveWidthProvider from "./shared/ResponsiveWidthProvider/ResponsiveWidthProvider";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const user = session?.user;
 
   const routes = [
-    { name: 'Home', href: '/', auth: user },
-    { name: 'Categories', href: '/categories', auth: user },
-    { name: 'Questions', href: '/questions', auth: user },
-    { name: 'Dashboard', href: '/dashboard', auth: user },
+    { name: "Home", href: "/", auth: user },
+    { name: "Categories", href: "/categories", auth: user },
+    { name: "Questions", href: "/questions", auth: user },
+    { name: "Dashboard", href: "/dashboard", auth: user },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,8 +24,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -57,7 +58,7 @@ export default function Navbar() {
               Quizes
             </Link>
 
-            {status === 'loading' ? null : session ? (
+            {status === "loading" ? null : session ? (
               <>
                 <Link href="/dashboard/add-product">
                   <Button>Add</Button>
@@ -67,7 +68,7 @@ export default function Navbar() {
                   {session.user?.image && (
                     <Image
                       src={session.user.image}
-                      alt={session.user?.name || 'avatar'}
+                      alt={session.user?.name || "avatar"}
                       width={36}
                       height={36}
                       className="rounded-full"
@@ -78,7 +79,7 @@ export default function Navbar() {
                   </span>
                 </div>
 
-                <Button onClick={() => signOut({ callbackUrl: '/' })}>
+                <Button onClick={() => signOut({ callbackUrl: "/" })}>
                   Sign out
                 </Button>
               </>
