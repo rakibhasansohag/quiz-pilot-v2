@@ -13,11 +13,7 @@ let cached =
 async function connectToMongo() {
 	if (cached.db) return cached.db;
 	if (!cached.promise) {
-		const client = new MongoClient(uri, {
-			// optional recommended options
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		});
+		const client = new MongoClient(uri, {});
 		cached.promise = client.connect().then((c) => {
 			cached.client = c;
 			cached.db = dbNameFromEnv ? c.db(dbNameFromEnv) : c.db();
