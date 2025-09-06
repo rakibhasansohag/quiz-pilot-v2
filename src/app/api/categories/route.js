@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getDb } from '@/lib/mongodb';
 import { getToken } from 'next-auth/jwt';
+import { getUserFromCookies } from '../../../lib/getUserFromCookies';
 
 const createSchema = z.object({
 	name: z.string().min(2, 'Name must be at least 2 characters').max(100),
@@ -40,10 +41,9 @@ export async function POST(req) {
 	try {
 		const body = await req.json();
 
-		const token = await getToken({
-			req,
-			secret: process.env.NEXTAUTH_SECRET,
-		});
+		const token = await getUserFromCookies();
+
+		console.log(token);
 		if (!token || token.role !== 'admin') {
 			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 		}
