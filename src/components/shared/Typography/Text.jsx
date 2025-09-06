@@ -32,6 +32,18 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
             {ReactHtmlParser(text || '')}
           </h2>
         );
+      case 'subheading':    // for subheading
+        return (
+          <span
+            className={cn(
+              'text-xl font-semibold text-foreground',
+              className
+            )}
+            {...rest}
+          >
+            {ReactHtmlParser(text || '')}
+          </span>
+        );
       case 'small':
         return (
           <span
@@ -40,18 +52,6 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
           >
             {ReactHtmlParser(text || '')}
           </span>
-        );
-      case 'subheading':
-        return (
-          <p
-            className={cn(
-              'text-base font-semibold text-foreground',
-              className
-            )}
-            {...rest}
-          >
-            {ReactHtmlParser(text || '')}
-          </p>
         );
       case 'link':
         return (
@@ -71,6 +71,30 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
           <p className={cn('text-base text-foreground', className)} {...rest}>
             {ReactHtmlParser(text || '')}
           </p>
+        );
+      case 'error':     // for error text
+        return (
+          <p
+            className={cn(
+              'text-sm text-red-500 font-medium',
+              className
+            )}
+            {...rest}
+          >
+            {ReactHtmlParser(text || '')}
+          </p>
+        );
+      case 'label':
+        return (
+          <label
+            className={cn(
+              'text-sm font-medium text-foreground block mb-1',
+              className
+            )}
+            {...rest}
+          >
+            {ReactHtmlParser(text || '')}
+          </label>
         );
     }
   };
