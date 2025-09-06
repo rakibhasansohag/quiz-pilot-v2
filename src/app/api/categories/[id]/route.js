@@ -15,7 +15,7 @@ const updateSchema = z.object({
 });
 
 async function requireAdmin() {
-	const user = getUserFromCookies();
+	const user = await getUserFromCookies();
 	console.log('decoded user:', user);
 	if (!user || user.role !== 'admin') {
 		throw NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -56,7 +56,7 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
 	try {
 		// only admin can update categories
-		await requireAdmin(req);
+		const user = await requireAdmin(req);
 
 		const id = params.id;
 		if (!ObjectId.isValid(id))
@@ -70,7 +70,14 @@ export async function PUT(req, { params }) {
 		}
 
 		const db = await getDb();
-		const updates = { ...parsed.data, updatedAt: new Date() };
+
+		// prepare updates and stamp who updated
+		const updates = {
+			...parsed.data,
+			updatedAt: new Date(),
+			updatedByEmail: user.email || null,
+			updatedBy: user.sub || null,
+		};
 
 		// if updating name, ensure uniqueness (case-insensitive)
 		if (updates.name) {
@@ -99,7 +106,8 @@ export async function PUT(req, { params }) {
 				_id: updated._id.toString(),
 				name: updated.name,
 				description: updated.description || '',
-				createdBy: updated.createdBy ? updated.createdBy.toString() : null,
+				updatedByEmail: updated.updatedByEmail || null,
+				updatedBy: updated.updatedBy || null,
 				totalQuizzes: updated.totalQuizzes ?? 0,
 				totalAttempts: updated.totalAttempts ?? 0,
 				createdAt: updated.createdAt,
