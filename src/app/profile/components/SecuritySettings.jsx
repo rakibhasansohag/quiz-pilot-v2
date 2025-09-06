@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -51,7 +52,7 @@ export default function SecuritySettings() {
 			toast.error('Passwords do not match');
 			return;
 		}
-		// call your change-password API (implement server route)
+
 		try {
 			const res = await fetch('/api/auth/change-password', {
 				method: 'POST',
