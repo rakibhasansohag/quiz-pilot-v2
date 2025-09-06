@@ -32,21 +32,16 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
             {ReactHtmlParser(text || '')}
           </h2>
         );
-      case 'subheading':    // for subheading
+      case 'subheading': // for subheading
         return (
-          <span
-            className={cn(
-              className
-            )}
-            {...rest}
-          >
+          <span className={cn(className)} {...rest}>
             {ReactHtmlParser(text || '')}
           </span>
         );
       case 'small':
         return (
+          <span>
             {...rest}
-          >
             {ReactHtmlParser(text || '')}
           </span>
         );
@@ -69,13 +64,10 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
             {ReactHtmlParser(text || '')}
           </p>
         );
-      case 'error':     // for error text
+      case 'error': // for error text
         return (
           <p
-            className={cn(
-              'text-sm text-red-500 font-medium',
-              className
-            )}
+            className={cn('text-sm text-red-500 font-medium', className)}
             {...rest}
           >
             {ReactHtmlParser(text || '')}
