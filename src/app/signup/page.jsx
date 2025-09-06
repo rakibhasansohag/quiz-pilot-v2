@@ -9,6 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
+import animation from "@/components/animation";
+import Lottie from 'lottie-react';
+
 
 const signupSchema = z
 	.object({
@@ -60,12 +63,12 @@ export default function SignupPage() {
 	}
 
 	return (
-		<div className='min-h-screen flex items-center justify-center p-4 '>
-			<Card className='w-full max-w-lg'>
-				<CardHeader>
+		<div className='min-h-screen flex items-center justify-center p-4'>
+			<Card className='w-full max-w-lg flex'>
+			
+					<CardHeader>
 					<CardTitle className='text-center'>Create your account</CardTitle>
 				</CardHeader>
-
 				<CardContent>
 					<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 						<div>
@@ -148,8 +151,9 @@ export default function SignupPage() {
 				</CardContent>
 			</Card>
 			<div>
-				hello
+				<Lottie animationData={animation} />
 			</div>
+			
 		</div>
 	);
 }
