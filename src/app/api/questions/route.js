@@ -65,7 +65,7 @@ export async function GET(req) {
 
 export async function POST(req) {
 	try {
-		const user = await getUserFromCookies();
+		const user = await getUserFromCookies(req);
 		if (!user)
 			return NextResponse.json(
 				{ error: 'Authentication required' },

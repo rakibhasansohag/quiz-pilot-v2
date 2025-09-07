@@ -12,9 +12,9 @@ import {
 	DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { User, LayoutDashboard, LogOut, Settings } from 'lucide-react';
+import { User, LayoutDashboard, LogOut, History } from 'lucide-react';
 
-// in UserMenu.jsx — modify tokenSid computation
+
 function getSidFromCookie() {
 	if (typeof document === 'undefined') return null;
 	const m = document.cookie.match(/(?:^|; )sid=([^;]+)/);
@@ -86,17 +86,6 @@ export default function UserMenu() {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align='end' className='w-56 py-1'>
-				{/* Profile */}
-				<DropdownMenuItem asChild>
-					<Link
-						href='/dashboard/profile'
-						className='flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-slate-100 cursor-pointer'
-					>
-						<User size={16} />
-						<span>Profile</span>
-					</Link>
-				</DropdownMenuItem>
-
 				{/* Dashboard */}
 				<DropdownMenuItem asChild>
 					<Link
@@ -108,14 +97,25 @@ export default function UserMenu() {
 					</Link>
 				</DropdownMenuItem>
 
-				{/* Settings (optional) */}
+				{/* Profile */}
 				<DropdownMenuItem asChild>
 					<Link
-						href='/dashboard/settings'
+						href='/dashboard/profile'
 						className='flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-slate-100 cursor-pointer'
 					>
-						<Settings size={16} />
-						<span>Settings</span>
+						<User size={16} />
+						<span>Profile</span>
+					</Link>
+				</DropdownMenuItem>
+
+				{/* History */}
+				<DropdownMenuItem asChild>
+					<Link
+						href='/dashboard/history'
+						className='flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-slate-100 cursor-pointer'
+					>
+						<History size={16} />
+						<span>History</span>
 					</Link>
 				</DropdownMenuItem>
 

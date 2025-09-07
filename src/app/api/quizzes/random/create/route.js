@@ -21,7 +21,7 @@ export async function POST(req) {
 			{ status: 400 },
 		);
 
-	const user = await getUserFromCookies();
+	const user = await getUserFromCookies(req);
 	if (!user || user.role !== 'admin')
 		return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
