@@ -12,7 +12,7 @@ const Text = ({ tag, text, className, href = '#', ...rest }) => {
         return (
           <h1
             className={cn(
-              'font-bold text-foreground capitalize text-3xl sm:text-4xl lg:text-5xl',
+              'font-bold capitalize text-3xl sm:text-4xl lg:text-5xl',
               className
             )}
             {...rest}

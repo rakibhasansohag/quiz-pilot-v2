@@ -3,8 +3,6 @@
 import {
   ChevronsUpDown,
   LogOut,
-  Moon,
-
 } from "lucide-react"
 
 import {
@@ -26,11 +24,21 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
-export function NavUser({
-  user
-}) {
-  const { isMobile } = useSidebar()
+export function NavUser({ user }) {
+  const { isMobile } = useSidebar();
+
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <SidebarMenu>
@@ -52,7 +60,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
 
-          
+
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
@@ -71,29 +79,53 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
 
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
-
-
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Moon />
-              Toggle Theme
+            <DropdownMenuItem
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              onSelect={(e) => e.preventDefault()} //prevents closing the down downmenu
+            >
+              {isDark ? (
+                // Sun icon (for switching to light)
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='w-5 h-5'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                >
+                  <circle
+                    cx='12'
+                    cy='12'
+                    r='4'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <path
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41'
+                  />
+                </svg>
+              ) : (
+                // Moon icon (for switching to dark)
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='w-5 h-5'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z'
+                  />
+                </svg>
+              )}
+              Theme
             </DropdownMenuItem>
 
             <DropdownMenuItem>
