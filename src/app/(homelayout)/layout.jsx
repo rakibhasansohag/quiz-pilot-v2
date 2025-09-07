@@ -5,9 +5,9 @@ import React from 'react';
 const HomeLayout = ({ children }) => {
     return (
         <div>
-            <nav>
-                <Navbar></Navbar>
-            </nav>
+
+            <Navbar></Navbar>
+
             <main className='min-h-screen'>
                 {children}
             </main>
