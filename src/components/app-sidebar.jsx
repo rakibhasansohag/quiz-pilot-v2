@@ -3,13 +3,11 @@
 import * as React from "react"
 import {
   BarChart2,
-  BookOpen,
-  Bot,
   Clipboard,
-  HelpCircle,
   History,
-  Settings2,
-  SquareTerminal,
+
+  LayoutDashboard,
+
   Trophy,
   User,
 } from "lucide-react"
@@ -29,6 +27,11 @@ import Link from "next/link"
 import { Separator } from "./ui/separator"
 
 const navDetails = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard, // 📊 main dashboard
+  },
   {
     title: "Profile",
     url: "/dashboard/profile",

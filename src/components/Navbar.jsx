@@ -18,7 +18,7 @@ export default function Navbar() {
   const routes = [
     { name: 'Home', href: '/' },
     { name: 'Categories', href: '/categories' },
-    // { name: 'Questions', href: '/questions' },
+    { name: 'Quiz', href: '/quiz' },
     { name: 'Dashboard', href: '/dashboard' },
   ];
 
