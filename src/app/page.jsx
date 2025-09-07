@@ -3,24 +3,22 @@ import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import Marquee from '@/components/Marquee';
 import Navbar from '@/components/Navbar';
-import ResponsiveWidthProvider from '@/components/shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
 
-export default async function Home() {
+export default async function Home({ children }) {
   return (
-    <>
-      <nav>
-        <Navbar />
-      </nav>
-      <ResponsiveWidthProvider>
-        <main className="space-y-32 pt-20">
+    <div>
+      <Navbar></Navbar>
+
+      <main className="min-h-screen">
+        <main className="space-y-32">
           <HeroSection />
           <CountUpPage />
           <Marquee />
         </main>
-      </ResponsiveWidthProvider>
-      <footer className="mt-32">
-        <Footer />
+      </main>
+      <footer>
+        <Footer></Footer>
       </footer>
-    </>
+    </div>
   );
 }

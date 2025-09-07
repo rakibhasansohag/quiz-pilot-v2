@@ -29,7 +29,6 @@ export default async function RootLayout({ children }) {
 			{/* background color (dark) ==>  #131518   bg-[#131518] */}
 			<body className={`${parkinsans.className} antialiased bg-background`}>
 				<Providers session={session}>
-					{/* <Navbar /> */}
 					<main className='min-h-screen'>{children}</main>
 				</Providers>
 			</body>
