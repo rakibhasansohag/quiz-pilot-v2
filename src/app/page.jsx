@@ -4,11 +4,10 @@ import HeroSection from '@/components/HeroSection';
 import Marquee from '@/components/Marquee';
 import Navbar from '@/components/Navbar';
 import ResponsiveWidthProvider from '@/components/shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
-import Text from '@/components/shared/Typography/Text';
 
 export default async function Home() {
   return (
-    <div>
+    <>
       <nav>
         <Navbar />
       </nav>
@@ -22,6 +21,6 @@ export default async function Home() {
       <footer className="mt-32">
         <Footer />
       </footer>
-    </div>
+    </>
   );
 }
