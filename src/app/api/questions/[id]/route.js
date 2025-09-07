@@ -12,8 +12,9 @@ const updateSchema = z.object({
 	status: z.enum(['published', 'draft', 'archived']).optional(),
 });
 
-async function assertOwnerOrAdmin(questionDoc) {
-	const user = await getUserFromCookies();
+async function assertOwnerOrAdmin(questionDoc, req) {
+	const user = await getUserFromCookies(req);
+	console.log('inside the user', user);
 	if (!user) return { ok: false, status: 401, message: 'Unauthorized' };
 	if (user.role === 'admin') return { ok: true, user };
 	if (questionDoc.createdBy && questionDoc.createdBy.toString() === user.sub)
@@ -71,7 +72,8 @@ export async function PUT(req, { params }) {
 		if (!existing)
 			return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-		const auth = await assertOwnerOrAdmin(existing);
+		const auth = await assertOwnerOrAdmin(existing, req);
+
 		if (!auth.ok)
 			return NextResponse.json(
 				{ error: auth.message || 'Forbidden' },
@@ -197,7 +199,7 @@ export async function DELETE(req, { params }) {
 		if (!existing)
 			return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-		const auth = await assertOwnerOrAdmin(existing);
+		const auth = await assertOwnerOrAdmin(existing, req);
 		if (!auth.ok)
 			return NextResponse.json(
 				{ error: auth.message || 'Forbidden' },

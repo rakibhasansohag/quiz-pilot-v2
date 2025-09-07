@@ -1,22 +1,5 @@
-import { cookies } from 'next/headers';
-import { jwtVerify } from 'jose';
+import { getToken } from 'next-auth/jwt';
 
-export async function getUserFromCookies() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('token')?.value;
-
-	if (!token) return null;
-
-	try {
-		const { payload } = await jwtVerify(
-			token,
-			new TextEncoder().encode(
-				process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET,
-			),
-		);
-		return payload;
-	} catch (e) {
-		console.error('JWT verify failed', e);
-		return null;
-	}
+export async function getUserFromCookies(req) {
+	return await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 }

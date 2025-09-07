@@ -1,8 +1,7 @@
-// src/app/api/sessions/route.js
 import { getDb } from '@/lib/mongodb';
 import { parse } from 'cookie';
 import jwt from 'jsonwebtoken';
-import { UAParser } from 'ua-parser-js'; // <-- use named import
+import { UAParser } from 'ua-parser-js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -70,7 +69,7 @@ export async function GET(req) {
 		});
 	} catch (err) {
 		console.error('GET /api/sessions error', err);
-		// return empty array as before (you did that earlier)
+
 		return new Response(JSON.stringify({ sessions: [] }), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
