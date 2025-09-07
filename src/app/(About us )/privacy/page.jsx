@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -5,16 +6,7 @@ import React from 'react'
 export default function PrivacyTerms() {
     return (
         <div>
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-                <Image
-                    src="https://res.cloudinary.com/dlrzwaoga/image/upload/v1757071182/vnixltocrqshrhu3l22t.png"
-                    alt="QuizPilot Logo"
-                    width={48}
-                    height={48}
-                    className="object-contain"
-                    priority
-                />
-            </Link>
+            <Navbar></Navbar>
             <div className="max-w-5xl mx-auto px-6 py-12">
                 <h1 className="text-3xl font-bold mb-6">Privacy and Data Usage Terms</h1>
                 <p className="mb-4">
