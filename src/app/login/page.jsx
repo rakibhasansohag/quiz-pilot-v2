@@ -1,61 +1,58 @@
 'use client';
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
-import animation from "@/components/animation";
-import Lottie from 'lottie-react';
-import Google from "@/components/google/Google"
+import Google from '@/components/google/Google';
 import { useState } from 'react';
-
-
+import animation from '@/components/animation';
+import Lottie from 'lottie-react';
 
 export default function LoginPage() {
+	const { data: session, status } = useSession();
+	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState('');
-	const router = useRouter();
 
-	// alert(password)
+	// If already signed in, redirect away from /login
+	useEffect(() => {
+		if (status === 'authenticated') {
+			router.push('/dashboard');
+		}
+	}, [status, router]);
 
-	const handleSubmit = async (e) => {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		setLoading(true);
-		setError('');
 
-		try {
-			const response = await fetch('/api/auth/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-				credentials: 'include',
-			});
+		const res = await signIn('credentials', {
+			redirect: false,
+			email,
+			password,
+			callbackUrl: '/dashboard',
+		});
 
-			const data = await response.json();
+		setLoading(false);
 
-			if (!response.ok) {
-				throw new Error(data.error || 'Login failed');
-			}
-
-			// Login successful, redirect to dashboard or home page
-			toast.success('Login successful');
-
-			router.push('/dashboard');
-		} catch (err) {
-			setError(err.message || 'An unexpected error occurred.');
-		} finally {
-			setLoading(false);
+		if (res?.error) {
+			toast.error(res.error || 'Login failed');
+			return;
 		}
-	};
+		// if success, NextAuth will set session cookie; redirect
+		if (res?.ok) {
+			toast.success('Login successful');
+			router.push(res.url || '/dashboard');
+		}
+	}
 
 	return (
-		<div className='min-h-screen  flex items-center justify-center p-4 lg:gap-15'>
+		<div className='min-h-screen flex items-center justify-center p-4 lg:gap-15'>
 			<Card className='w-full max-w-lg flex'>
 				<CardHeader>
 					<CardTitle className='text-center'>Log in</CardTitle>
@@ -86,27 +83,22 @@ export default function LoginPage() {
 						<div className='flex flex-col'>
 							<p
 								className='flex-start mb-5'
-								variant='ghost'
 								onClick={() => router.push('/signup')}
 							>
 								Create a new account?
 							</p>
-							{error && (
-								<p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
-							)}
-
-							<Button type='submit' disabled={loading} >
-								{loading ? "Loging in .." : "Login"}
+							<Button type='submit' disabled={loading}>
+								{loading ? 'Logging in..' : 'Login'}
 							</Button>
 						</div>
 					</form>
+
 					<Google />
 				</CardContent>
 			</Card>
 			<div className='hidden sm:block'>
 				<Lottie className='bg-background' animationData={animation} />
 			</div>
-
 		</div>
 	);
 }
