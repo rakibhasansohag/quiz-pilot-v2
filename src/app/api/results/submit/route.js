@@ -28,7 +28,7 @@ export async function POST(req) {
 			{ status: 400 },
 		);
 
-	const user = await getUserFromCookies();
+	const user = await getUserFromCookies(req);
 	if (!user)
 		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

@@ -14,8 +14,8 @@ const updateSchema = z.object({
 	totalAttempts: z.number().int().nonnegative().optional(),
 });
 
-async function requireAdmin() {
-	const user = await getUserFromCookies();
+async function requireAdmin(req) {
+	const user = await getUserFromCookies(req);
 	console.log('decoded user:', user);
 	if (!user || user.role !== 'admin') {
 		throw NextResponse.json({ error: 'Forbidden' }, { status: 403 });

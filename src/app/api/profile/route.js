@@ -38,7 +38,8 @@ function sanitizeSocial(obj) {
 
 export async function GET(req) {
 	try {
-		const userPayload = await getUserFromCookies();
+		const userPayload = await getUserFromCookies(req);
+
 		if (!userPayload || !userPayload.sub) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
@@ -67,7 +68,7 @@ export async function GET(req) {
 
 export async function PUT(req) {
 	try {
-		const userPayload = await getUserFromCookies();
+		const userPayload = await getUserFromCookies(req);
 		if (!userPayload || !userPayload.sub) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}

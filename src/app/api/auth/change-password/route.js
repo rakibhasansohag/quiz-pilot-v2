@@ -1,55 +1,71 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/mongodb';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { ObjectId } from 'mongodb';
+import User from '@/models/User';
+import dbConnect from '@/lib/dbConnect';
+import { getUserFromCookies } from '@/lib/getUserFromCookies';
 
-const JWT_SECRET = process.env.JWT_SECRET || process.env.NEXTAUTH_SECRET;
-
-function getUserFromToken(req) {
-	const cookie = req.headers.get('cookie') || '';
-	const token = cookie.split(';').find((c) => c.trim().startsWith('token='));
-	if (!token) return null;
+export async function PUT(req) {
 	try {
-		return jwt.verify(token.split('=')[1], JWT_SECRET);
-	} catch {
-		return null;
+		await dbConnect();
+
+		const userPayload = await getUserFromCookies(req);
+		if (!userPayload || !userPayload.sub) {
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+		}
+
+		const { oldPassword, newPassword } = await req.json();
+
+		if (!newPassword) {
+			return NextResponse.json(
+				{ error: 'New password required' },
+				{ status: 400 },
+			);
+		}
+
+		const user = await User.findById(userPayload.sub);
+		if (!user) {
+			return NextResponse.json({ error: 'User not found' }, { status: 404 });
+		}
+
+		// Case 1: Email/Password user
+		if (user.password) {
+			if (!oldPassword) {
+				return NextResponse.json(
+					{ error: 'Old password required' },
+					{ status: 400 },
+				);
+			}
+
+			const isMatch = await bcrypt.compare(oldPassword, user.password);
+			if (!isMatch) {
+				return NextResponse.json(
+					{ error: 'Incorrect old password' },
+					{ status: 400 },
+				);
+			}
+		} else {
+			//  Case 2: Google/OAuth user
+			// They don’t have oldPassword to verify allow them to "set" a password
+			if (oldPassword) {
+				return NextResponse.json(
+					{ error: 'Google users don’t need old password' },
+					{ status: 400 },
+				);
+			}
+		}
+
+		//  Set/Update new password
+		const salt = await bcrypt.genSalt(10);
+		user.password = await bcrypt.hash(newPassword, salt);
+		await user.save();
+
+		return NextResponse.json({
+			message: user.password
+				? 'Password updated successfully'
+				: 'Password set successfully (Google account linked)',
+		});
+	} catch (err) {
+		console.error('PUT /api/change-password error', err);
+		return NextResponse.json({ error: 'Server error' }, { status: 500 });
 	}
-}
-
-export async function POST(req) {
-	const user = await getUserFromToken(req);
-	if (!user) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-	}
-
-	const { current, newPassword } = await req.json();
-	if (!current || !newPassword) {
-		return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
-	}
-
-	const db = await getDb();
-	const users = db.collection('users');
-	const dbUser = await users.findOne({ _id: new ObjectId(user.sub) });
-
-	if (!dbUser) {
-		return NextResponse.json({ error: 'User not found' }, { status: 404 });
-	}
-
-	const hashed = dbUser.hashedPassword || dbUser.password;
-	const match = await bcrypt.compare(current, hashed);
-	if (!match) {
-		return NextResponse.json(
-			{ error: 'Invalid current password' },
-			{ status: 400 },
-		);
-	}
-
-	const newHashed = await bcrypt.hash(newPassword, 10);
-	await users.updateOne(
-		{ _id: dbUser._id },
-		{ $set: { hashedPassword: newHashed, updatedAt: new Date() } },
-	);
-
-	return NextResponse.json({ ok: true });
 }
