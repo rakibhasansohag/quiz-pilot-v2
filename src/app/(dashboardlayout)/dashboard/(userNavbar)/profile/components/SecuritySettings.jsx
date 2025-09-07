@@ -21,26 +21,28 @@ export default function SecuritySettings() {
 	async function fetchSessions() {
 		try {
 			const res = await fetch('/api/sessions');
-			const json = await res.json();
-			if (res.ok) {
-				setSessions(json.sessions || []);
-			} else {
-				setSessions([]);
-			}
+			const data = await res.json();
+			setSessions(data.sessions || []);
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
-	async function handleRevoke(id) {
+	async function handleRevoke(id, isCurrent) {
+		if (isCurrent) {
+			toast.error(
+				"You can't revoke your current session here. Use logout instead.",
+			);
+			return;
+		}
 		try {
 			const res = await fetch(`/api/sessions/${id}`, { method: 'DELETE' });
 			if (!res.ok) {
 				const j = await res.json();
-				toast.error(j.error || 'Failed');
+				toast.error(j.error || 'Failed to revoke session');
 				return;
 			}
-			toast.success('Revoked');
+			toast.success('Session revoked');
 			fetchSessions();
 		} catch (err) {
 			toast.error('Server error');
@@ -83,34 +85,44 @@ export default function SecuritySettings() {
 				<CardContent>
 					{sessions.length === 0 ? (
 						<div className='text-sm text-muted-foreground'>
-							No active sessions info available.
+							No active sessions.
 						</div>
 					) : (
-						<ul className='space-y-2'>
-							{sessions.map((s) => (
-								<li
-									key={s._id}
-									className='flex justify-between items-center border rounded p-3'
-								>
-									<div>
-										<div className='font-medium'>
-											{s.userAgent || 'Unknown device'}
-										</div>
-										<div className='text-sm text-muted-foreground'>
-											{s.ip} • {new Date(s.lastSeenAt).toLocaleString()}
-										</div>
-									</div>
-									<div>
-										<Button
-											variant='destructive'
-											onClick={() => handleRevoke(s._id)}
-										>
-											Revoke
-										</Button>
-									</div>
-								</li>
-							))}
-						</ul>
+						<table className='w-full table-auto border'>
+							<thead>
+								<tr className='bg-gray-200'>
+									<th className='p-2'>Device</th>
+									<th className='p-2'>OS</th>
+									<th className='p-2'>Browser</th>
+									<th className='p-2'>IP</th>
+									<th className='p-2'>Last Seen</th>
+									<th className='p-2'>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{sessions.map((s) => (
+									<tr key={s._id} className='border-t'>
+										<td className='p-2'>{s.device}</td>
+										<td className='p-2'>{s.os}</td>
+										<td className='p-2'>{s.browser}</td>
+										<td className='p-2'>{s.ip}</td>
+										<td className='p-2'>
+											{new Date(s.lastSeenAt).toLocaleString()}
+										</td>
+										<td className='p-2'>
+											<Button
+												variant='destructive'
+												size='sm'
+												disabled={s.isCurrent}
+												onClick={() => handleRevoke(s._id, s.isCurrent)}
+											>
+												{s.isCurrent ? 'Current' : 'Revoke'}
+											</Button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
 					)}
 				</CardContent>
 			</Card>

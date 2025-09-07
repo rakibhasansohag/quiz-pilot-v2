@@ -4,12 +4,14 @@ import * as React from "react"
 import {
   BarChart2,
   Clipboard,
+  FilePlus,
   History,
 
   LayoutDashboard,
 
   Trophy,
   User,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -38,11 +40,6 @@ const navDetails = [
     icon: User, // 👤 for personal profile
   },
   {
-    title: "Questions",
-    url: "/dashboard/questions",
-    icon: Clipboard, // 📝 exam/tests
-  },
-  {
     title: "Quiz History",
     url: "/dashboard/quiz-history",
     icon: History, // 🕒 past attempts
@@ -59,15 +56,31 @@ const navDetails = [
   },
 ]
 
+const adminNavDetails = [
+  {
+    title: "Users",
+    url: "/dashboard/users",
+    icon: Users, // 👥 manage users
+  },
+  {
+    title: "Questions",
+    url: "/dashboard/questions",
+    icon: Clipboard, // 📝 exam/tests
+  },
+  {
+    title: "Create Quiz",
+    url: "/dashboard/create-quiz",
+    icon: FilePlus, // ➕ add new quiz
+  },
+]
+
 const user = {
   name: "shadcn",
   email: "m@example.com",
   avatar: "/avatars/shadcn.jpg",
 }
 
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({...props}) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -92,7 +105,7 @@ export function AppSidebar({
       <Separator />
 
       <SidebarContent>
-        <NavMain navDetails={navDetails} />
+        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails}/>
       </SidebarContent>
 
       <SidebarFooter>
