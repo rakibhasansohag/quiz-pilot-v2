@@ -26,11 +26,21 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
-export function NavUser({
-  user
-}) {
-  const { isMobile } = useSidebar()
+export function NavUser({ user }) {
+  const { isMobile } = useSidebar();
+
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <SidebarMenu>
@@ -52,7 +62,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
 
-          
+
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
@@ -71,27 +81,10 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
 
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
-
-
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+            >
               <Moon />
               Toggle Theme
             </DropdownMenuItem>
