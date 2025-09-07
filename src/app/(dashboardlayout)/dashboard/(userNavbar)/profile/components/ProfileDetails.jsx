@@ -288,7 +288,8 @@ export default function ProfileDetails() {
 						</div>
 						<div>
 							<Label>Email</Label>
-							<Input value={user?.email} placeholder='Email' disabled />
+
+							<Input value={user?.email ?? ''} placeholder='Email' disabled />
 						</div>
 					</div>
 
