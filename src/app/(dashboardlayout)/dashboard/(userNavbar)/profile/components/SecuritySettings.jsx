@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 export default function SecuritySettings() {
 	const [sessions, setSessions] = useState([]);
 	const { register, handleSubmit, reset } = useForm({
-		defaultValues: { current: '', newPassword: '', confirm: '' },
+		defaultValues: { oldPassword: '', newPassword: '', confirm: '' },
 	});
 
 	useEffect(() => {
@@ -60,7 +60,7 @@ export default function SecuritySettings() {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					current: vals.current,
+					oldPassword: vals.oldPassword,
 					newPassword: vals.newPassword,
 				}),
 			});
@@ -138,7 +138,7 @@ export default function SecuritySettings() {
 					>
 						<div>
 							<Label>Current password</Label>
-							<Input type='password' {...register('current')} />
+							<Input type='password' {...register('oldPassword')} />
 						</div>
 						<div>
 							<Label>New password</Label>

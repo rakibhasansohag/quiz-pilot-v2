@@ -14,7 +14,7 @@ const updateSchema = z.object({
 
 async function assertOwnerOrAdmin(questionDoc, req) {
 	const user = await getUserFromCookies(req);
-	console.log('inside the user', user);
+
 	if (!user) return { ok: false, status: 401, message: 'Unauthorized' };
 	if (user.role === 'admin') return { ok: true, user };
 	if (questionDoc.createdBy && questionDoc.createdBy.toString() === user.sub)
@@ -148,7 +148,7 @@ export async function PUT(req, { params }) {
 			updates.timeLimitSec = data.timeLimitSec;
 		if (data.status !== undefined) updates.status = data.status;
 
-		const user = await getUserFromCookies();
+		const user = await getUserFromCookies(req);
 		updates.updatedBy = user ? user.sub : null;
 		updates.updatedByEmail = user ? user.email : null;
 
