@@ -7,11 +7,10 @@ import Navbar from '@/components/Navbar';
 export default async function Home({ children }) {
   return (
     <div>
-      <nav>
-        <Navbar></Navbar>
-      </nav>
-      <main className='min-h-screen'>
-        <main className="space-y-32 pt-20">
+      <Navbar></Navbar>
+
+      <main className="min-h-screen">
+        <main className="space-y-32">
           <HeroSection />
           <CountUpPage />
           <Marquee />

@@ -1,10 +1,9 @@
 import React from 'react';
 
-const page = ({children}) => {
+const page = () => {
     return (
         <div>
-            hello this is dashboard
-            {children}
+            this is quiz
         </div>
     );
 };

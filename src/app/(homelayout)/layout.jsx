@@ -5,10 +5,10 @@ import React from 'react';
 const HomeLayout = ({ children }) => {
     return (
         <div>
-            <nav>
-                <Navbar></Navbar>
-            </nav>
-            <main className='min-h-screen pt-14'>
+
+            <Navbar></Navbar>
+
+            <main className='min-h-screen'>
                 {children}
             </main>
             <footer>

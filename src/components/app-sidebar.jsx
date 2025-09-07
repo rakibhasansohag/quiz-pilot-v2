@@ -3,15 +3,15 @@
 import * as React from "react"
 import {
   BarChart2,
-  BookOpen,
-  Bot,
   Clipboard,
-  HelpCircle,
+  FilePlus,
   History,
-  Settings2,
-  SquareTerminal,
+
+  LayoutDashboard,
+
   Trophy,
   User,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -30,14 +30,14 @@ import { Separator } from "./ui/separator"
 
 const navDetails = [
   {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard, // 📊 main dashboard
+  },
+  {
     title: "Profile",
     url: "/dashboard/profile",
     icon: User, // 👤 for personal profile
-  },
-  {
-    title: "Questions",
-    url: "/dashboard/questions",
-    icon: Clipboard, // 📝 exam/tests
   },
   {
     title: "Quiz History",
@@ -56,15 +56,31 @@ const navDetails = [
   },
 ]
 
+const adminNavDetails = [
+  {
+    title: "Users",
+    url: "/dashboard/users",
+    icon: Users, // 👥 manage users
+  },
+  {
+    title: "Questions",
+    url: "/dashboard/questions",
+    icon: Clipboard, // 📝 exam/tests
+  },
+  {
+    title: "Create Quiz",
+    url: "/dashboard/create-quiz",
+    icon: FilePlus, // ➕ add new quiz
+  },
+]
+
 const user = {
   name: "shadcn",
   email: "m@example.com",
   avatar: "/avatars/shadcn.jpg",
 }
 
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({...props}) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -89,7 +105,7 @@ export function AppSidebar({
       <Separator />
 
       <SidebarContent>
-        <NavMain navDetails={navDetails} />
+        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails}/>
       </SidebarContent>
 
       <SidebarFooter>
