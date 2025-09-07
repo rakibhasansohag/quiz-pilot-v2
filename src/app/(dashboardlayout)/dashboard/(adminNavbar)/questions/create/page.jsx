@@ -13,7 +13,7 @@ export default function CreateQuestionPage() {
 			<QuestionForm
 				onSaved={(data) => {
 					toast.success('Question saved');
-					router.push('/questions');
+					router.push('/dashboard/questions');
 				}}
 			/>
 		</div>
