@@ -18,7 +18,7 @@ export function NavMain({navDetails}) {
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
       <SidebarMenu>
         {navDetails.map((item) => {
-          const isActive = pathname === item.url
+          const isActive = pathname === item.url;
 
           return (
             <SidebarMenuButton
@@ -26,11 +26,7 @@ export function NavMain({navDetails}) {
               key={item.title}
               tooltip={item.title}
               className={cn(
-                "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors",
-                isActive
-                  ? "bg-secondary text-secondary-foreground"
-                  : "hover:bg-muted hover:text-foreground"
-              )}
+                "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors", isActive ? "bg-primary text-white": "hover:bg-muted hover:text-foreground" )}
             >
               <Link href={item.url}>
                 {item.icon && <item.icon className="h-4 w-4" />}
