@@ -1,10 +1,10 @@
-import CountUpPage from '@/components/CountUpPage';
-import Footer from '@/components/Footer';
-import HeroSection from '@/components/HeroSection';
-import Marquee from '@/components/Marquee';
-import Navbar from '@/components/Navbar';
-import ResponsiveWidthProvider from '@/components/shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
-import Text from '@/components/shared/Typography/Text';
+import CountUpPage from "@/components/CountUpPage";
+import Footer from "@/components/Footer";
+import HeroSection from "@/components/HeroSection";
+import Marquee from "@/components/Marquee";
+import Navbar from "@/components/Navbar";
+import ResponsiveWidthProvider from "@/components/shared/ResponsiveWidthProvider/ResponsiveWidthProvider";
+import Text from "@/components/shared/Typography/Text";
 
 export default async function Home() {
   return (
