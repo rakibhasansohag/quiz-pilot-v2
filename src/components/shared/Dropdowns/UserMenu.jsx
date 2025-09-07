@@ -86,17 +86,6 @@ export default function UserMenu() {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align='end' className='w-56 py-1'>
-				{/* Dashboard */}
-				<DropdownMenuItem asChild>
-					<Link
-						href='/dashboard'
-						className='flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-slate-100 cursor-pointer'
-					>
-						<LayoutDashboard size={16} />
-						<span>Dashboard</span>
-					</Link>
-				</DropdownMenuItem>
-
 				{/* Profile */}
 				<DropdownMenuItem asChild>
 					<Link

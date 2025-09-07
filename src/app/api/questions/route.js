@@ -66,9 +66,10 @@ export async function GET(req) {
 export async function POST(req) {
 	try {
 		const user = await getUserFromCookies(req);
-		if (!user)
+		
+		if (!user || user?.role !== 'admin')
 			return NextResponse.json(
-				{ error: 'Authentication required' },
+				{ error: "You don't have permission" },
 				{ status: 401 },
 			);
 
