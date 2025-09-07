@@ -29,7 +29,7 @@ export function NavMain({ navDetails, adminNavDetails }) {
                 key={item.title}
                 tooltip={item.title}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors", isActive ? "bg-primary text-white" : "hover:bg-muted hover:text-foreground")}
+                  "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors", isActive ? "!bg-primary !text-white" : "hover:bg-muted hover:text-foreground")}
               >
                 <Link href={item.url}>
                   {item.icon && <item.icon className="h-4 w-4" />}
@@ -40,7 +40,7 @@ export function NavMain({ navDetails, adminNavDetails }) {
           })
         }
 
-        <div className="flex items-center mt-5">
+        <div className="flex items-center mt-5 mb-2">
           <div className="border-b flex-1"></div>
           <div className="">
             <SidebarMenuItem>
@@ -66,7 +66,7 @@ export function NavMain({ navDetails, adminNavDetails }) {
                 key={item.title}
                 tooltip={item.title}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors", isActive ? "bg-primary text-white" : "hover:bg-muted hover:text-foreground")}
+                  "flex items-center gap-2 rounded-lg px-3 py-2 transition-colors", isActive ? "!bg-primary !text-white" : "hover:bg-muted hover:text-foreground")}
               >
                 <Link href={item.url}>
                   {item.icon && <item.icon className="h-4 w-4" />}
