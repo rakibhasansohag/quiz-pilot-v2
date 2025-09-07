@@ -8,7 +8,7 @@ const HomeLayout = ({ children }) => {
             <nav>
                 <Navbar></Navbar>
             </nav>
-            <main className='min-h-screen pt-14'>
+            <main className='min-h-screen'>
                 {children}
             </main>
             <footer>

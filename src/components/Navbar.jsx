@@ -28,7 +28,7 @@ export default function Navbar() {
     // NEED TO FIX THE "FIXED CLASS"
     <nav
       className={cn(
-        'fixed w-full py-2 z-40 transition-all duration-300 border-b backdrop-blur-2xl border-gray-300 dark:border-gray-700'
+        'sticky top-0 z-50 w-full py-2 transition-all duration-300 border-b backdrop-blur-2xl border-gray-300 dark:border-gray-700'
       )}
     >
       <ResponsiveWidthProvider>
