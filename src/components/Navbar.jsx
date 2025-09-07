@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
@@ -7,12 +8,25 @@ import { Button } from "@/components/ui/button";
 import ThemeToggle from "./ThemeToggle";
 import ResponsiveWidthProvider from "./shared/ResponsiveWidthProvider/ResponsiveWidthProvider";
 import { useEffect, useState } from "react";
+=======
+import Link from 'next/link';
+import Image from 'next/image';
+import { useSession, signOut } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
+import ThemeToggle from './ThemeToggle';
+import ResponsiveWidthProvider from './shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
+import Text from './shared/Typography/Text';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+>>>>>>> 4ee0a75 (fixed navbar responsiveness issue)
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const user = session?.user;
 
   const routes = [
+<<<<<<< HEAD
     { name: "Home", href: "/", auth: user },
     { name: "Categories", href: "/categories", auth: user },
     { name: "Questions", href: "/questions", auth: user },
@@ -27,37 +41,51 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+=======
+    { name: 'Home', href: '/' },
+    { name: 'Categories', href: '/categories' },
+    { name: 'Questions', href: '/questions' },
+    { name: 'Dashboard', href: '/dashboard' },
+  ];
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+>>>>>>> 4ee0a75 (fixed navbar responsiveness issue)
 
   return (
-    <nav className="bg-[#d9e0e8] dark:bg-[#131518] border-b-1 border-[#d9e0e8] dark:border-gray-600 shadow-sm">
+    <nav
+      className={cn(
+        'fixed w-full py-2 z-40 transition-all duration-300 border-b backdrop-blur-2xl border-gray-300 dark:border-gray-700'
+      )}
+    >
       <ResponsiveWidthProvider>
-        <div className="py-2 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="flex items-center gap-x-2 font-bold text-lg"
-            >
-              <Image
-                src="https://res.cloudinary.com/dlrzwaoga/image/upload/v1757071182/vnixltocrqshrhu3l22t.png"
-                alt="log"
-                width={48} // equivalent to w-8
-                height={48} // equivalent to h-8
-                className="object-contain"
-                priority // ensures logo loads instantly
-              />
-              <h1 tag="heading" text="hellooooo" className="">
-                QuizPilot
-              </h1>
-            </Link>
-          </div>
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+            <Image
+              src="https://res.cloudinary.com/dlrzwaoga/image/upload/v1757071182/vnixltocrqshrhu3l22t.png"
+              alt="QuizPilot Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
+            <span className="text-xl font-bold">QuizPilot</span>
+          </Link>
 
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex items-center space-x-6">
+            {routes.map((route) => (
+              <li key={route.href}>
+                <Text href={route.href} tag="link" text={route.name} />
+              </li>
+            ))}
+          </ul>
+
+          {/* Right Section */}
           <div className="flex items-center gap-3">
-            {/* Theme toggle */}
             <ThemeToggle />
-            <Link href="/Quizes" className="text-sm text-muted-foreground">
-              Quizes
-            </Link>
 
+<<<<<<< HEAD
             {status === "loading" ? null : session ? (
               <>
                 <Link href="/dashboard/add-product">
@@ -80,12 +108,78 @@ export default function Navbar() {
                 </div>
 
                 <Button onClick={() => signOut({ callbackUrl: "/" })}>
+=======
+            {status === 'loading' ? null : user ? (
+              <>
+                {user.image && (
+                  <Image
+                    src={user.image}
+                    alt={user.name || 'User Avatar'}
+                    width={36}
+                    height={36}
+                    className="rounded-full"
+                  />
+                )}
+                <Button size="sm" onClick={() => signOut({ callbackUrl: '/' })}>
+>>>>>>> 4ee0a75 (fixed navbar responsiveness issue)
                   Sign out
                 </Button>
               </>
             ) : (
-              <Link href="/login"> Login </Link>
+              <Link className='hidden md:block' href="/login">
+                <Button size="sm" className="bg-primary cursor-pointer text-white">
+                  Login
+                </Button>
+              </Link>
             )}
+
+            {/* Mobile Hamburger */}
+            <button
+              className="md:hidden p-2 text-foreground z-50 cursor-pointer"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div
+            className={cn(
+              'fixed inset-0 min-h-screen bg-[#d9e0e8]/95 dark:bg-[#131518]/95 z-40 flex flex-col items-center justify-center transition-all duration-300 md:hidden',
+              isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            )}
+          >
+            <div className="flex flex-col space-y-8 text-xl">
+              {routes.map((route) => (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-foreground/80 dark:text-gray-200 hover:text-primary transition-colors duration-300"
+                >
+                  {route.name}
+                </Link>
+              ))}
+
+              {user ? (
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    signOut({ callbackUrl: '/' });
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Sign out
+                </Button>
+              ) : (
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button size="sm" className="bg-primary cursor-pointer text-white">
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </ResponsiveWidthProvider>
