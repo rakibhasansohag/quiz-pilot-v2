@@ -11,7 +11,7 @@ export default async function Home({ children }) {
         <Navbar></Navbar>
       </nav>
       <main className='min-h-screen'>
-        <main className="space-y-32 pt-20">
+        <main className="space-y-32">
           <HeroSection />
           <CountUpPage />
           <Marquee />
