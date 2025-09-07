@@ -2,10 +2,16 @@
 
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Settings2,
-  SquareTerminal,
+  BarChart2,
+  Clipboard,
+  FilePlus,
+  History,
+
+  LayoutDashboard,
+
+  Trophy,
+  User,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -22,41 +28,59 @@ import {
 import Link from "next/link"
 import { Separator } from "./ui/separator"
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navDetails = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard, // 📊 main dashboard
   },
-  navMain: [
-    {
-      title: "Profile",
-      url: "#",
-      icon: SquareTerminal,
-    },
-    {
-      title: "Quiz History",
-      url: "#",
-      icon: Bot,
+  {
+    title: "Profile",
+    url: "/dashboard/profile",
+    icon: User, // 👤 for personal profile
+  },
+  {
+    title: "Quiz History",
+    url: "/dashboard/quiz-history",
+    icon: History, // 🕒 past attempts
+  },
+  {
+    title: "Results",
+    url: "/dashboard/results",
+    icon: BarChart2, // 📊 performance summary
+  },
+  {
+    title: "Leaderboard",
+    url: "/dashboard/leaderboard",
+    icon: Trophy, // 🏆 ranking
+  },
+]
 
-    },
-    {
-      title: "Results",
-      url: "#",
-      icon: BookOpen,
-    },
-    {
-      title: "Leaderboard",
-      url: "#",
-      icon: Settings2,
-    },
-  ],
+const adminNavDetails = [
+  {
+    title: "Users",
+    url: "/dashboard/users",
+    icon: Users, // 👥 manage users
+  },
+  {
+    title: "Questions",
+    url: "/dashboard/questions",
+    icon: Clipboard, // 📝 exam/tests
+  },
+  {
+    title: "Create Quiz",
+    url: "/dashboard/create-quiz",
+    icon: FilePlus, // ➕ add new quiz
+  },
+]
+
+const user = {
+  name: "shadcn",
+  email: "m@example.com",
+  avatar: "/avatars/shadcn.jpg",
 }
 
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({...props}) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -81,11 +105,11 @@ export function AppSidebar({
       <Separator />
 
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails}/>
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

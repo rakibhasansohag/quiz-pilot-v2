@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NextResponse } from 'next/server';
 import { invalidateSession } from '@/services/session';
 import jwt from 'jsonwebtoken';
@@ -28,4 +29,27 @@ export async function DELETE(req, { params }) {
 
 	await invalidateSession(id);
 	return NextResponse.json({ ok: true });
+=======
+import { getDb } from '@/lib/mongodb';
+
+export async function DELETE(req, { params }) {
+	try {
+		const { id } = params;
+		const db = await getDb();
+
+		await db
+			.collection('sessions')
+			.updateOne(
+				{ _id: id },
+				{ $set: { active: false, invalidatedAt: new Date() } },
+			);
+
+		return new Response(JSON.stringify({ ok: true }), { status: 200 });
+	} catch (err) {
+		console.error(err);
+		return new Response(JSON.stringify({ error: 'Failed to revoke session' }), {
+			status: 500,
+		});
+	}
+>>>>>>> 68087f558807760fa2d070ba199779435babd427
 }
