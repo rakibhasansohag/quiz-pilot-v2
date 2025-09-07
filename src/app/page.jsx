@@ -7,10 +7,9 @@ import Navbar from '@/components/Navbar';
 export default async function Home({ children }) {
   return (
     <div>
-
       <Navbar></Navbar>
 
-      <main className='min-h-screen'>
+      <main className="min-h-screen">
         <main className="space-y-32">
           <HeroSection />
           <CountUpPage />
