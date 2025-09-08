@@ -114,7 +114,7 @@ const UsersTable = () => {
                 className={`text-center ${idx % 2 === 0
                     ? "bg-muted dark:bg-black-100"
                     : "bg-gray-200 dark:bg-gray-900"
-                  } hover:bg-indigo-100 dark:hover:bg-zinc-800 transition-transform duration-300 ease-in-out hover:scale-[1.01]`}
+                  } hover:bg-indigo-100 dark:hover:bg-zinc-800 transition-transform duration-300 `}
               >
                 <TableCell className="text-center md:p-6">{idx + 1}</TableCell>
                 <TableCell className="text-center md:p-6">{user.name}</TableCell>
