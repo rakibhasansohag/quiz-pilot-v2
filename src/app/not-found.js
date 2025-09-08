@@ -1,11 +1,12 @@
+"use client";
 import React from "react";
 import Lottie from "lottie-react";
 import Link from "next/link";
-import animationData from "/src/components/NotFoundLottie.json";
+import animationData from "../components/notfoundlottie.json";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center min-h-screen px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4">
       {/* Lottie Animation */}
       <div className="w-64 h-fit md:w-[550px]">
         <Lottie animationData={animationData} loop={true} />
@@ -15,12 +16,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="inline-flex items-center gap-2 rounded-md bg-primary 
-           px-4 py-2 text-sm 
-           sm:px-5 sm:py-2.5 sm:text-base 
-           md:px-6 md:py-3 md:text-lg 
-           text-white font-semibold shadow 
-           hover:bg-purple-950/90 transition mt-4"
+        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm sm:px-5 sm:py-2.5 sm:text-base md:text-lg text-white font-semibold shadow hover:bg-purple-950/90 transition mt-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
