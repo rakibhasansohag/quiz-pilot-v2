@@ -1,35 +1,33 @@
 import { getDb } from '@/lib/mongodb';
+import { getToken } from 'next-auth/jwt';
 import { parse } from 'cookie';
-import jwt from 'jsonwebtoken';
 import { UAParser } from 'ua-parser-js';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const SECRET = process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET;
 
 export async function GET(req) {
 	try {
-		// read cookie header and extract token safely
+		const token = await getToken({ req, secret: SECRET });
+		if (!token?.id)
+			return new Response(JSON.stringify({ sessions: [] }), { status: 200 });
+
+		const userId = token.id;
+
 		const cookieHeader = req.headers.get('cookie') || '';
 		const cookies = parse(cookieHeader);
-		const token = cookies.token;
-
-		if (!token) throw new Error('No token');
-
-		// verify token (server side)
-		const decoded = jwt.verify(token, JWT_SECRET);
+		const currentSid = cookies.sid || null;
 
 		const db = await getDb();
 		const sessions = await db
 			.collection('sessions')
-			.find({ userId: decoded.sub, active: true })
+			.find({ userId, active: true })
 			.sort({ lastSeenAt: -1 })
 			.toArray();
 
-		// enrich with UA info
 		const enriched = sessions.map((s) => {
 			const parser = new UAParser(s.userAgent || '');
 			const ua = parser.getResult();
 
-			// safe join helpers
 			const osName = ua.os?.name || '';
 			const osVersion = ua.os?.version || '';
 			const os =
@@ -41,7 +39,6 @@ export async function GET(req) {
 				[browserName, browserVersion].filter(Boolean).join(' ').trim() ||
 				'Unknown Browser';
 
-			// device display (model/type/vendor)
 			const deviceModel = ua.device?.model || '';
 			const deviceType = ua.device?.type || '';
 			const deviceVendor = ua.device?.vendor || '';
@@ -58,7 +55,7 @@ export async function GET(req) {
 				device,
 				os,
 				browser,
-				isCurrent: s._id === decoded.sid,
+				isCurrent: String(s._id) === String(currentSid),
 				userAgent: s.userAgent || '',
 			};
 		});
@@ -69,7 +66,6 @@ export async function GET(req) {
 		});
 	} catch (err) {
 		console.error('GET /api/sessions error', err);
-
 		return new Response(JSON.stringify({ sessions: [] }), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },

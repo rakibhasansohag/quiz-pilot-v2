@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { getDb } from '@/lib/mongodb';
 import bcrypt from 'bcryptjs';
 
+
 export const authOptions = {
 	providers: [
 		GoogleProvider({
@@ -99,7 +100,6 @@ export const authOptions = {
 		// jwt: set token.id from user.dbId OR lookup by email fallback
 		async jwt({ token, user }) {
 			if (user) {
-				// on first sign in, user is present
 				token.id = user.dbId ?? user.id ?? token.sub;
 				token.email = user.email ?? token.email;
 				token.name = user.name ?? token.name;
@@ -128,6 +128,7 @@ export const authOptions = {
 			session.user.name = token.name || session.user.name;
 			session.user.image = token.picture || session.user.image;
 			session.user.role = token.role || session.user.role;
+			session.user.sid = token.sid;
 
 			return session;
 		},
