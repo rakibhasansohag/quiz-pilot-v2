@@ -52,11 +52,12 @@ const UsersTable = () => {
 
 
 
-
+  //  loading  page handler 
   if (loading) return <div className="flex justify-center items-center my-auto min-h-screen"><Loader2 className="w-6 h-6 animate-spin text-indigo-600" /><p> users is Loading.....</p></div>
 
   return (
     <section>
+      
       {/* Header + Search */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 sm:mb-10">
         <h2 className=" flex justify-center gap-1 text-2xl font-semibold tracking-tight "><UsersRound /> Users List </h2>
