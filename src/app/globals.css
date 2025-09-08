@@ -132,3 +132,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+
+/* react-select portal safety */
+.rs__menu, .react-select__menu, .rs__menu-portal, .react-select__menu-portal {
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+}
+
+/* ensure the menu options can receive pointer events */
+.rs__option, .react-select__option {
+  pointer-events: auto !important;
+}
+
+
