@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { createSession, enforceDeviceLimit } from '@/services/session';
+import { createOrUpdateSession, enforceDeviceLimit } from '@/services/session';
 
 const SECRET = process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET;
 
@@ -10,12 +10,9 @@ export async function POST(req) {
 		if (!token?.id) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
-		const userId = token.id;
-
-		// get client IP (Try x-forwarded-for first)
+		const userId = String(token.id);
 		const ip =
 			req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || '';
-
 		const userAgent = req.headers.get('user-agent') || '';
 
 		const ttlSeconds = parseInt(
@@ -23,22 +20,35 @@ export async function POST(req) {
 			10,
 		);
 
-		const session = await createSession({
+		// createOrUpdateSession returns the session document (existing or created)
+		const session = await createOrUpdateSession({
 			userId,
 			ip,
 			userAgent,
 			ttlSeconds,
 		});
 
-		const maxDevices = parseInt(process.env.MAX_DEVICES || '3', 10);
+		// enforce device limit (non-blocking)
 		try {
-			await enforceDeviceLimit(userId, maxDevices);
+			await enforceDeviceLimit(
+				userId,
+				parseInt(process.env.MAX_DEVICES || '3', 10),
+			);
 		} catch (e) {
-			// don't block creation on enforcement failure
 			console.warn('enforceDeviceLimit error', e);
 		}
 
-		return NextResponse.json({ ok: true, session });
+		const res = NextResponse.json({ ok: true, session }, { status: 200 });
+
+		// set readable sid cookie (not HttpOnly) so middleware & client can read it
+		res.cookies.set('sid', String(session._id), {
+			path: '/',
+			maxAge: ttlSeconds,
+			sameSite: 'lax',
+			// secure: true in production (https). DON'T set secure: true on localhost http.
+		});
+
+		return res;
 	} catch (err) {
 		console.error('POST /api/sessions/create error', err);
 		return NextResponse.json({ error: 'Server error' }, { status: 500 });

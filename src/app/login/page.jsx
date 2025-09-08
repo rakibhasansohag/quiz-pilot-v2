@@ -20,6 +20,8 @@ export default function LoginPage() {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 
+	console.log('session', session);
+
 	// If already signed in, redirect away from /login
 	useEffect(() => {
 		if (status === 'authenticated') {
@@ -35,7 +37,7 @@ export default function LoginPage() {
 			redirect: false,
 			email,
 			password,
-			callbackUrl: '/dashboard',
+			callbackUrl: '/',
 		});
 
 		setLoading(false);
@@ -47,7 +49,7 @@ export default function LoginPage() {
 		// if success, NextAuth will set session cookie; redirect
 		if (res?.ok) {
 			toast.success('Login successful');
-			router.push(res.url || '/dashboard');
+			router.push(res.url || '/');
 		}
 	}
 
