@@ -40,13 +40,18 @@ export async function GET(req) {
 	try {
 		const userPayload = await getUserFromCookies(req);
 
-		if (!userPayload || !userPayload.sub) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+		if (!userPayload || !userPayload.email) {
+			return NextResponse.json(
+				{ error: 'Unauthorized Access' },
+				{ status: 401 },
+			);
 		}
+
+		console.log(userPayload);
 
 		const db = await getDb();
 		const users = db.collection('users');
-		const u = await users.findOne({ _id: new ObjectId(userPayload.sub) });
+		const u = await users.findOne({ email: userPayload.email });
 		if (!u) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
 		const userOut = {
@@ -69,8 +74,11 @@ export async function GET(req) {
 export async function PUT(req) {
 	try {
 		const userPayload = await getUserFromCookies(req);
-		if (!userPayload || !userPayload.sub) {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+		if (!userPayload || !userPayload.email) {
+			return NextResponse.json(
+				{ error: 'Unauthorized Access' },
+				{ status: 401 },
+			);
 		}
 
 		// parse JSON body
@@ -90,9 +98,9 @@ export async function PUT(req) {
 		const users = db.collection('users');
 
 		// fetch current doc to merge safely
-		const current = await users.findOne({ _id: new ObjectId(userPayload.sub) });
+		const current = await users.findOne({ email: userPayload.email });
 		if (!current)
-			return NextResponse.json({ error: 'Not found' }, { status: 404 });
+			return NextResponse.json({ error: 'No User Found' }, { status: 404 });
 
 		// Build new profile object by merging current.profile with allowed incoming fields
 		const currentProfile = current.profile || {};
@@ -127,7 +135,7 @@ export async function PUT(req) {
 		) {
 			const existing = await users.findOne({
 				'profile.username': newProfile.username,
-				_id: { $ne: new ObjectId(userPayload.sub) },
+				email: { $ne: userPayload.email },
 			});
 			if (existing) {
 				return NextResponse.json(
@@ -144,14 +152,14 @@ export async function PUT(req) {
 
 		// perform update and return the updated doc
 		const r = await users.findOneAndUpdate(
-			{ _id: new ObjectId(userPayload.sub) },
+			{ email: userPayload.email },
 			{ $set: updates },
 			{ returnDocument: 'after' },
 		);
 
 		let updated = r && r.value ? r.value : null;
 		if (!updated) {
-			updated = await users.findOne({ _id: new ObjectId(userPayload.sub) });
+			updated = await users.findOne({ email: userPayload.email });
 			if (!updated) {
 				return NextResponse.json(
 					{ error: 'User not found after update' },
