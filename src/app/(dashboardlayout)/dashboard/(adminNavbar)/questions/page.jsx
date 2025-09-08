@@ -180,7 +180,6 @@ export default function QuestionsListPage() {
                 </div>
 
                 {/* Buttons */}
-                {/* Buttons */}
                 <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-5 gap-3 w-full">
                   {/* Edit Button */}
                   <Dialog
