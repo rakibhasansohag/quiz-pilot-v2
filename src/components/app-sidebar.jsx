@@ -91,7 +91,7 @@ export function AppSidebar({ ...props }) {
       <Separator />
 
       <SidebarContent>
-        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails} />
+        <NavMain userRole={userInfo.role} navDetails={navDetails} adminNavDetails={adminNavDetails} />
       </SidebarContent>
 
       <SidebarFooter>
