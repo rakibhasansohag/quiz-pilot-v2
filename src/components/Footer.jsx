@@ -6,6 +6,44 @@ import Text from './shared/Typography/Text';
 import ResponsiveWidthProvider from './shared/ResponsiveWidthProvider/ResponsiveWidthProvider';
 import Image from 'next/image';
 
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+
+
+const team = [
+  {
+    name: "Rifat",
+    img: "https://avatars.githubusercontent.com/u/168931799?v=4",
+    portfolio: "https://ibrahimrifatpro.web.app/",
+  },
+  {
+    name: "Rayhan",
+    img: "https://avatars.githubusercontent.com/u/193317657?v=4",
+    portfolio: "https://rayhab-portfolio.vercel.app/",
+  },
+  {
+    name: "Rakib",
+    img: "https://avatars.githubusercontent.com/u/93311114?v=4",
+    portfolio: "https://rakibhasansohag-v2.vercel.app",
+  },
+  {
+    name: "Mahin",
+    img: "https://avatars.githubusercontent.com/u/120025447?v=4",
+    portfolio: "https://abusufian.tech/",
+  },
+  {
+    name: "Shahabb",
+    img: "https://avatars.githubusercontent.com/u/193158321?v=4",
+    portfolio: "https://github.com/ammarShahab",
+  },
+  {
+    name: "Robiul",
+    img: "https://avatars.githubusercontent.com/u/120470748?v=4",
+    portfolio: "http://robiul-mern-portfolio.vercel.app/",
+  },
+];
+
+
 export default function Footer() {
   return (
     <ResponsiveWidthProvider>
@@ -64,13 +102,35 @@ export default function Footer() {
           </div>
           {/* Customer */}
           <div>
-            <h3 className="font-semibold mb-3">Customer care</h3>
+            <h3 className="font-semibold mb-3">Developed By </h3>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="#">Help center</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
-              <li><a href="#">Privacy policy</a></li>
-              <li><a href="#">Returns & refund</a></li>
-              <li><a href="#">Survey & feedback</a></li>
+              {/* Avatars Row */}
+              <li className="flex gap-2">
+                <TooltipProvider>
+                  {team.map((member) => (
+                    <Tooltip key={member.name}>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href={member.portfolio}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Avatar className="cursor-pointer hover:scale-110 transition-transform">
+                            <AvatarImage src={member.img} alt={member.name} />
+                            <AvatarFallback>
+                              {member.name.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{member.name}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
+              </li>
+
             </ul>
           </div>
         </div>

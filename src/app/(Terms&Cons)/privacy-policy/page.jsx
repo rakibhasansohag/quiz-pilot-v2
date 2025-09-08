@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
     return (
         <div>
             <Navbar></Navbar>
-            <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="max-w-5xl px-6 py-12">
                 <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
                 <p className="mb-4">
                     At Estrella, we respect your privacy and are committed to protecting your personal

@@ -7,7 +7,7 @@ export default function SubscriptionsTerms() {
   return (
     <div>
          <Navbar></Navbar>
-        <div className="max-w-5xl mx-auto py-12 px-6">
+        <div className="max-w-5xl  py-12 px-6">
       <h1 className="text-3xl font-bold mb-6">Payment and Subscription Terms</h1>
       <p className="mb-4">
         This section outlines the terms governing payments and subscriptions for premium features on QuizPilot, our EdTech platform dedicated to programming education through quizzes.
