@@ -49,10 +49,9 @@ export default function Footer() {
               <li className='hover:text-blue-700 hover:underline'><a href="/general-terms">Generel Terms</a></li>
               <li className='hover:text-blue-700 hover:underline'><a href="/intelectual">Intellectual Property and Usage Rights</a></li>
               <li className='hover:text-blue-700 hover:underline'><a href="/privacy">Action Policy</a></li>
-              <li className='hover:text-blue-700 hover:underline'><a href="/subscriptions">Subscriptions Terms</a></li>
             </ul>
           </div>
-            {/* Terms & Conditions  */}
+          {/* Terms & Conditions  */}
           <div>
             <h3 className="font-semibold mb-3">Terms & Conditions</h3>
             <ul className="space-y-2 text-sm text-gray-600 ">

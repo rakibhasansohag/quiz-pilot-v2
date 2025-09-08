@@ -24,31 +24,27 @@ export default function CountUpPage() {
       {/* CountUp Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Total Users */}
-        <div className="rounded-xl p-6 md:p-10 bg-gray-200 shadow-lg hover:shadow-xl transition-all">
-          <h2 className="text-4xl text-black text-center font-bold">
+        <div className="rounded-xl p-6 md:p-10 bg-purple-50/50 dark:bg-gray-500 text-black dark:text-gray-50 shadow-sm hover:shadow-md transition-all">
+          <h2 className="text-4xl text-center font-bold">
             <CountUp start={0} end={10} duration={2} />+
           </h2>
-          <h4 className="text-gray-800 text-center text-lg mt-3">
-            Total Users
-          </h4>
+          <h4 className="text-center text-lg mt-3">Total Users</h4>
         </div>
 
         {/* Total Quiz */}
-        <div className="rounded-xl p-6 md:p-10 bg-gray-200 shadow-lg hover:shadow-xl transition-all">
-          <h2 className="text-4xl text-black text-center font-bold">
+        <div className="rounded-xl p-6 md:p-10 bg-purple-50/50 dark:bg-gray-500 text-black dark:text-gray-50 shadow-sm hover:shadow-md transition-all">
+          <h2 className="text-4xl text-center font-bold">
             <CountUp start={0} end={20} duration={2.5} />+
           </h2>
-          <h4 className="text-gray-800 text-center text-lg mt-3">Total Quiz</h4>
+          <h4 className="text-center text-lg mt-3">Total Quiz</h4>
         </div>
 
         {/* Total Categories */}
-        <div className="rounded-xl p-6 md:p-10 bg-gray-200 shadow-lg hover:shadow-xl transition-all">
-          <h2 className="text-4xl text-black text-center font-bold">
+        <div className="rounded-xl p-6 md:p-10 bg-purple-50/50 dark:bg-gray-500 text-black dark:text-gray-50 shadow-sm hover:shadow-md transition-all">
+          <h2 className="text-4xl text-center font-bold">
             <CountUp start={0} end={14} duration={2} />+
           </h2>
-          <h4 className="text-gray-800 text-center text-lg mt-3">
-            Total Categories
-          </h4>
+          <h4 className=" text-center text-lg mt-3">Total Categories</h4>
         </div>
       </div>
     </div>

@@ -1,22 +1,9 @@
 "use client"
 
-import * as React from "react"
-import {
-  BarChart2,
-  Clipboard,
-  FilePlus,
-  History,
+import { BarChart2, Clipboard, FilePlus, History, LayoutDashboard, Trophy, User, Users} from "lucide-react";
 
-  LayoutDashboard,
-
-  Trophy,
-  User,
-  Users,
-} from "lucide-react"
-
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
-
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +14,7 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { Separator } from "./ui/separator"
+import { useSession } from "next-auth/react"
 
 const navDetails = [
   {
@@ -74,13 +62,11 @@ const adminNavDetails = [
   },
 ]
 
-const user = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/avatars/shadcn.jpg",
-}
+export function AppSidebar({ ...props }) {
+  const { data: session, status } = useSession();
 
-export function AppSidebar({...props}) {
+  const userInfo = session?.user;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -105,11 +91,11 @@ export function AppSidebar({...props}) {
       <Separator />
 
       <SidebarContent>
-        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails}/>
+        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails} />
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser userInfo={userInfo} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
