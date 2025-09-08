@@ -51,6 +51,7 @@ export function LoginForm({ className, ...props }) {
     if (res?.ok) {
       toast.success('Login successful');
       router.push(res.url || '/');
+      console.log(res.url);
     }
   }
 
@@ -91,7 +92,7 @@ export function LoginForm({ className, ...props }) {
               <Input
                 id='password'
                 type={showPass ? "text" : "password"}
-                placeholder='At least 6 characters'
+                placeholder='Enter your Password'
                 className='mt-1'
                 {...register("password", {
                   required: "Password is required",
@@ -125,7 +126,7 @@ export function LoginForm({ className, ...props }) {
             </span>
           </div>
 
-          <Google />
+          <Google method="login"/>
         </div>
 
         <div className="text-center text-sm">
