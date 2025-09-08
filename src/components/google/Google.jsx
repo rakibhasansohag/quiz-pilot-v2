@@ -4,21 +4,11 @@ import { signIn } from 'next-auth/react'
 
 export default function Google() {
     const handleGoogleLogin = () => {
-        signIn("google",{callbackUrl : "/"})
+        signIn("google",{callbackUrl : "/"});
     }
     
     return (
-        <div>
-            {/* OR divider */}
-            <div className="relative my-4">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t"></span>
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">or</span>
-                </div>
-            </div>
-
+        <>
             {/* Google button */}
             <Button
                 type="button"
@@ -34,6 +24,6 @@ export default function Google() {
                 </svg>
                 Login with Google
             </Button>
-        </div>
+        </>
     )
 }
