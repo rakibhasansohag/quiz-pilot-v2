@@ -5,6 +5,7 @@ import Text from '@/components/shared/Typography/Text';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import React, { useEffect, useState } from 'react';
 import { Loader2, UsersRound } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const tableVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -19,6 +20,7 @@ const rowVariants = {
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -38,21 +40,51 @@ const UsersTable = () => {
     }
   }
 
+
+  // filtered users based on search (name & email)
+  const filteredUsers = users.filter((u) => {
+    const lowerSearch = search.toLowerCase();
+    return (
+      u.name?.toLowerCase().includes(lowerSearch) ||
+      u.email?.toLowerCase().includes(lowerSearch)
+    );
+  });
+
+
+
+
   if (loading) return <div className="flex justify-center items-center my-auto min-h-screen"><Loader2 className="w-6 h-6 animate-spin text-indigo-600" /><p> users is Loading.....</p></div>
 
   return (
     <section>
-      <div className="flex flex-col justify-center items-center my-3 ">
-        <div className="flex gap-3 items-center my-2 ">
-          <UsersRound />
-          <Text tag="heading" text="Users List" className='text-black dark:text-white' />
+      {/* Header + Search */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 sm:mb-10">
+        <h2 className=" flex justify-center gap-1 text-2xl font-semibold tracking-tight "><UsersRound /> Users List </h2>
+
+        {/* Search Input */}
+        <div className="relative w-full sm:w-1/3 r">
+          <Input
+            type="text"
+            placeholder="Search questions..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary transition-all"
+          />
+          <svg
+            className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+            />
+          </svg>
         </div>
 
-        <Text
-          tag="paragraph"
-          text="Showing all registered users with quiz attempts"
-          className="text-gray-800 dark:text-gray-300"
-        />
 
       </div>
       <motion.div
@@ -72,20 +104,27 @@ const UsersTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user, idx) => (
+            {filteredUsers.map((user, idx) => (
               <motion.tr
                 key={idx}
                 variants={rowVariants}
                 initial="hidden"
                 animate="visible"
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className={`text-center ${idx % 2 === 0 ? "bg-muted dark:bg-black-100" : "bg-gray-200 dark:bg-gray-900"} hover:bg-indigo-100 dark:hover:bg-zinc-800 transition-colors duration-400  `}
+                className={`text-center ${idx % 2 === 0
+                    ? "bg-muted dark:bg-black-100"
+                    : "bg-gray-200 dark:bg-gray-900"
+                  } hover:bg-indigo-100 dark:hover:bg-zinc-800 transition-transform duration-300 ease-in-out hover:scale-[1.01]`}
               >
-                <TableCell className="text-center md:p-6 ">{idx + 1}</TableCell>
+                <TableCell className="text-center md:p-6">{idx + 1}</TableCell>
                 <TableCell className="text-center md:p-6">{user.name}</TableCell>
                 <TableCell className="text-center md:p-6">{user.email}</TableCell>
-                <TableCell className="text-center md:p-6">{user.createdAt}</TableCell>
-                <TableCell className="text-center md:p-6">{user.quizAttempt}</TableCell>
+                <TableCell className="text-center md:p-6">
+                  {new Date(user.createdAt).toLocaleString()} {/* formatted date */}
+                </TableCell>
+                <TableCell className="text-center md:p-6">
+                  {user.quizAttempt ?? 0}
+                </TableCell>
               </motion.tr>
             ))}
           </TableBody>
