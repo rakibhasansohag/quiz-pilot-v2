@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import Lottie from "lottie-react";
-import Link from "next/link";
-import animationData from "../components/notfoundlottie.json";
+'use client';
+import React from 'react';
+import Lottie from 'lottie-react';
+import Link from 'next/link';
+import animationData from '../components/notFoundLottie.json';
 
 export default function NotFound() {
   return (
