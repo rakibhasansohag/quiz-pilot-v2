@@ -2,14 +2,14 @@
 import React from 'react';
 import Lottie from 'lottie-react';
 import Link from 'next/link';
-import animationData from '@/components/notFoundLottie.json';
+import notFoundAnimation from "@/components/notFoundAnimation";
 
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4">
       {/* Lottie Animation */}
       <div className="w-64 h-fit md:w-[550px]">
-        <Lottie animationData={animationData} loop={true} />
+        <Lottie animationData={notFoundAnimation} loop={true} />
       </div>
 
       {/* Back to Home Button */}
