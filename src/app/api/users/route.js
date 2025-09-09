@@ -13,21 +13,21 @@ export async function GET() {
 
     console.log('users collection ===>', users);
 
-    const out = users.map(u => ({
-      name: u.name,
-      email: u.email,
-      // format createdAt nicely as YYYY-MM-DD HH:mm:ss
-      createdAt: new Date(u.createdAt).toLocaleString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      }),
-      quizAttempt: u?.quizAttempt, // default since not in DB yet
-    }));
+    const out = users.map((u) => ({
+			name: u.name,
+			email: u.email,
+			// format createdAt nicely as YYYY-MM-DD HH:mm:ss
+			createdAt: new Date(u.createdAt).toLocaleString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hour12: false,
+			}),
+			quizAttempt: u?.quizAttempts, // default since not in DB yet
+		}));
 
     return NextResponse.json({ users: out });
   } catch (err) {
