@@ -9,15 +9,17 @@ export async function GET() {
     const totalUsers = await db.collection('users').countDocuments();
     const totalQuizzes = await db.collection('attempts').countDocuments();
     const totalCategories = await db.collection('categories').countDocuments();
+    const totalQuestions = await db.collection('questions').countDocuments();
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        totalUsers,
-        totalQuizzes,
-        totalCategories,
-      },
-    });
+		return NextResponse.json({
+			success: true,
+			data: {
+				totalUsers,
+				totalQuizzes,
+				totalCategories,
+				totalQuestions,
+			},
+		});
   } catch (error) {
     console.error('GET /api/stats error:', error);
     return NextResponse.json(
