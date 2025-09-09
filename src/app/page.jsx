@@ -1,8 +1,10 @@
+import Chatbot from "@/components/chatbot/chatbot";
 import CountUpPage from "@/components/CountUpPage";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import Marquee from "@/components/Marquee";
 import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
 
 export default async function Home({ children }) {
   return (
@@ -10,7 +12,7 @@ export default async function Home({ children }) {
       <Navbar></Navbar>
 
       <main className="min-h-screen">
-        <main className="space-y-32">
+        <main className="space-y-4">
           <HeroSection />
           <CountUpPage />
           <Marquee />
@@ -19,6 +21,10 @@ export default async function Home({ children }) {
       <footer>
         <Footer></Footer>
       </footer>
+
+
+
+      <Chatbot/>
     </div>
   );
 }

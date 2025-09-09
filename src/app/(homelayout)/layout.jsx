@@ -1,8 +1,9 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import React from 'react';
+import Chatbot from '@/components/chatbot/chatbot';
 
 const HomeLayout = ({ children }) => {
+    
     return (
         <div>
 
@@ -14,6 +15,9 @@ const HomeLayout = ({ children }) => {
             <footer>
                 <Footer></Footer>
             </footer>
+
+            {/* chat Button */}
+            <Chatbot/>
         </div>
     );
 };
