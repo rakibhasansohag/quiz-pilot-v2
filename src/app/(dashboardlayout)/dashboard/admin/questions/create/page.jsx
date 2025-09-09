@@ -6,16 +6,16 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function CreateQuestionPage() {
-	const router = useRouter();
+  const router = useRouter();
 
-	return (
-		<div className='p-6 max-w-4xl mx-auto'>
-			<QuestionForm
-				onSaved={(data) => {
-					toast.success('Question saved');
-					router.push('/dashboard/questions');
-				}}
-			/>
-		</div>
-	);
+  return (
+    <div className="p-6 max-w-4xl mx-auto">
+      <QuestionForm
+        onSaved={data => {
+          toast.success('Question saved');
+          router.push('/dashboard/admin/questions');
+        }}
+      />
+    </div>
+  );
 }
