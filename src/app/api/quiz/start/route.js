@@ -73,14 +73,20 @@ export async function POST(req) {
 		}
 
 		const count = Math.min(questions.length, Number(numQuestions) || 5);
+
 		const shuffled = questions.sort(() => 0.5 - Math.random());
+
 		const selected = shuffled.slice(0, count);
+		const requestedNumQuestions = Number(numQuestions) || 0;
+		const actualCount = selected.length;
 
 		const attempt = {
 			attemptId: crypto.randomUUID(),
 			userId: token.id,
 			categoryId,
 			strategy: 'fixed',
+			requestedNumQuestions,
+			actualCount, // for safety
 			fixedDifficulty: fixedDifficulty || null,
 			numQuestions: selected.length,
 			questions: selected.map((q) => ({

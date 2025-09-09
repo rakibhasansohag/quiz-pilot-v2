@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { getDb } from '@/lib/mongodb';
+import { updateLeaderboard } from '@/lib/leaderboard';
+import { getUserById } from '@/lib/user';
+
 const SECRET = process.env.NEXTAUTH_SECRET;
 
 export async function POST(req, { params }) {
@@ -43,7 +46,7 @@ export async function POST(req, { params }) {
 			);
 		}
 
-		// Grade: look up each stored question.correctIndex (kept in DB at start)
+		// Grade
 		let score = 0;
 		const gradedQuestions = (attempt.questions || []).map((q) => {
 			const userAns = answers.find((a) => a.qid === q.qid);
@@ -58,15 +61,16 @@ export async function POST(req, { params }) {
 				correctIndex !== null &&
 				selectedIndex === correctIndex;
 			if (isCorrect) score += 1;
-
 			return {
-				...q, // includes correctIndex in DB
+				...q,
 				selectedIndex,
 				isCorrect,
 			};
 		});
 
 		const completedAt = new Date();
+
+		// persist graded attempt
 		await db.collection('attempts').updateOne(
 			{ attemptId },
 			{
@@ -79,28 +83,55 @@ export async function POST(req, { params }) {
 			},
 		);
 
-		console.log('Attempt updated in DB');
+		console.log(
+			'Attempt updated in DB; fetching updated attempt for leaderboard...',
+		);
 
-		// Return graded attempt (this contains correctIndex now so results view can display)
+		// fetch the updated attempt back (so it has completedAt and score)
+		const updatedAttempt = await db
+			.collection('attempts')
+			.findOne({ attemptId });
+		if (!updatedAttempt) {
+			console.error('Unexpected: updated attempt disappeared');
+			return NextResponse.json({ error: 'Server error' }, { status: 500 });
+		}
+
+		// fetch user info
+		const userInfo = (await getUserById(db, updatedAttempt.userId)) || {};
+
+		// update leaderboard only after attempt is completed and stored
+		try {
+			await updateLeaderboard(db, updatedAttempt, {
+				displayName: userInfo.name,
+				avatarUrl: userInfo.avatarUrl,
+			});
+		} catch (lbErr) {
+			console.error('updateLeaderboard failed:', lbErr);
+		}
+
+		// Respond with a consistent payload
 		return NextResponse.json({
 			ok: true,
+			attemptId,
 			result: {
 				attemptId,
-				userId: attempt.userId,
-				categoryId: attempt.categoryId,
-				numQuestions: attempt.numQuestions,
-				startedAt: attempt.startedAt,
-				completedAt,
-				score,
-				questions: gradedQuestions.map((q) => ({
+				userId: updatedAttempt.userId,
+				categoryId: updatedAttempt.categoryId,
+				numQuestions: updatedAttempt.numQuestions,
+				startedAt: updatedAttempt.startedAt,
+				completedAt: updatedAttempt.completedAt,
+				score: updatedAttempt.score,
+				questions: updatedAttempt.questions.map((q) => ({
 					qid: q.qid,
 					text: q.text,
 					options: q.options,
-					timeLimitSec: q.timeLimitSec,
-					difficulty: q.difficulty,
-					selectedIndex: q.selectedIndex,
-					correctIndex: q.correctIndex,
-					isCorrect: q.isCorrect,
+					timeLimitSec: q.timeLimitSec ?? null,
+					difficulty: q.difficulty ?? null,
+					selectedIndex:
+						typeof q.selectedIndex === 'number' ? q.selectedIndex : null,
+					correctIndex:
+						typeof q.correctIndex === 'number' ? q.correctIndex : null,
+					isCorrect: typeof q.isCorrect === 'boolean' ? q.isCorrect : null,
 				})),
 			},
 		});
