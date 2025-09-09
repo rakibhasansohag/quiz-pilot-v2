@@ -7,7 +7,7 @@ export default function IntellectualProperty() {
     return (
         <div>
            <Navbar></Navbar>
-            <div className="max-w-5xl mx-auto py-12 px-6">
+            <div className="max-w-5xl  py-12 px-6">
                 <h1 className="text-3xl font-bold mb-6">Intellectual Property and Usage Rights</h1>
                 <p className="mb-4">
                     This section details the intellectual property rights and usage permissions for content on QuizPilot, an EdTech platform focused on programming education through quizzes.
