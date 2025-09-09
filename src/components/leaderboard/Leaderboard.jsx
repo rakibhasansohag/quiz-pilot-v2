@@ -115,245 +115,242 @@ export default function Leaderboard({
   console.log('list', list);
 
   return (
-    <Card className="p-4 w-full">
-      <div className="flex items-center justify-between mb-4">
-        {/* left side */}
-        <div>
-          <h3 className="text-lg font-semibold">Leaderboard</h3>
-          {stats ? (
-            <div className="flex gap-4 text-xs text-slate-500 mt-1">
-              <div>
-                Total players:{' '}
-                <span className="font-medium">{stats.totalPlayers}</span>
-              </div>
-              <div>
-                Total attempts:{' '}
-                <span className="font-medium">{stats.totalAttempts}</span>
-              </div>
-              <div>
-                Avg score: <span className="font-medium">{stats.avgScore}</span>
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-slate-500">
-              By category • difficulty • questions
-            </p>
-          )}
-        </div>
+		<Card className='p-4 w-full'>
+			<div className='flex items-center justify-between mb-4'>
+				{/* left side */}
+				<div>
+					<h3 className='text-lg font-semibold'>Leaderboard</h3>
+					{stats ? (
+						<div className='flex gap-4 text-xs text-slate-500 mt-1'>
+							<div>
+								Total players:{' '}
+								<span className='font-medium'>{stats.totalPlayers}</span>
+							</div>
+							<div>
+								Total attempts:{' '}
+								<span className='font-medium'>{stats.totalAttempts}</span>
+							</div>
+							<div>
+								Avg score: <span className='font-medium'>{stats.avgScore}</span>
+							</div>
+						</div>
+					) : (
+						<p className='text-sm text-slate-500'>
+							By category • difficulty • questions
+						</p>
+					)}
+				</div>
 
-        {/* right side */}
-        <div className="flex items-center gap-3">
-          {currentUserRank ? (
-            <div className="text-sm">
-              Your rank <span className="font-medium">{currentUserRank}</span>
-            </div>
-          ) : (
-            <div className="text-xs text-slate-400">
-              you can just pick a random one
-            </div>
-          )}
+				{/* right side */}
+				<div className='flex items-center gap-3'>
+					{currentUserRank ? (
+						<div className='text-sm'>
+							Your rank <span className='font-medium'>{currentUserRank}</span>
+						</div>
+					) : (
+						<div className='text-xs text-slate-400'>
+							you can just pick a random one
+						</div>
+					)}
 
-          <Button variant="outline" size="sm" onClick={pickRandom}>
-            🎲 Random
-          </Button>
-        </div>
-      </div>
+					<Button variant='outline' size='sm' onClick={pickRandom}>
+						🎲 Random
+					</Button>
+				</div>
+			</div>
 
-      {/* controls */}
-      <div className="flex gap-2 items-center mb-4">
-        {/* category with react-select */}
-        <div className="min-w-[200px]">
-          <Select
-            classNamePrefix="rs"
-            placeholder="All categories"
-            value={
-              categories.find(c => c._id === category)
-                ? {
-                    value: category,
-                    label: categories.find(c => c._id === category).name,
-                  }
-                : null
-            }
-            onChange={opt => setCategory(opt?.value || '')}
-            options={categories.map(c => ({ value: c._id, label: c.name }))}
-            styles={getReactSelectStyles(isDark)}
-            isClearable
-          />
-        </div>
+			{/* controls */}
+			<div className='flex gap-2 items-center mb-4'>
+				{/* category with react-select */}
+				<div className='min-w-[200px]'>
+					<Select
+						classNamePrefix='rs'
+						placeholder='All categories'
+						value={
+							categories.find((c) => c._id === category)
+								? {
+										value: category,
+										label: categories.find((c) => c._id === category).name,
+								  }
+								: null
+						}
+						onChange={(opt) => setCategory(opt?.value || '')}
+						options={categories.map((c) => ({ value: c._id, label: c.name }))}
+						styles={getReactSelectStyles(isDark)}
+						isClearable
+					/>
+				</div>
 
-        {/* difficulty with shadcn select */}
-        <ShadSelect
-          value={difficulty || 'all'}
-          onValueChange={val => setDifficulty(val === 'all' ? '' : val)}
-        >
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="All difficulties" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All difficulties</SelectItem>
-            {DIFFICULTIES.map(d => (
-              <SelectItem key={d} value={d}>
-                {d}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </ShadSelect>
+				{/* difficulty with shadcn select */}
+				<ShadSelect
+					value={difficulty || 'all'}
+					onValueChange={(val) => setDifficulty(val === 'all' ? '' : val)}
+				>
+					<SelectTrigger className='w-[140px]'>
+						<SelectValue placeholder='All difficulties' />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value='all'>All difficulties</SelectItem>
+						{DIFFICULTIES.map((d) => (
+							<SelectItem key={d} value={d}>
+								{d}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</ShadSelect>
 
-        {/* numQuestions with shadcn select */}
-        <ShadSelect
-          value={String(numQuestions)}
-          onValueChange={v => setNumQuestions(Number(v))}
-        >
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Questions" />
-          </SelectTrigger>
-          <SelectContent>
-            {AMOUNTS.map(n => (
-              <SelectItem key={n} value={String(n)}>
-                {n} questions
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </ShadSelect>
+				{/* numQuestions with shadcn select */}
+				<ShadSelect
+					value={String(numQuestions)}
+					onValueChange={(v) => setNumQuestions(Number(v))}
+				>
+					<SelectTrigger className='w-[150px]'>
+						<SelectValue placeholder='Questions' />
+					</SelectTrigger>
+					<SelectContent>
+						{AMOUNTS.map((n) => (
+							<SelectItem key={n} value={String(n)}>
+								{n} questions
+							</SelectItem>
+						))}
+					</SelectContent>
+				</ShadSelect>
 
-        <Button variant="outline" size="sm" onClick={pickRandom}>
-          🎲 Random
-        </Button>
-        <Button variant="destructive" size="sm" onClick={handleReset}>
-          Reset
-        </Button>
-      </div>
+				<Button variant='destructive' size='sm' onClick={handleReset}>
+					Reset
+				</Button>
+			</div>
 
-      {loading ? (
-        <div className="py-6 flex justify-center items-center">
-          <Loader2 className="animate-spin mr-2" /> Loading...
-        </div>
-      ) : list.length === 0 ? (
-        <div className="py-6 text-center text-sm text-slate-500">
-          No results yet for this filter.
-        </div>
-      ) : (
-        <>
-          {topGroup.length > 0 && (
-            <div className="mb-4 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                {topGroup.map((u, i) => (
-                  <Tooltip key={u.userId}>
-                    <TooltipTrigger asChild>
-                      <div className="inline-block" style={{ zIndex: 10 + i }}>
-                        <Avatar
-                          className={`w-10 h-10 ring-2 ring-white ${
-                            u.userId === currentUserId ? 'ring-indigo-500' : ''
-                          }`}
-                        >
-                          {u.avatarUrl ? (
-                            <AvatarImage src={u.avatarUrl} />
-                          ) : (
-                            <AvatarFallback>
-                              {(u.displayName || 'U')[0]}
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <div className="text-sm">
-                        <div className="font-medium">
-                          {u.displayName || 'Anonymous'}
-                        </div>
-                        <div className="text-xs text-slate-500">
-                          {u.bestScore} / {u.numQuestions} •{' '}
-                          {fmtMs(u.bestTimeMs)}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {u.categoryName}
-                        </div>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </div>
-              <div>
-                <div className="text-sm text-slate-500">Top scoring</div>
-                <div className="font-semibold">
-                  {topGroup.length > 1 ? `${topGroup.length} tied` : 'Top'}
-                </div>
-              </div>
-            </div>
-          )}
+			{loading ? (
+				<div className='py-6 flex justify-center items-center'>
+					<Loader2 className='animate-spin mr-2' /> Loading...
+				</div>
+			) : list.length === 0 ? (
+				<div className='py-6 text-center text-sm text-slate-500'>
+					No results yet for this filter.
+				</div>
+			) : (
+				<>
+					{topGroup.length > 0 && (
+						<div className='mb-4 flex items-center gap-4'>
+							<div className='flex -space-x-3'>
+								{topGroup.map((u, i) => (
+									<Tooltip key={u.userId}>
+										<TooltipTrigger asChild>
+											<div className='inline-block' style={{ zIndex: 10 + i }}>
+												<Avatar
+													className={`w-10 h-10 ring-2 ring-white ${
+														u.userId === currentUserId ? 'ring-indigo-500' : ''
+													}`}
+												>
+													{u.avatarUrl ? (
+														<AvatarImage src={u.avatarUrl} />
+													) : (
+														<AvatarFallback>
+															{(u.displayName || 'U')[0]}
+														</AvatarFallback>
+													)}
+												</Avatar>
+											</div>
+										</TooltipTrigger>
+										<TooltipContent>
+											<div className='text-sm'>
+												<div className='font-medium'>
+													{u.displayName || 'Anonymous'}
+												</div>
+												<div className='text-xs text-slate-500'>
+													{u.bestScore} / {u.numQuestions} •{' '}
+													{fmtMs(u.bestTimeMs)}
+												</div>
+												<div className='text-xs text-muted-foreground'>
+													{u.categoryName}
+												</div>
+											</div>
+										</TooltipContent>
+									</Tooltip>
+								))}
+							</div>
+							<div>
+								<div className='text-sm text-slate-500'>Top scoring</div>
+								<div className='font-semibold'>
+									{topGroup.length > 1 ? `${topGroup.length} tied` : 'Top'}
+								</div>
+							</div>
+						</div>
+					)}
 
-          <div className="space-y-2">
-            {list.map((u, idx) => {
-              const rank = idx + 1;
-              const me = currentUserId && u.userId === currentUserId;
-              return (
-                <div
-                  key={u._id}
-                  className={`flex items-center gap-3 p-2 rounded-md ${
-                    me ? 'bg-indigo-50 ring-1 ring-indigo-200' : 'bg-white/60'
-                  }`}
-                >
-                  <div className="w-10 text-center font-medium">{rank}</div>
+					<div className='space-y-2'>
+						{list.map((u, idx) => {
+							const rank = idx + 1;
+							const me = currentUserId && u.userId === currentUserId;
+							return (
+								<div
+									key={u._id}
+									className={`flex items-center gap-3 p-2 rounded-md ${
+										me ? 'bg-indigo-50 ring-1 ring-indigo-200' : 'bg-white/60'
+									}`}
+								>
+									<div className='w-10 text-center font-medium'>{rank}</div>
 
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div>
-                        <Avatar
-                          className={`w-10 h-10 ${
-                            me ? 'ring-2 ring-indigo-500' : ''
-                          }`}
-                        >
-                          {u.avatarUrl ? (
-                            <AvatarImage src={u.avatarUrl} />
-                          ) : (
-                            <AvatarFallback>
-                              {(u.displayName || 'U')[0]}
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <div className="text-sm">
-                        <div className="font-medium">
-                          {u.displayName || 'Anonymous'}
-                        </div>
-                        <div className="text-xs text-slate-500">
-                          {u.bestScore} / {u.numQuestions} •{' '}
-                          {fmtMs(u.bestTimeMs)}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Attempts: {u.attempts}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {u.categoryName}
-                        </div>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<div>
+												<Avatar
+													className={`w-10 h-10 ${
+														me ? 'ring-2 ring-indigo-500' : ''
+													}`}
+												>
+													{u.avatarUrl ? (
+														<AvatarImage src={u.avatarUrl} />
+													) : (
+														<AvatarFallback>
+															{(u.displayName || 'U')[0]}
+														</AvatarFallback>
+													)}
+												</Avatar>
+											</div>
+										</TooltipTrigger>
+										<TooltipContent>
+											<div className='text-sm'>
+												<div className='font-medium'>
+													{u.displayName || 'Anonymous'}
+												</div>
+												<div className='text-xs text-slate-500'>
+													{u.bestScore} / {u.numQuestions} •{' '}
+													{fmtMs(u.bestTimeMs)}
+												</div>
+												<div className='text-xs text-muted-foreground'>
+													Attempts: {u.attempts}
+												</div>
+												<div className='text-xs text-muted-foreground'>
+													{u.categoryName}
+												</div>
+											</div>
+										</TooltipContent>
+									</Tooltip>
 
-                  <div className="flex-1">
-                    <div className="font-medium">
-                      {u.displayName || 'Anonymous'}
-                    </div>
-                    <div className="text-xs text-slate-500">
-                      {u.categoryName || u.categoryId || 'Unknown'} •{' '}
-                      {u.difficulty}
-                    </div>
-                  </div>
+									<div className='flex-1'>
+										<div className='font-medium'>
+											{u.displayName || 'Anonymous'}
+										</div>
+										<div className='text-xs text-slate-500'>
+											{u.categoryName || u.categoryId || 'Unknown'} •{' '}
+											{u.difficulty}
+										</div>
+									</div>
 
-                  <div className="text-right">
-                    <div className="font-semibold">{u.bestScore}</div>
-                    <div className="text-xs text-slate-500">
-                      {fmtMs(u.bestTimeMs)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
-    </Card>
-  );
+									<div className='text-right'>
+										<div className='font-semibold'>{u.bestScore}</div>
+										<div className='text-xs text-slate-500'>
+											{fmtMs(u.bestTimeMs)}
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</>
+			)}
+		</Card>
+	);
 }
