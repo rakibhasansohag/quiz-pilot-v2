@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { motion } from 'motion/react';
-import { CheckCircle, XCircle, ArrowLeft, Repeat } from 'lucide-react';
+
+import { CheckCircle, XCircle, ArrowLeft, Repeat, History } from 'lucide-react';
 
 export default function QuizResultPage() {
 	const { attemptId } = useParams();
@@ -23,7 +24,6 @@ export default function QuizResultPage() {
 			try {
 				setLoading(true);
 				setErrorMsg(null);
-				console.log('[Result] fetch attempt:', attemptId);
 				const res = await fetch(`/api/quiz/attempt/${attemptId}`);
 				const data = await res.json();
 
@@ -36,7 +36,8 @@ export default function QuizResultPage() {
 
 				if (!mounted) return;
 				setAttempt(data.attempt);
-				console.log('[Result] Attempt loaded:', data.attempt.attemptId);
+
+
 			} catch (err) {
 				console.error('[Result] fetch error', err);
 				setErrorMsg(err.message || 'Unable to load result');
@@ -56,16 +57,26 @@ export default function QuizResultPage() {
 	const score = attempt?.score ?? 0;
 	const percent = total ? Math.round((score / total) * 100) : 0;
 
-	// derived arrays by filter
+	// counts for UI
+	const counts = useMemo(() => {
+		const qs = attempt?.questions ?? [];
+		return {
+			all: qs.length,
+			correct: qs.filter((q) => q.isCorrect === true).length,
+			incorrect: qs.filter((q) => q.isCorrect === false).length,
+			unanswered: qs.filter((q) => q.selectedIndex == null).length,
+		};
+	}, [attempt?.questions]);
+
+	// derived arrays by filter (note: explicit checks for isCorrect)
 	const filteredQuestions = useMemo(() => {
-		if (!attempt?.questions) return [];
-		return attempt.questions.filter((q) => {
-			if (filter === 'all') return true;
-			if (filter === 'incorrect') return q.isCorrect !== true;
-			if (filter === 'unanswered') return q.selectedIndex == null;
-			return true;
-		});
-	}, [attempt?.questions, filter]);
+		const qs = attempt?.questions ?? [];
+		if (filter === 'all') return qs;
+		if (filter === 'correct') return qs.filter((q) => q.isCorrect === true);
+		if (filter === 'incorrect') return qs.filter((q) => q.isCorrect === false);
+		if (filter === 'unanswered')
+			return qs.filter((q) => q.selectedIndex == null);
+		return qs;
 
 	if (loading) {
 		return (
@@ -152,12 +163,10 @@ export default function QuizResultPage() {
 						<div className='text-xs text-slate-400'>Percentage</div>
 						<div className='mt-1 flex items-center gap-3'>
 							<div className='relative w-14 h-14'>
-								{/* TODO: Will change later circular percentage indicator  */}
+
 								<svg className='w-14 h-14' viewBox='0 0 36 36'>
 									<path
-										d='M18 2.0845
-                               a 15.9155 15.9155 0 0 1 0 31.831
-                               a 15.9155 15.9155 0 0 1 0 -31.831'
+										d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'
 										fill='none'
 										stroke='#E6EEF8'
 										strokeWidth='3.5'
@@ -168,6 +177,7 @@ export default function QuizResultPage() {
 										stroke='#6366F1'
 										strokeWidth='3.5'
 										strokeDasharray={`${percent}, 100`}
+
 										d='M18 2.0845
                                a 15.9155 15.9155 0 0 1 0 31.831
                                a 15.9155 15.9155 0 0 1 0 -31.831'
@@ -183,8 +193,8 @@ export default function QuizResultPage() {
 					<div className='hidden md:block'>
 						<button
 							className='inline-flex items-center gap-2 px-3 py-2 rounded border hover:bg-slate-50'
-							onClick={() => router.push('/quiz')}
-							title='Back to quizzes'
+							onClick={() => router.back()}
+							title='Go back'
 						>
 							<ArrowLeft size={16} /> Back
 						</button>
@@ -194,30 +204,47 @@ export default function QuizResultPage() {
 
 			{/* Actions & filters */}
 			<div className='mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
-				<div className='flex items-center gap-3'>
+				<div className='flex items-center gap-2 flex-wrap'>
 					<button
 						className={`px-3 py-1 rounded ${
 							filter === 'all' ? 'bg-indigo-600 text-white' : 'border'
 						}`}
 						onClick={() => setFilter('all')}
+						aria-pressed={filter === 'all'}
+						title={`Show all (${counts.all})`}
 					>
-						All
+						All ({counts.all})
+					</button>
+
+					<button
+						className={`px-3 py-1 rounded ${
+							filter === 'correct' ? 'bg-green-600 text-white' : 'border'
+						}`}
+						onClick={() => setFilter('correct')}
+						aria-pressed={filter === 'correct'}
+						title={`Show correct (${counts.correct})`}
+					>
+						Correct ({counts.correct})
 					</button>
 					<button
 						className={`px-3 py-1 rounded ${
 							filter === 'incorrect' ? 'bg-rose-600 text-white' : 'border'
 						}`}
 						onClick={() => setFilter('incorrect')}
+						aria-pressed={filter === 'incorrect'}
+						title={`Show incorrect (${counts.incorrect})`}
 					>
-						Incorrect
+						Incorrect ({counts.incorrect})
 					</button>
 					<button
 						className={`px-3 py-1 rounded ${
 							filter === 'unanswered' ? 'bg-yellow-400 text-black' : 'border'
 						}`}
 						onClick={() => setFilter('unanswered')}
+						aria-pressed={filter === 'unanswered'}
+						title={`Show unanswered (${counts.unanswered})`}
 					>
-						Unanswered
+						Unanswered ({counts.unanswered})
 					</button>
 				</div>
 
@@ -231,10 +258,10 @@ export default function QuizResultPage() {
 					</button>
 
 					<button
-						className='px-3 py-1 rounded bg-indigo-600 text-white'
-						onClick={() => router.push('/quiz')}
+						className='px-3 py-1 rounded bg-indigo-600 text-white flex gap-2 items-center justify-center'
+						onClick={() => router.push('/dashboard/quiz-history')}
 					>
-						Back to Quizzes
+						<History size={18} /> Quizzes history
 					</button>
 				</div>
 			</div>
@@ -248,7 +275,6 @@ export default function QuizResultPage() {
 				) : null}
 
 				{filteredQuestions.map((q, i) => {
-					// If the backend graded, we may have correctIndex and selectedIndex.
 					const selected = q.selectedIndex;
 					const correct = q.correctIndex;
 					const isAnswered = selected != null;
@@ -296,8 +322,6 @@ export default function QuizResultPage() {
 								{q.options.map((opt, idx) => {
 									const isCorrect = idx === correct;
 									const isUserChoice = idx === selected;
-
-									// styles for each state
 									const base =
 										'p-2 rounded-md flex items-center justify-between';
 									const correctCls = isCorrect
