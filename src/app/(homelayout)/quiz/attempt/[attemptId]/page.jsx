@@ -241,7 +241,7 @@ export default function QuizAttemptIdPage() {
 	const lowTime = timeLeft <= Math.min(15, Math.ceil(timeTotal * 0.15)); // low time indicator
 
 	return (
-		<div className='max-w-2xl mx-auto p-6'>
+		<div className='max-w-2xl mx-auto p-6 no-copy'>
 			{/* header: question progress and timer */}
 			<div className='mb-4'>
 				<div className='flex items-center justify-between'>

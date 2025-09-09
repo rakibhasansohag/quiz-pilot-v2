@@ -59,6 +59,16 @@ export async function GET(req, { params }) {
 	}
 }
 
+// helper: escape for regex
+function escapeRegex(s = '') {
+	return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// helper: normalize for deterministic duplicate detection
+function normalizeText(s = '') {
+	return s.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
 export async function PUT(req, { params }) {
 	try {
 		const id = params.id;
@@ -90,14 +100,18 @@ export async function PUT(req, { params }) {
 		}
 		const data = parsed.data;
 
-		// If options present for MCQ, sanitize and ensure 2..4 items
+		
 		const updates = { updatedAt: new Date() };
 
 		if (data.text !== undefined) {
 			// uniqueness within same category
+			const newNorm = normalizeText(data.text);
 			const dup = await db.collection('questions').findOne({
 				categoryId: existing.categoryId,
-				text: { $regex: `^${data.text}$`, $options: 'i' },
+				$or: [
+					{ textNormalized: newNorm },
+					{ text: { $regex: `^${escapeRegex(data.text)}$`, $options: 'i' } }, 
+				],
 				_id: { $ne: existing._id },
 			});
 			if (dup)
@@ -106,6 +120,7 @@ export async function PUT(req, { params }) {
 					{ status: 409 },
 				);
 			updates.text = data.text;
+			updates.textNormalized = newNorm;
 		}
 
 		if (Array.isArray(data.options)) {

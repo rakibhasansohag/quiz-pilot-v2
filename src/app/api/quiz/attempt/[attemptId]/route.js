@@ -14,7 +14,7 @@ export async function GET(req, { params }) {
 			);
 		}
 
-		const attemptId = params.attemptId;
+		const attemptId = await params.attemptId;
 		if (!attemptId) {
 			return NextResponse.json(
 				{ error: 'Attempt ID is required' },

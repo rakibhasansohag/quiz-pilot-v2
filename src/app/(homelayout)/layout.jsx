@@ -6,9 +6,7 @@ const HomeLayout = ({ children }) => {
     
     return (
         <div>
-
             <Navbar></Navbar>
-
             <main className=''>
                 {children}
             </main>
