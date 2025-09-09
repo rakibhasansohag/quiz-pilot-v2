@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { motion } from 'motion/react';
+
 import { CheckCircle, XCircle, ArrowLeft, Repeat, History } from 'lucide-react';
 
 export default function QuizResultPage() {
@@ -25,12 +26,18 @@ export default function QuizResultPage() {
 				setErrorMsg(null);
 				const res = await fetch(`/api/quiz/attempt/${attemptId}`);
 				const data = await res.json();
+
+				console.debug('[Result] API response:', { status: res.status, data });
+
 				if (!res.ok || data?.ok === false) {
 					const msg = data?.error || data?.message || 'Failed to load results';
 					throw new Error(msg);
 				}
+
 				if (!mounted) return;
 				setAttempt(data.attempt);
+
+
 			} catch (err) {
 				console.error('[Result] fetch error', err);
 				setErrorMsg(err.message || 'Unable to load result');
@@ -70,7 +77,6 @@ export default function QuizResultPage() {
 		if (filter === 'unanswered')
 			return qs.filter((q) => q.selectedIndex == null);
 		return qs;
-	}, [attempt?.questions, filter]);
 
 	if (loading) {
 		return (
@@ -157,6 +163,7 @@ export default function QuizResultPage() {
 						<div className='text-xs text-slate-400'>Percentage</div>
 						<div className='mt-1 flex items-center gap-3'>
 							<div className='relative w-14 h-14'>
+
 								<svg className='w-14 h-14' viewBox='0 0 36 36'>
 									<path
 										d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'
@@ -170,7 +177,10 @@ export default function QuizResultPage() {
 										stroke='#6366F1'
 										strokeWidth='3.5'
 										strokeDasharray={`${percent}, 100`}
-										d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'
+
+										d='M18 2.0845
+                               a 15.9155 15.9155 0 0 1 0 31.831
+                               a 15.9155 15.9155 0 0 1 0 -31.831'
 									/>
 								</svg>
 								<div className='absolute inset-0 flex items-center justify-center font-semibold text-sm'>
@@ -216,7 +226,6 @@ export default function QuizResultPage() {
 					>
 						Correct ({counts.correct})
 					</button>
-
 					<button
 						className={`px-3 py-1 rounded ${
 							filter === 'incorrect' ? 'bg-rose-600 text-white' : 'border'
@@ -227,7 +236,6 @@ export default function QuizResultPage() {
 					>
 						Incorrect ({counts.incorrect})
 					</button>
-
 					<button
 						className={`px-3 py-1 rounded ${
 							filter === 'unanswered' ? 'bg-yellow-400 text-black' : 'border'

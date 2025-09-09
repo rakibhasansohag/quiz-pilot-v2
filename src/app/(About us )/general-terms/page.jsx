@@ -7,7 +7,7 @@ export default function GenerelTerms() {
     return (
         <div>
             <Navbar></Navbar>
-            <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="max-w-5xl  px-6 py-12">
                 <h1 className="text-3xl font-bold mb-6">General Terms and Conditions</h1>
                 <p className="mb-4">
                     Welcome to QuizPilot, an EdTech platform designed to empower learners with programming skills through interactive quizzes. These General Terms and Conditions ("Terms") govern your use of our website and services. By accessing or using QuizPilot, you agree to be bound by these Terms. If you do not agree, please refrain from using our platform.
