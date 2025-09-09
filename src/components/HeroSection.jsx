@@ -30,7 +30,7 @@ export default function HeroSection() {
 
           <div className="mt-7 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Link
-              href="/signup"
+              href="/quiz"
               className="px-8 py-3 text-lg rounded-lg font-semibold text-white bg-primary hover:bg-purple-950/90 transition-colors duration-300 shadow-lg text-center"
             >
               Get Started
