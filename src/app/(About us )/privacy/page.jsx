@@ -7,7 +7,7 @@ export default function PrivacyTerms() {
     return (
         <div>
             <Navbar></Navbar>
-            <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="max-w-5xl px-6 py-12">
                 <h1 className="text-3xl font-bold mb-6">Privacy and Data Usage Terms</h1>
                 <p className="mb-4">
                     At QuizPilot, we are committed to protecting your privacy. This Privacy and Data Usage section outlines how we collect, use, and safeguard your personal information while using our EdTech platform.
