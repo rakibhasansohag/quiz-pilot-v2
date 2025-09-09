@@ -31,6 +31,7 @@ export default async function RootLayout({ children }) {
 				<Providers session={session}>
 					<main className='min-h-screen'>{children}</main>
 				</Providers>
+				
 			</body>
 		</html>
 	);
