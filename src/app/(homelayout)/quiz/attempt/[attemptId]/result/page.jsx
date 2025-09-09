@@ -26,19 +26,11 @@ export default function QuizResultPage() {
         setErrorMsg(null);
         const res = await fetch(`/api/quiz/attempt/${attemptId}`);
         const data = await res.json();
-        // if (!res.ok || data?.ok === false) {
-        //   const msg = data?.error || data?.message || 'Failed to load results';
-        //   throw new Error(msg);
-        //   return <ResultNotFound message={msg} />;
-        //   setNotFoundMsg(msg); // ✅ set state
-        //   return;
-        // }
-
         if (!res.ok || data?.ok === false) {
           const msg = data?.error || data?.message || 'Failed to load results';
-          if (mounted) setNotFoundMsg(msg); // ✅ state update
-          return;
+          throw new Error(msg);
         }
+
         if (!mounted) return;
         setAttempt(data.attempt);
       } catch (err) {
