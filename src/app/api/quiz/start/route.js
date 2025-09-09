@@ -109,6 +109,43 @@ export async function POST(req) {
 		await db.collection('attempts').insertOne(attempt);
 		console.log('Attempt inserted successfully into DB:', attempt.attemptId);
 
+		console.log('--- Finished /api/quiz/start ---');
+		try {
+			// If your users use ObjectId for _id , convert token.id
+			const userIdFilter = ObjectId.isValid(token.id)
+				? new ObjectId(token.id)
+				: token.id;
+
+			const logEntry = {
+				attemptId: attempt.attemptId,
+				categoryId: attempt.categoryId,
+				// optional: include category name if you have it cached
+				difficulty: attempt.fixedDifficulty || null,
+				numQuestions:
+					attempt.requestedNumQuestions ||
+					attempt.numQuestions ||
+					attempt.actualCount ||
+					null,
+				startedAt: attempt.startedAt,
+			};
+
+			await db.collection('users').updateOne(
+				{ _id: userIdFilter },
+				{
+					$inc: { quizAttempts: 1 },
+					// push newest entry and keep only last 50 (use $slice: -50)
+					$push: { quizAttemptsLog: { $each: [logEntry], $slice: -50 } },
+				},
+				// do not create user document if somehow missing
+				{ upsert: false },
+			);
+			console.log('User quizAttempts incremented for user:', token.id);
+		} catch (userUpdateErr) {
+			// log but don't fail attempt creation
+			console.error('Failed updating user quizAttempts:', userUpdateErr);
+		}
+	
+
 		return NextResponse.json({
 			ok: true,
 			attemptId: attempt.attemptId,

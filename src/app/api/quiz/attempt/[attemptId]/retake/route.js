@@ -12,7 +12,7 @@ export async function POST(req, { params }) {
 		if (!token?.id) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
-		const attemptId = params.attemptId;
+		const attemptId = await params.attemptId;
 		if (!attemptId) {
 			return NextResponse.json(
 				{ error: 'Attempt ID required' },

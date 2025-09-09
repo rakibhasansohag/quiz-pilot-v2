@@ -63,10 +63,21 @@ export async function GET(req) {
 	}
 }
 
+
+// helper: escape for regex
+function escapeRegex(s = '') {
+	return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// helper: normalize for deterministic duplicate detection
+function normalizeText(s = '') {
+	return s.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
 export async function POST(req) {
 	try {
 		const user = await getUserFromCookies(req);
-		
+
 		if (!user || user?.role !== 'admin')
 			return NextResponse.json(
 				{ error: "You don't have permission" },
@@ -132,16 +143,30 @@ export async function POST(req) {
 				{ status: 404 },
 			);
 
-		// uniqueness check per category
-		const existing = await db.collection('questions').findOne({
+		// Normalize text for robust uniqueness check
+		const norm = normalizeText(payload.text || '');
+
+		
+		let existing = await db.collection('questions').findOne({
 			categoryId: category._id,
-			text: { $regex: `^${payload.text}$`, $options: 'i' },
+			textNormalized: norm,
 		});
-		if (existing)
+
+		
+		if (!existing) {
+			const esc = escapeRegex((payload.text || '').trim());
+			existing = await db.collection('questions').findOne({
+				categoryId: category._id,
+				text: { $regex: `^${esc}$`, $options: 'i' },
+			});
+		}
+
+		if (existing) {
 			return NextResponse.json(
 				{ error: 'Duplicate question text' },
 				{ status: 409 },
 			);
+		}
 
 		const now = new Date();
 		const doc = {
@@ -150,6 +175,7 @@ export async function POST(req) {
 			type: payload.type,
 			difficulty: payload.difficulty,
 			text: payload.text.trim(),
+			textNormalized: norm, 
 			options: payload.options,
 			correctIndex: payload.correctIndex,
 			timeLimitSec: payload.timeLimitSec ?? null,
@@ -168,7 +194,10 @@ export async function POST(req) {
 			.collection('categories')
 			.updateOne({ _id: category._id }, { $inc: { totalQuizzes: 1 } });
 
-		return NextResponse.json({ ok: true, questions: doc }, { status: 201 });
+		return NextResponse.json(
+			{ ok: true, questions: { ...doc, _id: resInsert.insertedId.toString() } },
+			{ status: 201 },
+		);
 	} catch (err) {
 		console.error('POST /api/questions error', err);
 		return NextResponse.json({ error: 'Server error' }, { status: 500 });

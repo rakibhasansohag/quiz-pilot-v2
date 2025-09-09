@@ -134,8 +134,6 @@
 }
 
 
-
-
 /* react-select portal safety */
 .rs__menu, .react-select__menu, .rs__menu-portal, .react-select__menu-portal {
   z-index: 2147483647 !important;
@@ -148,3 +146,13 @@
 }
 
 
+.html {
+  @apply scroll-smooth
+}
+
+.no-copy {
+  user-select: none;
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none;    /* For Firefox */
+  -ms-user-select: none;     /* For old IE */
+}
