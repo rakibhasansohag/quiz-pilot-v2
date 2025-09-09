@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { motion } from 'motion/react';
 import { CheckCircle, XCircle, ArrowLeft, Repeat, History } from 'lucide-react';
+import ResultNotFound from './components/not-found';
 
 export default function QuizResultPage() {
   const { attemptId } = useParams();
@@ -25,9 +26,18 @@ export default function QuizResultPage() {
         setErrorMsg(null);
         const res = await fetch(`/api/quiz/attempt/${attemptId}`);
         const data = await res.json();
+        // if (!res.ok || data?.ok === false) {
+        //   const msg = data?.error || data?.message || 'Failed to load results';
+        //   throw new Error(msg);
+        //   return <ResultNotFound message={msg} />;
+        //   setNotFoundMsg(msg); // ✅ set state
+        //   return;
+        // }
+
         if (!res.ok || data?.ok === false) {
           const msg = data?.error || data?.message || 'Failed to load results';
-          throw new Error(msg);
+          if (mounted) setNotFoundMsg(msg); // ✅ state update
+          return;
         }
         if (!mounted) return;
         setAttempt(data.attempt);
