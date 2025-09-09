@@ -68,7 +68,7 @@ export default function CountUpPage() {
             {loading ? (
               '...'
             ) : (
-              <CountUp start={0} end={stats.totalQuizzes} duration={2.5} />
+              <CountUp start={0} end={stats.totalQuestions} duration={2.5} />
             )}
             +
           </h2>
