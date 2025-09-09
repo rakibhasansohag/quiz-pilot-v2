@@ -17,7 +17,7 @@ export async function POST(req, { params }) {
 		}
 		console.log('Authenticated user:', token.id);
 
-		const attemptId = params.attemptId;
+		const attemptId = await params.attemptId;
 		if (!attemptId) {
 			console.log('Error: attemptId not provided in route');
 			return NextResponse.json(
