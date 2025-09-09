@@ -9,6 +9,16 @@ import {
 } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import Select from 'react-select';
+import {
+	Select as ShadSelect,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectItem,
+} from '@/components/ui/select';
+import { useTheme } from 'next-themes';
+import { getReactSelectStyles } from '@/lib/reactSelectStyles';
 
 const AMOUNTS = [5, 10, 15, 20];
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
@@ -31,14 +41,33 @@ export default function Leaderboard({
 	const [currentUserId, setCurrentUserId] = useState(null);
 	const [currentUserRank, setCurrentUserRank] = useState(null);
 
+	const { theme } = useTheme();
+	const isDark = theme === 'dark';
+
+	const [categories, setCategories] = useState([]);
 	const [category, setCategory] = useState(initialCategory);
 	const [difficulty, setDifficulty] = useState(initialDifficulty);
 	const [numQuestions, setNumQuestions] = useState(initialNumQuestions);
 
 	useEffect(() => {
+		fetchCategories();
+	}, []);
+
+	useEffect(() => {
 		fetchBoard();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [category, difficulty, numQuestions]);
+
+	async function fetchCategories() {
+		try {
+			const res = await fetch('/api/categories');
+			const data = await res.json();
+			if (!res.ok) throw new Error(data?.error || 'Failed to fetch categories');
+			setCategories(data.categories || []);
+		} catch (err) {
+			console.error('fetch categories', err);
+		}
+	}
 
 	async function fetchBoard() {
 		setLoading(true);
@@ -62,76 +91,137 @@ export default function Leaderboard({
 		}
 	}
 
+	const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+	function pickRandom() {
+		const pickCat = categories.length ? rnd(categories)._id : '';
+		const pickDiff = rnd(DIFFICULTIES);
+		const pickAmt = rnd(AMOUNTS);
+		setCategory(pickCat);
+		setDifficulty(pickDiff);
+		setNumQuestions(pickAmt);
+	}
+
 	// top group stack
 	const topScore = list?.length ? list[0].bestScore : null;
 	const topGroup = list.filter((it) => it.bestScore === topScore).slice(0, 5);
 
+	function handleReset() {
+		setCategory(initialCategory);
+		setDifficulty(initialDifficulty);
+		setNumQuestions(initialNumQuestions);
+	}
+
+	console.log('list', list);
+
 	return (
 		<Card className='p-4 w-full'>
-			<div className='flex items-start justify-between mb-3'>
+			<div className='flex items-center justify-between mb-4'>
+				{/* left side */}
 				<div>
 					<h3 className='text-lg font-semibold'>Leaderboard</h3>
-					<p className='text-sm text-slate-500'>
-						By category • difficulty • questions
-					</p>
+					{stats ? (
+						<div className='flex gap-4 text-xs text-slate-500 mt-1'>
+							<div>
+								Total players:{' '}
+								<span className='font-medium'>{stats.totalPlayers}</span>
+							</div>
+							<div>
+								Total attempts:{' '}
+								<span className='font-medium'>{stats.totalAttempts}</span>
+							</div>
+							<div>
+								Avg score: <span className='font-medium'>{stats.avgScore}</span>
+							</div>
+						</div>
+					) : (
+						<p className='text-sm text-slate-500'>
+							By category • difficulty • questions
+						</p>
+					)}
 				</div>
-				<div className='text-right text-sm'>
+
+				{/* right side */}
+				<div className='flex items-center gap-3'>
 					{currentUserRank ? (
-						<div>
+						<div className='text-sm'>
 							Your rank <span className='font-medium'>{currentUserRank}</span>
 						</div>
 					) : (
 						<div className='text-xs text-slate-400'>
-							Sign in to see your rank
+							you can just pick a random one
 						</div>
 					)}
+
+					<Button variant='outline' size='sm' onClick={pickRandom}>
+						🎲 Random
+					</Button>
 				</div>
 			</div>
 
 			{/* controls */}
 			<div className='flex gap-2 items-center mb-4'>
-				<select
-					value={difficulty}
-					onChange={(e) => setDifficulty(e.target.value)}
-					className='px-2 py-1 border rounded'
-				>
-					<option value=''>All difficulties</option>
-					{DIFFICULTIES.map((d) => (
-						<option key={d} value={d}>
-							{d}
-						</option>
-					))}
-				</select>
-
-				<select
-					value={numQuestions}
-					onChange={(e) => setNumQuestions(Number(e.target.value))}
-					className='px-2 py-1 border rounded'
-				>
-					{AMOUNTS.map((n) => (
-						<option key={n} value={n}>
-							{n} questions
-						</option>
-					))}
-				</select>
-
-				<div className='ml-auto text-xs text-slate-500'>
-					{stats ? (
-						<div>
-							<div>
-								Participants: <strong>{stats.participantsCount ?? '—'}</strong>
-							</div>
-							<div>
-								Avg score: <strong>{stats.avgScore ?? '—'}</strong>
-							</div>
-						</div>
-					) : (
-						<div>Loading stats…</div>
-					)}
+				{/* category with react-select */}
+				<div className='min-w-[200px]'>
+					<Select
+						classNamePrefix='rs'
+						placeholder='All categories'
+						value={
+							categories.find((c) => c._id === category)
+								? {
+										value: category,
+										label: categories.find((c) => c._id === category).name,
+								  }
+								: null
+						}
+						onChange={(opt) => setCategory(opt?.value || '')}
+						options={categories.map((c) => ({ value: c._id, label: c.name }))}
+						styles={getReactSelectStyles(isDark)}
+						isClearable
+					/>
 				</div>
 
-				<Button variant='ghost' onClick={fetchBoard}>
-					Refresh
+				{/* difficulty with shadcn select */}
+				{/* difficulty with shadcn select */}
+				<ShadSelect
+					value={difficulty || 'all'}
+					onValueChange={(val) => setDifficulty(val === 'all' ? '' : val)}
+				>
+					<SelectTrigger className='w-[140px]'>
+						<SelectValue placeholder='All difficulties' />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value='all'>All difficulties</SelectItem>
+						{DIFFICULTIES.map((d) => (
+							<SelectItem key={d} value={d}>
+								{d}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</ShadSelect>
+
+				{/* numQuestions with shadcn select */}
+				<ShadSelect
+					value={String(numQuestions)}
+					onValueChange={(v) => setNumQuestions(Number(v))}
+				>
+					<SelectTrigger className='w-[150px]'>
+						<SelectValue placeholder='Questions' />
+					</SelectTrigger>
+					<SelectContent>
+						{AMOUNTS.map((n) => (
+							<SelectItem key={n} value={String(n)}>
+								{n} questions
+							</SelectItem>
+						))}
+					</SelectContent>
+				</ShadSelect>
+
+				<Button variant='outline' size='sm' onClick={pickRandom}>
+					🎲 Random
+				</Button>
+				<Button variant='destructive' size='sm' onClick={handleReset}>
+					Reset
 				</Button>
 			</div>
 
@@ -151,10 +241,7 @@ export default function Leaderboard({
 								{topGroup.map((u, i) => (
 									<Tooltip key={u.userId}>
 										<TooltipTrigger asChild>
-											<div
-												className={`inline-block`}
-												style={{ zIndex: 10 + i }}
-											>
+											<div className='inline-block' style={{ zIndex: 10 + i }}>
 												<Avatar
 													className={`w-10 h-10 ring-2 ring-white ${
 														u.userId === currentUserId ? 'ring-indigo-500' : ''
@@ -178,6 +265,9 @@ export default function Leaderboard({
 												<div className='text-xs text-slate-500'>
 													{u.bestScore} / {u.numQuestions} •{' '}
 													{fmtMs(u.bestTimeMs)}
+												</div>
+												<div className='text-xs text-muted-foreground'>
+													{u.categoryName}
 												</div>
 											</div>
 										</TooltipContent>
@@ -236,6 +326,9 @@ export default function Leaderboard({
 												<div className='text-xs text-muted-foreground'>
 													Attempts: {u.attempts}
 												</div>
+												<div className='text-xs text-muted-foreground'>
+													{u.categoryName}
+												</div>
 											</div>
 										</TooltipContent>
 									</Tooltip>
@@ -245,7 +338,8 @@ export default function Leaderboard({
 											{u.displayName || 'Anonymous'}
 										</div>
 										<div className='text-xs text-slate-500'>
-											{u.name} • {u.difficulty}
+											{u.categoryName || u.categoryId || 'Unknown'} •{' '}
+											{u.difficulty}
 										</div>
 									</div>
 

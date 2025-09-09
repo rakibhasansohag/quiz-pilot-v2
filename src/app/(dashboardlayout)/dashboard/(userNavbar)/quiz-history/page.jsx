@@ -230,9 +230,10 @@ export default function QuizHistoryPage() {
 						) : (
 							filtered.map((a, idx) => {
 								const perfect = isPerfect(a);
+							
 								return (
 									<motion.tr
-										key={a.attemptId}
+										key={a?.attemptId}
 										variants={rowVariants}
 										initial='hidden'
 										animate='visible'

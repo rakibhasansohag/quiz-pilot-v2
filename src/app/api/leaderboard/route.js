@@ -11,7 +11,6 @@ export async function GET(req) {
 		const url = new URL(req.url);
 		const categoryId = url.searchParams.get('categoryId') ?? '';
 		const difficulty = url.searchParams.get('difficulty') ?? '';
-		// default to 20 if missing
 		const numQuestions = url.searchParams.get('numQuestions')
 			? Number(url.searchParams.get('numQuestions'))
 			: DEFAULT_NUMQ;
@@ -26,7 +25,7 @@ export async function GET(req) {
 		if (typeof numQuestions === 'number')
 			filter.numQuestions = Number(numQuestions);
 
-		// sort: bestScore desc, bestTimeMs asc (nulls last), lastAttemptAt desc
+		// fetch leaderboard entries
 		const list = await db
 			.collection('leaderboard')
 			.find(filter)
@@ -35,27 +34,24 @@ export async function GET(req) {
 			.limit(limit)
 			.toArray();
 
-		// get group stats
 		const stats =
 			(await db.collection('leaderboard_stats').findOne(filter)) || null;
 
-		// try to get current user token
+		// try to get current user
 		let token = null;
 		try {
 			token = await getToken({ req, secret: SECRET });
-		} catch {}
-
+		} catch (e) {
+			/* noop */
+		}
 		const currentUserId = token?.id ?? null;
 
-		// compute current user's rank (if present) — cheap approach for small scale
 		let currentUserRank = null;
 		if (currentUserId) {
-			// If user exists in leaderboard for this group, compute strictly better count
 			const userDoc = await db
 				.collection('leaderboard')
 				.findOne({ ...filter, userId: currentUserId });
 			if (userDoc) {
-				// count documents strictly better: higher bestScore OR same score and lower bestTimeMs
 				const betterFilter = {
 					...filter,
 					$or: [
@@ -64,14 +60,9 @@ export async function GET(req) {
 							$and: [
 								{ bestScore: userDoc.bestScore },
 								{
-									$or: [
-										{
-											bestTimeMs: {
-												$lt: userDoc.bestTimeMs ?? Number.MAX_SAFE_INTEGER,
-											},
-										},
-										{ bestTimeMs: null },
-									],
+									bestTimeMs: {
+										$lt: userDoc.bestTimeMs ?? Number.MAX_SAFE_INTEGER,
+									},
 								},
 							],
 						},

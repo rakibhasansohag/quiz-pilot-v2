@@ -1,58 +1,77 @@
 import { ObjectId } from 'mongodb';
 
+const MAX_Q = 20;
+
 /**
  * updateLeaderboard(db, attempt, userInfo)
- * - attempt: DB attempt object (must include attemptId, userId, categoryId, fixedDifficulty or difficulty, numQuestions, score, startedAt, completedAt)
- * - userInfo: { displayName, avatarUrl } optional
+ * - attempt: the attempt DB doc (must include categoryId, requestedNumQuestions?, numQuestions, score, startedAt, completedAt)
+ * - userInfo: optional { displayName, avatarUrl, name }
  *
  * Behavior:
- * - groupKey: { categoryId, difficulty, numQuestions } where numQuestions is capped to MAX_Q (20)
- * - upserts a per-user leaderboard document (one doc per user per group)
- * - recomputes group stats (participants, average score, total attempts, topScore) and stores them in `leaderboard_stats` collection
+ * - chooses grouping key: { categoryId, categoryName, difficulty, numQuestions }.
+ * - numQuestions used: attempt.requestedNumQuestions || attempt.numQuestions || questions.length
+ * - upserts per-user leaderboard doc and recomputes group stats in leaderboard_stats.
  */
-const MAX_Q = 20;
 
 export async function updateLeaderboard(db, attempt, userInfo = {}) {
 	if (!db || !attempt) throw new Error('db and attempt required');
 
 	const categoryId = String(attempt.categoryId ?? '');
-	// normalize difficulty string (store as Title case or exact as used elsewhere)
+	// get categoryName from categories collection if possible
+	let categoryName = null;
+	if (categoryId) {
+		try {
+			const cat = await db
+				.collection('categories')
+				.findOne({ _id: new ObjectId(categoryId) })
+				.catch(() => null);
+			if (cat) categoryName = cat.name;
+		} catch (e) {
+			const cat = await db
+				.collection('categories')
+				.findOne({ _id: categoryId })
+				.catch(() => null);
+			if (cat) categoryName = cat.name;
+		}
+	}
+
+	// difficulty prefer attempt.fixedDifficulty then attempt.difficulty
 	const difficulty = attempt.fixedDifficulty ?? attempt.difficulty ?? 'Any';
-	const numQuestions = Math.min(
-		Number(attempt.numQuestions ?? attempt.questions?.length ?? 0) || 0,
-		MAX_Q,
-	);
+
+	// use requestedNumQuestions if present (user selected number), else actual attempt.numQuestions
+	const requested = Number(attempt.requestedNumQuestions ?? 0) || null;
+	const actual =
+		Number(attempt.numQuestions ?? attempt.questions?.length ?? 0) || 0;
+	const numQuestions = Math.min(requested || actual || 0, MAX_Q);
+
 	const userId = String(attempt.userId);
 	const score = Number(attempt.score ?? 0);
 	const attemptId = attempt.attemptId ?? null;
 	const now = new Date();
 
-	// time in ms (if available)
+	// compute time in ms if possible
 	let timeMs = null;
-	if (attempt.startedAt && attempt.completedAt) {
-		try {
+	try {
+		if (attempt.startedAt && attempt.completedAt) {
 			const s = new Date(attempt.startedAt).getTime();
 			const e = new Date(attempt.completedAt).getTime();
 			if (!Number.isNaN(s) && !Number.isNaN(e)) timeMs = Math.max(0, e - s);
-		} catch {}
-	}
+		}
+	} catch (e) {}
 
 	const displayName = userInfo.displayName ?? userInfo.name ?? null;
 	const avatarUrl = userInfo.avatarUrl ?? userInfo.avatar ?? null;
 
-	const groupFilter = {
-		categoryId,
-		difficulty,
-		numQuestions,
-	};
+	const groupFilter = { categoryId, difficulty, numQuestions };
 
-	// Upsert per-user leaderboard doc
+	// upsert per-user leaderboard
 	const lbFilter = { ...groupFilter, userId };
 	const existing = await db.collection('leaderboard').findOne(lbFilter);
 
 	if (!existing) {
 		const doc = {
 			...lbFilter,
+			categoryName: categoryName ?? null,
 			displayName: displayName ?? null,
 			avatarUrl: avatarUrl ?? null,
 			bestScore: score,
@@ -68,12 +87,13 @@ export async function updateLeaderboard(db, attempt, userInfo = {}) {
 			$inc: { attempts: 1 },
 			$set: {
 				lastAttemptAt: now,
+				...(categoryName ? { categoryName } : {}),
 				...(displayName ? { displayName } : {}),
 				...(avatarUrl ? { avatarUrl } : {}),
 			},
 		};
 
-		// best-score/time logic
+		// update best score/time if better
 		if (typeof existing.bestScore !== 'number' || score > existing.bestScore) {
 			updateOps.$set.bestScore = score;
 			updateOps.$set.bestAttemptId = attemptId;
@@ -84,18 +104,17 @@ export async function updateLeaderboard(db, attempt, userInfo = {}) {
 				updateOps.$set.bestAttemptId = attemptId;
 			}
 		}
-
 		await db
 			.collection('leaderboard')
 			.updateOne({ _id: existing._id }, updateOps);
 	}
 
-	// Recompute group-level stats and persist in leaderboard_stats collection
+	// recompute group stats in leaderboard_stats
+	// participantsCount = number of unique users for group
 	const participantsCount = await db
 		.collection('leaderboard')
 		.countDocuments(groupFilter);
 
-	// compute aggregated values for this group using aggregation
 	const agg = await db
 		.collection('leaderboard')
 		.aggregate([
@@ -121,6 +140,7 @@ export async function updateLeaderboard(db, attempt, userInfo = {}) {
 
 	const statsDoc = {
 		...groupFilter,
+		categoryName: categoryName ?? null,
 		participantsCount,
 		topScore: stats.topScore ?? null,
 		avgScore: stats.avgScore != null ? Number(stats.avgScore.toFixed(2)) : null,
@@ -137,7 +157,6 @@ export async function updateLeaderboard(db, attempt, userInfo = {}) {
 			{ upsert: true },
 		);
 
-	// return both the per-user doc and stats for immediate use
 	const perUser = await db.collection('leaderboard').findOne(lbFilter);
 	const freshStats = await db
 		.collection('leaderboard_stats')
