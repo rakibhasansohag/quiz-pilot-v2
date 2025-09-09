@@ -7,15 +7,15 @@ export async function GET() {
 
     // Count documents instead of fetching all data
     const totalUsers = await db.collection('users').countDocuments();
-    const totalQuizzes = await db.collection('attempts').countDocuments();
-    const totalCategories = await db.collection('categories').countDocuments();
-    const totalQuestions = await db.collection('questions').countDocuments();
+    const totalAttempts = await db.collection('attempts').countDocuments();
+		const totalCategories = await db.collection('categories').countDocuments();
+		const totalQuestions = await db.collection('questions').countDocuments();
 
 		return NextResponse.json({
 			success: true,
 			data: {
 				totalUsers,
-				totalQuizzes,
+				totalAttempts,
 				totalCategories,
 				totalQuestions,
 			},
