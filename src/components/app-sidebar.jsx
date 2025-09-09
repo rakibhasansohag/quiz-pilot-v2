@@ -47,17 +47,17 @@ const navDetails = [
 const adminNavDetails = [
   {
     title: "Users",
-    url: "/dashboard/users",
+    url: "/dashboard/admin/users",
     icon: Users, // 👥 manage users
   },
   {
     title: "Questions",
-    url: "/dashboard/questions",
+    url: "/dashboard/admin/questions",
     icon: Clipboard, // 📝 exam/tests
   },
   {
     title: "Create Quiz",
-    url: "/dashboard/create-quiz",
+    url: "/dashboard/admin/create-quiz",
     icon: FilePlus, // ➕ add new quiz
   },
 ]
@@ -91,7 +91,7 @@ export function AppSidebar({ ...props }) {
       <Separator />
 
       <SidebarContent>
-        <NavMain navDetails={navDetails} adminNavDetails={adminNavDetails} />
+        <NavMain userRole={userInfo.role} navDetails={navDetails} adminNavDetails={adminNavDetails} />
       </SidebarContent>
 
       <SidebarFooter>

@@ -7,7 +7,7 @@ export default function RefundPolicy() {
     return (
         <div>
             <Navbar></Navbar>
-            <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="max-w-5xl  px-6 py-12">
                 <h1 className="text-3xl font-bold mb-6">Returns & Refund Policy</h1>
                 <p className="mb-4">
                     At Estrella, customer satisfaction is our priority. If you are not fully satisfied with
