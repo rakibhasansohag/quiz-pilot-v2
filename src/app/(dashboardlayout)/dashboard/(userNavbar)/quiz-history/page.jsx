@@ -239,8 +239,10 @@ export default function QuizHistoryPage() {
                     animate="visible"
                     transition={{ duration: 0.25, delay: idx * 0.02 }}
                     className={`text-center ${
-                      idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                    } hover:bg-indigo-50/30`}
+                      idx % 2 === 0
+                        ? 'bg-muted dark:bg-black-100'
+                        : 'bg-gray-200 dark:bg-gray-900'
+                    } hover:bg-indigo-50/30 dark:hover:bg-indigo-50/30`}
                   >
                     <TableCell className="py-4 px-6">{idx + 1}</TableCell>
                     <TableCell className="py-4 px-6">
@@ -253,7 +255,7 @@ export default function QuizHistoryPage() {
                       {a.fixedDifficulty || '—'}
                     </TableCell>
                     <TableCell className="py-4 px-6">
-                      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold shadow">
+                      <span className="bg-green-100 dark:bg-gray-500 text-green-700 dark:text-green-300  px-3 py-1 rounded-full text-sm font-semibold shadow">
                         {a.score == null
                           ? 'N/A'
                           : `${a.score} / ${getMaxScore(a) ?? '—'}`}
