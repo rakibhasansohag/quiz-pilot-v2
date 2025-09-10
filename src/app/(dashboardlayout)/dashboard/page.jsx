@@ -37,8 +37,8 @@ export default function Dashboard() {
       stats: [
         { name: 'Total Users', value: 2450 },
         { name: 'New Users (30d)', value: 320 },
-        { name: 'Quizzes Taken', value: 13420 },
-        { name: 'Quizzes Created', value: 560 },
+        { name: 'Total Quizzes Taken', value: 13420 },
+        { name: 'Quizzes Created (30d)', value: 560 },
       ],
       monthlyGrowth: [
         { month: 'Apr', users: 2300, quizzes: 1200 },
@@ -48,22 +48,19 @@ export default function Dashboard() {
         { month: 'Aug', users: 2600, quizzes: 1800 }, // dip again
       ],
     },
-    user: {
-      quizHistory: [
-        { month: 'Jan', quizzes: 3 },
-        { month: 'Feb', quizzes: 5 },
-        { month: 'Mar', quizzes: 4 },
-        { month: 'Apr', quizzes: 7 },
-      ],
-    },
   };
 
   const [topicAccuracyData, setTopicAccuracyData] = useState([]);
   const [monthlyQuizData, setMonthyQuizData] = useState([]);
+  const [websiteData, setWebsiteData] = useState({});
 
   useEffect(() => {
     fetchTopicAccuracy();
     getMonthlyQuizReport();
+
+    if (role == "admin") {
+      getWebsiteStats();
+    }
   }, [])
 
   const fetchTopicAccuracy = async () => {
@@ -99,13 +96,30 @@ export default function Dashboard() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Failed to fetch monthly quiz Attempt');
+        throw new Error(data?.error || 'Failed to fetch monthly quiz report');
       }
 
       setMonthyQuizData(data.quizHistory);
 
     } catch (err) {
-      console.error('fetch categories', err);
+      console.error('fetch monthly quiz Report', err);
+    }
+  }
+
+  const getWebsiteStats = async () => {
+    try {
+      const res = await fetch('/api/websiteStats');
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Failed to fetch website states');
+      }
+
+      setWebsiteData(data);
+      console.log(data);
+
+    } catch (err) {
+      console.error('fetch website states', err);
     }
   }
 
@@ -130,9 +144,10 @@ export default function Dashboard() {
         }
       </div>
 
-      {/* Admin Dashboard */}
+
       {
         showAdminDasboard ?
+          // Admin Dashboard
           (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -142,7 +157,7 @@ export default function Dashboard() {
             >
               {/* Stats Cards */}
               <div className="grid md:grid-cols-4 gap-6">
-                {data.admin.stats.map((stat, idx) => (
+                {websiteData?.stats.map((stat, idx) => (
                   <Card key={idx} className="hover:shadow-xl transition">
                     <CardHeader>
                       <CardTitle>{stat.name}</CardTitle>
@@ -165,7 +180,7 @@ export default function Dashboard() {
                 <CardContent className="h-96">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
-                      data={data.admin.monthlyGrowth}
+                      data={websiteData?.monthlyGrowth}
                       margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
                     >
                       <defs>
@@ -234,57 +249,60 @@ export default function Dashboard() {
             </motion.div>
           )
           :
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-6"
-          >
+          // User Dashboard
+          (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
 
-            {/* Quiz History */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Quiz History</CardTitle>
-              </CardHeader>
-              <CardContent className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={monthlyQuizData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="quizzes" fill="#82ca9d" radius={[6, 6, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              {/* Quiz History */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Quiz History</CardTitle>
+                </CardHeader>
+                <CardContent className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={monthlyQuizData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="quizzes" fill="#82ca9d" radius={[6, 6, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
 
-            {/* Accuracy Radar Chart */}
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  Topic Accuracy
-                  {dummyCount < 3 && <span className='text-xs font-normal'> (Works best if you have attempted 3 or more category quizzes)</span>}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-96">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={topicAccuracyData}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="category" />
-                    <Radar
-                      dataKey="accuracy"
-                      stroke="#8884d8"
-                      fill="#8884d8"
-                      fillOpacity={0.6}
-                    />
-                    <Tooltip />
-                  </RadarChart>
-                </ResponsiveContainer>
+              {/* Accuracy Radar Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Topic Accuracy
+                    {dummyCount < 0 && <span className='text-xs font-normal'> (Works best if you have attempted 3 or more category quizzes)</span>}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="h-96">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={topicAccuracyData}>
+                      <PolarGrid />
+                      <PolarAngleAxis dataKey="category" />
+                      <Radar
+                        dataKey="accuracy"
+                        stroke="#8884d8"
+                        fill="#8884d8"
+                        fillOpacity={0.6}
+                      />
+                      <Tooltip />
+                    </RadarChart>
+                  </ResponsiveContainer>
 
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )
       }
     </section>
   );

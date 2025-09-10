@@ -33,7 +33,7 @@ export function NavUser({ userInfo }) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   useEffect(() => {
     setMounted(true);
