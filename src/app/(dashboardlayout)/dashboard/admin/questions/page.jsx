@@ -100,7 +100,9 @@ export default function QuestionsListPage() {
     <div className="max-w-7xl mx-auto">
       {/* Header + Search */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-15">
-        <h2 className="text-2xl font-semibold tracking-tight">Questions</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Questions: {questions?.length || 0}
+        </h2>
 
         {/* Search Input */}
         <div className="relative w-full sm:w-1/3">
