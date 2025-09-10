@@ -2,7 +2,7 @@ import { getDb } from '@/lib/mongodb';
 
 export async function DELETE(req, { params }) {
 	try {
-		const { id } = params;
+		const { id } = await params;
 		const db = await getDb();
 
 		await db

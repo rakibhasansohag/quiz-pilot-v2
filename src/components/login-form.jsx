@@ -29,31 +29,82 @@ export function LoginForm({ className, ...props }) {
     }
   }, [status, router]);
 
-  const handleLogin = async (data) => {
-    setLoading(true);
+ const handleLogin = async (data) => {
+		setLoading(true);
+		try {
+			const { email, password } = data;
 
-    const { email, password } = data;
+			const callbackUrl = `${
+				typeof window !== 'undefined' ? window.location.origin : ''
+			}/dashboard`;
 
-    const res = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-      callbackUrl: '/',
-    });
+			const res = await signIn('credentials', {
+				redirect: false,
+				email,
+				password,
+				callbackUrl,
+			});
 
-    setLoading(false);
+			if (!res) {
+				toast.error('Login request failed');
+				setLoading(false);
+				return;
+			}
 
-    if (res?.error) {
-      toast.error(res.error || 'Login failed');
-      return;
-    }
-    // if success, NextAuth will set session cookie; redirect
-    if (res?.ok) {
-      toast.success('Login successful');
-      router.push(res.url || '/');
-      console.log(res.url);
-    }
-  }
+			if (res?.error) {
+				toast.error(res.error || 'Login failed');
+				setLoading(false);
+				return;
+			}
+
+			// Poll for NextAuth session visibility (avoids server-middleware race)
+			// try a few times (200ms interval) — adjust attempts/timeouts as needed
+			let tries = 8;
+			let sessionVisible = false;
+			for (let i = 0; i < tries; i++) {
+				try {
+					const s = await fetch('/api/auth/session', { credentials: 'include' })
+						.then((r) => r.json())
+						.catch(() => null);
+					if (s && s.user) {
+						sessionVisible = true;
+						break;
+					}
+				} catch (e) {
+					// ignore
+				}
+				await new Promise((r) => setTimeout(r, 200));
+			}
+
+			if (!sessionVisible) {
+				// fallback warning but still attempt to create session then redirect
+				console.warn(
+					'Session not visible after signIn polling — trying anyway.',
+				);
+			}
+
+			// Create readable sid for middleware by invoking your sessions/create API
+			// This endpoint requires the JWT to be valid; the above poll ensures server can read the NextAuth cookie.
+			try {
+				await fetch('/api/sessions/create', {
+					method: 'POST',
+					credentials: 'include', // important to allow cookie exchange
+				});
+			} catch (err) {
+				console.warn('Failed to call /api/sessions/create (non-fatal):', err);
+			}
+
+			toast.success('Login successful');
+			// redirect to the server-origin callback returned by signIn or our own
+			router.push(res.url || callbackUrl);
+		} catch (err) {
+			console.error('handleLogin error', err);
+			toast.error('Login failed - server error');
+		} finally {
+			setLoading(false);
+		}
+ };
+
 
   return (
     <>
