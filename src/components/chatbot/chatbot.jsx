@@ -4,10 +4,11 @@ import { motion, AnimatePresence } from "motion/react"
 import { FaRobot } from "react-icons/fa6";
 import { X } from "lucide-react";
 
+const suggestion = ["What can you do?", "Explain error handling", "Tell me about the platform", "Who made this platform?"];
+
 export default function Chatbot() {
     const [open, setOpen] = useState(false);
 
-    // 
     const [query, setQuery] = useState("");
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -20,13 +21,13 @@ export default function Chatbot() {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!query.trim()) return;
+    const handleSubmit = async (e, customText) => {
+        e?.preventDefault(); // safe for both form and button click
 
-        const userMessage = { type: "user", text: query };
+        const inputText = customText || query;
+        if (!inputText.trim()) return;
 
-
+        const userMessage = { type: "user", text: inputText };
         setMessages((prev) => [...prev, userMessage]);
         setQuery("");
         setLoading(true);
@@ -35,7 +36,7 @@ export default function Chatbot() {
             const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: userMessage.text }),
+                body: JSON.stringify({ query: inputText }),
             });
 
             let data;
@@ -59,9 +60,10 @@ export default function Chatbot() {
         }
     };
 
+
     return (
         <>
-            <div className="fixed z-[99999999] bottom-16 right-16">
+            <div className="fixed z-[99999999] bottom-8 right-8 md:bottom-16 md:right-16">
                 <motion.button
                     // hover/focus handlers (works for keyboard too)
                     onHoverStart={() => setHovered(true)}
@@ -105,7 +107,7 @@ export default function Chatbot() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 50, scale: 0.9 }}
                         transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="fixed bottom-16 right-16 w-96 h-[70vh] bg-white dark:bg-neutral-900 shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden z-[99999999]"
+                        className="fixed bottom-4 right-4 md:bottom-14 md:right-8 w-[70%] max-w-md  h-[70vh] md:min-h-96 bg-white dark:bg-neutral-900 shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden z-[99999999]"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
@@ -116,30 +118,55 @@ export default function Chatbot() {
                         </div>
 
                         {/* Messages area */}
-                        <div className="flex-1 overflow-y-auto p-3 space-y-2 text-sm">
-                            {/* Default greeting */}
-                            {messages.length === 0 && (
-                                <div className="bg-gray-100 dark:bg-neutral-800 p-2 rounded-lg w-fit max-w-[75%]">
-                                    👋 Hi! How can I help?
-                                </div>
-                            )}
+                        <div className="flex-1 flex flex-col justify-between overflow-y-auto p-4 space-y-2 text-sm">
+                            <div className="flex-1 ">
+                                {/* Default greeting */}
+                                {messages.length === 0 && (
+                                    <div className="bg-gray-100 dark:bg-neutral-800 p-2 rounded-lg w-fit max-w-[75%]">
+                                        👋 Hi! How can I help?
+                                    </div>
+                                )}
 
-                            {/* Loop through messages */}
-                            {messages.map((msg, i) => (
-                                <div
-                                    key={i}
-                                    className={`p-2 rounded-lg w-fit max-w-7/10 shadow-md ${msg.type === "user" ? "ml-auto bg-blue-600 text-white" : "bg-gray-100 dark:bg-neutral-800"
-                                        }`}
-                                >
-                                    {msg.text}
+                                {/* Loop through messages */}
+                                <div className="space-y-3">
+                                    {messages.map((msg, i) => (
+                                        <p
+                                            key={i}
+                                            className={`text-justify p-3 rounded-lg w-fit max-w-[80%] break-words shadow-md ${msg.type === "user"
+                                                    ? "ml-auto bg-blue-600 text-white"
+                                                    : "bg-gray-100 dark:bg-neutral-800"
+                                                }`}
+                                        >
+                                            {msg.text}
+                                        </p>
+                                    ))}
                                 </div>
-                            ))}
 
-                            {loading && (
-                                <div className="bg-gray-100 dark:bg-neutral-800 p-2 rounded-lg w-fit max-w-[75%] animate-pulse">
-                                    Thinking...
-                                </div>
-                            )}
+                                {loading && (
+                                    <div className="bg-gray-100 dark:bg-neutral-800 p-2 rounded-lg w-fit max-w-[75%] animate-pulse">
+                                        Thinking...
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className={`mt-3 ${messages.length === 0 ? "" : "hidden"}`}>
+                                {!loading && (
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {suggestion.map(
+                                            (q, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => handleSubmit(null, q)}
+
+                                                    className="px-3 py-1.5 text-xs bg-gray-200 dark:bg-neutral-700 hover:bg-blue-500 hover:text-white rounded-full transition"
+                                                >
+                                                    {q}
+                                                </button>
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                            </div>
 
                             <div ref={chatEndRef} />
                         </div>
