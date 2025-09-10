@@ -23,13 +23,36 @@ export async function GET(req) {
 		const url = new URL(req.url);
 		const categoryId = url.searchParams.get('categoryId') || null;
 		const q = url.searchParams.get('q') || null;
+		const difficultyParam = url.searchParams.get('difficulty') || null;
 		const limit = Math.min(Number(url.searchParams.get('limit') || 50), 200);
 
 		const db = await getDb();
 		const match = {};
-		if (categoryId && ObjectId.isValid(categoryId))
+
+		// category filter
+		if (categoryId && ObjectId.isValid(categoryId)) {
 			match.categoryId = new ObjectId(categoryId);
-		if (q) match.text = { $regex: q, $options: 'i' };
+		}
+
+		// difficulty filter (accept case-insensitive 'easy|medium|hard')
+		if (difficultyParam) {
+			const d = String(difficultyParam).trim().toLowerCase();
+			if (['easy', 'medium', 'hard'].includes(d)) {
+				match.difficulty = d;
+			} else {
+				// invalid difficulty -> return 400 so client knows
+				return NextResponse.json(
+					{ error: 'Invalid difficulty' },
+					{ status: 400 },
+				);
+			}
+		}
+
+		// q -> only search question text field (escape regex)
+		if (q) {
+			const esc = escapeRegex(String(q).trim());
+			match.text = { $regex: esc, $options: 'i' };
+		}
 
 		const docs = await db
 			.collection('questions')
