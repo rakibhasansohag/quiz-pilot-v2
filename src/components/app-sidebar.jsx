@@ -1,9 +1,19 @@
-"use client"
+'use client';
 
-import { BarChart2, Clipboard, FilePlus, History, LayoutDashboard, Trophy, User, Users} from "lucide-react";
+import {
+  BarChart2,
+  CircleFadingPlus,
+  Clipboard,
+  FilePlus,
+  History,
+  LayoutDashboard,
+  Trophy,
+  User,
+  Users,
+} from 'lucide-react';
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from '@/components/nav-main';
+import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -11,56 +21,52 @@ import {
   SidebarHeader,
   SidebarMenuButton,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
-import { Separator } from "./ui/separator"
-import { useSession } from "next-auth/react"
+} from '@/components/ui/sidebar';
+import Link from 'next/link';
+import { Separator } from './ui/separator';
+import { useSession } from 'next-auth/react';
 
 const navDetails = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard, // 📊 main dashboard
+    title: 'Dashboard',
+    url: '/dashboard',
+    icon: LayoutDashboard, // main dashboard
   },
   {
-    title: "Profile",
-    url: "/dashboard/profile",
-    icon: User, // 👤 for personal profile
+    title: 'Profile',
+    url: '/dashboard/profile',
+    icon: User, //  for personal profile
   },
   {
-    title: "Quiz History",
-    url: "/dashboard/quiz-history",
-    icon: History, // 🕒 past attempts
+    title: 'Quiz History',
+    url: '/dashboard/quiz-history',
+    icon: History, // past attempts
   },
+
   {
-    title: "Results",
-    url: "/dashboard/results",
-    icon: BarChart2, // 📊 performance summary
+    title: 'Leaderboard',
+    url: '/dashboard/leaderboard',
+    icon: Trophy, // ranking
   },
-  {
-    title: "Leaderboard",
-    url: "/dashboard/leaderboard",
-    icon: Trophy, // 🏆 ranking
-  },
-]
+];
 
 const adminNavDetails = [
   {
-    title: "Users",
-    url: "/dashboard/admin/users",
-    icon: Users, // 👥 manage users
+    title: 'Users',
+    url: '/dashboard/admin/users',
+    icon: Users, // manage users
   },
   {
-    title: "Questions",
-    url: "/dashboard/admin/questions",
-    icon: Clipboard, // 📝 exam/tests
+    title: 'Category',
+    url: '/dashboard/admin/categories',
+    icon: CircleFadingPlus, // add new category
   },
   {
-    title: "Create Quiz",
-    url: "/dashboard/admin/create-quiz",
-    icon: FilePlus, // ➕ add new quiz
+    title: 'Questions',
+    url: '/dashboard/admin/questions',
+    icon: Clipboard, // exam/tests
   },
-]
+];
 
 export function AppSidebar({ ...props }) {
   const { data: session, status } = useSession();
@@ -77,21 +83,29 @@ export function AppSidebar({ ...props }) {
           <Link href="/">
             <div className="flex items-center gap-2 mx-auto md:mx-0">
               <div className="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <img src="https://res.cloudinary.com/dlrzwaoga/image/upload/v1757071182/vnixltocrqshrhu3l22t.png" className="size-8" />
+                <img
+                  src="https://res.cloudinary.com/dlrzwaoga/image/upload/v1757071182/vnixltocrqshrhu3l22t.png"
+                  className="size-8"
+                />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight ">
-                <span className="truncate font-extrabold text-xl font-delius-regular">QuizPilot</span>
+                <span className="truncate font-extrabold text-xl font-delius-regular">
+                  QuizPilot
+                </span>
               </div>
             </div>
           </Link>
-
         </SidebarMenuButton>
       </SidebarHeader>
 
       <Separator />
 
       <SidebarContent>
-        <NavMain userRole={userInfo.role} navDetails={navDetails} adminNavDetails={adminNavDetails} />
+        <NavMain
+          userRole={userInfo.role}
+          navDetails={navDetails}
+          adminNavDetails={adminNavDetails}
+        />
       </SidebarContent>
 
       <SidebarFooter>

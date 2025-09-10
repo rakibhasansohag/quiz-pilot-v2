@@ -27,14 +27,14 @@ const team = [
     portfolio: "https://rakibhasansohag-v2.vercel.app",
   },
   {
-    name: "Mahin",
+    name: "Sufian",
     img: "https://avatars.githubusercontent.com/u/120025447?v=4",
     portfolio: "https://abusufian.tech/",
   },
   {
     name: "Shahabb",
     img: "https://avatars.githubusercontent.com/u/193158321?v=4",
-    portfolio: "https://github.com/ammarShahab",
+    portfolio: "https://ammar-shahahb-porfolio.vercel.app/",
   },
   {
     name: "Robiul",
@@ -47,8 +47,8 @@ const team = [
 export default function Footer() {
   return (
     <ResponsiveWidthProvider>
-      <footer className=" py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-5 gap-8">
+      <footer className="py-14">
+        <div className="max-w-7xl mx-auto py-10 grid grid-cols-1 md:grid-cols-5 gap-8">
 
           {/* Left side */}
           <div className="md:col-span-2">
@@ -105,7 +105,7 @@ export default function Footer() {
             <h3 className="font-semibold mb-3">Developed By </h3>
             <ul className="space-y-2 text-sm text-gray-600">
               {/* Avatars Row */}
-              <li className="flex gap-2">
+              <li className="flex flex-wrap gap-1">
                 <TooltipProvider>
                   {team.map((member) => (
                     <Tooltip key={member.name}>
@@ -123,7 +123,7 @@ export default function Footer() {
                           </Avatar>
                         </Link>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent side="bottom">
                         <p>{member.name}</p>
                       </TooltipContent>
                     </Tooltip>
