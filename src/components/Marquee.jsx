@@ -46,6 +46,78 @@ export default function Marquee() {
       src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg',
       alt: 'Swift',
     },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg',
+      alt: 'Kotlin',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg',
+      alt: 'Dart',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg',
+      alt: 'Flutter',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+      alt: 'React',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
+      alt: 'Next.js',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+      alt: 'Node.js',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg',
+      alt: 'Angular',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+      alt: 'Vue.js',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
+      alt: 'Express.js',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
+      alt: 'MongoDB',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+      alt: 'MySQL',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+      alt: 'PostgreSQL',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
+      alt: 'Firebase',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
+      alt: 'GraphQL',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+      alt: 'Docker',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg',
+      alt: 'Kubernetes',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
+      alt: 'Linux',
+    },
+    {
+      src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
+      alt: 'Git',
+    },
   ];
 
   return (
@@ -66,8 +138,8 @@ export default function Marquee() {
       {/* Marquee Container */}
       <div className="relative w-full max-w-6xl overflow-hidden">
         {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 w-16 sm:w-20 h-full z-10 bg-gradient-to-r from-gray-100 dark:from-neutral-900 to-transparent"></div>
-        <div className="absolute right-0 top-0 w-16 sm:w-20 h-full z-10 bg-gradient-to-l from-gray-100 dark:from-neutral-900 to-transparent"></div>
+        <div className="absolute left-0 top-0 w-16 sm:w-20 h-full z-10 bg-gradient-to-r from-[#e8f0f8] dark:from-[#131518] to-transparent"></div>
+        <div className="absolute right-0 top-0 w-16 sm:w-20 h-full z-10 bg-gradient-to-l from-[#e8f0f8] dark:from-[#131518] to-transparent"></div>
 
         {/* Infinite Scrolling Logos */}
         <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
@@ -101,7 +173,7 @@ export default function Marquee() {
         }
         .animate-marquee {
           display: flex;
-          animation: marquee 30s linear infinite;
+          animation: marquee 60s linear infinite;
         }
       `}</style>
     </section>

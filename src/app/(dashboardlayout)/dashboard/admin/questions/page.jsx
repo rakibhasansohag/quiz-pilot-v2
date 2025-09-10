@@ -126,7 +126,9 @@ export default function QuestionsListPage() {
           </svg>
         </div>
 
-        <Button onClick={() => router.push('/dashboard/questions/create')}>
+        <Button
+          onClick={() => router.push('/dashboard/admin/questions/create')}
+        >
           Create Question
         </Button>
       </div>
