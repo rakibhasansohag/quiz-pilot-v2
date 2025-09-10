@@ -55,7 +55,6 @@ export default function Leaderboard({
 
   useEffect(() => {
     fetchBoard();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, difficulty, numQuestions]);
 
   async function fetchCategories() {
