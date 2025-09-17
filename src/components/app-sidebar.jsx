@@ -51,21 +51,26 @@ const navDetails = [
 ];
 
 const adminNavDetails = [
-  {
-    title: 'Users',
-    url: '/dashboard/admin/users',
-    icon: Users, // manage users
-  },
-  {
-    title: 'Category',
-    url: '/dashboard/admin/categories',
-    icon: CircleFadingPlus, // add new category
-  },
-  {
-    title: 'Questions',
-    url: '/dashboard/admin/questions',
-    icon: Clipboard, // exam/tests
-  },
+	{
+		title: 'Users',
+		url: '/dashboard/admin/users',
+		icon: Users, // manage users
+	},
+	{
+		title: 'Category',
+		url: '/dashboard/admin/categories',
+		icon: CircleFadingPlus, // add new category
+	},
+	{
+		title: 'Questions',
+		url: '/dashboard/admin/questions',
+		icon: Clipboard, // exam/tests
+	},
+	{
+		title: 'Generate Quiz',
+		url: '/dashboard/admin/generate',
+		icon: FilePlus,
+	},
 ];
 
 export function AppSidebar({ ...props }) {

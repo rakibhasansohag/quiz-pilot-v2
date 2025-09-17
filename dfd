@@ -1,0 +1,674 @@
+[33mcommit 86d15cef5c344c30cac66abd2ac0efbb43a74351[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 17 21:08:08 2025 +0600
+
+    vecel probelm fix
+
+[33mcommit 9537a7cdd77f78db4fc11db1976fe031fb17b6e2[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 17 19:33:14 2025 +0600
+
+    callback error fix that sid is not receving on the production built
+
+[33mcommit 5cef10ffbf172318a28e8c24e65db1e0a7c8ada0[m
+Merge: dd6e7e7 11d422b
+Author: Rakib Hasan Sohag <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 10 20:09:36 2025 +0600
+
+    Merge branch 'development' into RS
+
+[33mcommit cc11b744aa1d27332ae987a66072c5c9db597730[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 10 19:34:20 2025 +0600
+
+     fix the login call back error dahboard page that doesnt exist
+
+[33mcommit b3fc214fc6a486d880106040cc5d23eef17187c8[m
+Merge: bb8ca46 a2cfea0
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 19:32:24 2025 +0600
+
+    Merge pull request #89 from AsyncRifat/sufian
+    
+    added dynamic graphs for admin dashboard
+
+[33mcommit a2cfea069b29623cc51ab1cbc842f4b3c10602d6[m[33m ([m[1;31morigin/sufian[m[33m)[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 19:31:51 2025 +0600
+
+    added dynamic graphs for admin dashboard
+
+[33mcommit bb8ca465a173b36fda81f9290a0dea040fa4fc8e[m
+Merge: 6a4a5fd 6b7425b
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 18:52:10 2025 +0600
+
+    Merge pull request #88 from AsyncRifat/sufian
+    
+    added user Dashboard graphs
+
+[33mcommit 6b7425b5b52b0cae7bb4c91f496e9d98e36597b8[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 18:51:28 2025 +0600
+
+    added user Dashboard graphs
+
+[33mcommit 5eb94de2c76e1e3460ca993b0a9cebe4584638a9[m
+Merge: 54787eb 3f07866
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Wed Sep 10 15:36:42 2025 +0600
+
+    attemptId page
+
+[33mcommit ecc0cb931bbd6f8a40f235e800a3045eca27dcb2[m
+Merge: 5d53598 8e15120
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Wed Sep 10 15:19:36 2025 +0600
+
+    Merge pull request #83 from AsyncRifat/rifat
+    
+    faq section and bug fixed
+
+[33mcommit 8e15120b52e1e782f0306f008329a6d0c825d996[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Wed Sep 10 15:17:58 2025 +0600
+
+    faq section and bug fixed
+
+[33mcommit 5d53598a417f67c709f983e2fb5a9cade13967d2[m
+Merge: 38aefbc 97ae2f9
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 15:08:03 2025 +0600
+
+    Merge pull request #82 from AsyncRifat/sufian
+    
+    added chatbot with question suggestion
+
+[33mcommit 97ae2f9ba55a53070e359b6833b617af7e551f0e[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 15:04:28 2025 +0600
+
+    added chatbot with question suggestion
+
+[33mcommit d1659683a524e0070fcba64e5757ddc6ab5a9de2[m[33m ([m[1;31morigin/ammarShahab[m[33m)[m
+Merge: a7b413b cba0cab
+Author: Md. Ammar Shahab <ashahab007@gmail.com>
+Date:   Wed Sep 10 14:19:40 2025 +0600
+
+    Merge branch 'development' into ammarShahab
+
+[33mcommit a7b413bef61b11dcfc0c6263e1cfffbd2a583ef2[m
+Author: Ashahab007 <ashahab007@gmail.com>
+Date:   Wed Sep 10 14:13:58 2025 +0600
+
+    edited notfound page and created dynamic
+
+[33mcommit 67c32d228fdf7f3e28d11695d9e670f54900166b[m
+Merge: c862076 152a186
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 03:47:54 2025 +0600
+
+    Merge branch 'development' into sufian
+
+[33mcommit c862076c087a6ee156e9650b4b82c18a282b082d[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Wed Sep 10 03:45:34 2025 +0600
+
+    added gemini chatbot
+
+[33mcommit 3d218965433e324947a00d6d7a47e08936f8c3dc[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Wed Sep 10 03:42:41 2025 +0600
+
+    coutup page update
+
+[33mcommit 60451962c31d270ba0d5afab737986588bcf34fe[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 10 02:14:58 2025 +0600
+
+     random button remove for the leaderboard page
+
+[33mcommit 25238b43aa940daf33d0824f281ff873980d7996[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Wed Sep 10 02:14:10 2025 +0600
+
+     quesionts bug fix and added uplicated guard for category questions
+
+[33mcommit 445671c9a468bd465d5a3f7b76b90641cd906833[m
+Merge: 7e95c92 b477de7
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Wed Sep 10 00:23:02 2025 +0600
+
+    Merge pull request #75 from AsyncRifat/rayhan
+    
+    faq section added by rayhan
+
+[33mcommit b477de7ea9664a4e46b6cf9b2cfd6d83f282f39d[m[33m ([m[1;31morigin/rayhan[m[33m)[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Wed Sep 10 00:14:36 2025 +0600
+
+    faq section added
+
+[33mcommit 48fe2ccd797d1dfe58bb0eea219c6840a97bf9f0[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Tue Sep 9 23:05:20 2025 +0600
+
+    countUp page dynamic and API create and re design
+
+[33mcommit 02bc4461c8ff3809ceda2d23e252a8208ec58b2c[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Tue Sep 9 18:53:48 2025 +0600
+
+    bug fixed
+
+[33mcommit ec2fb5a28b1179e03e0d50c80cf0e96569f3325d[m
+Merge: 6bce360 c7042c7
+Author: Rakib Hasan Sohag <rakibhasansohag133@gmail.com>
+Date:   Tue Sep 9 13:53:47 2025 +0600
+
+    Merge branch 'development' into RS
+
+[33mcommit 6bce3606604005f959d5973bab65271d277f2aa4[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Tue Sep 9 13:42:15 2025 +0600
+
+     leader board some known bug fix and added some ui improvedment for user to explore on teh leaderboad
+
+[33mcommit 02ffc8d11961808903cc8b27d38293471189350b[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Tue Sep 9 13:11:57 2025 +0600
+
+     leaderboard api page and relations to the database added
+
+[33mcommit f31171ad33ca0a47e200b551afa560a4049e3214[m
+Merge: bd0f8c1 f1f0631
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Tue Sep 9 02:42:14 2025 +0600
+
+    serach implemented  in users page by rayhan
+
+[33mcommit bd0f8c18dfc3a4e23d48502d6b217a81e86d2e1c[m
+Merge: 4b11fc9 e8ee17c
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Tue Sep 9 02:27:30 2025 +0600
+
+    search implemented in users list
+
+[33mcommit dd3c1127a00d5988375bf85d7e0b208293f4fc7e[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Tue Sep 9 01:48:22 2025 +0600
+
+    added user and admin dashboard
+
+[33mcommit 85a7c9ad9905262532d0d7a15ba0b63cc924137e[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Tue Sep 9 01:17:01 2025 +0600
+
+    attempt to solve notfound animation import
+
+[33mcommit 9b96abf8771c78a9f89b42a4d24ba99f4d261467[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Tue Sep 9 01:14:02 2025 +0600
+
+    added /admin in admin routes
+
+[33mcommit c5f7765067621fd8b22881ade3c9786ac6294657[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Tue Sep 9 00:57:12 2025 +0600
+
+    added register page with authlayout
+
+[33mcommit 4b11fc9f9cb8f9e8e5b7b88de05890069d9e297d[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Tue Sep 9 00:29:50 2025 +0600
+
+    added developer image in footer by rayhan
+
+[33mcommit d8ffe8627edaa12e16074461a9361eaadddf6114[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Mon Sep 8 23:50:56 2025 +0600
+
+    redesigned login page, added react hook form
+
+[33mcommit 67708527272b312644a70ee9dca834d2c1851eef[m
+Merge: 659bfef 2bb0aec
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Mon Sep 8 20:50:24 2025 +0600
+
+    Merge pull request #61 from AsyncRifat/sufian
+    
+    restricted admin path for normal users
+
+[33mcommit 659bfefd99de13691dfe356d3691d57cdf1a9199[m
+Merge: 732e124 8ef6c94
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Mon Sep 8 20:49:02 2025 +0600
+
+    Merge pull request #60 from AsyncRifat/ammarShahab
+    
+    fixes loading and error page
+
+[33mcommit 2bb0aec6eaffe72f1bd5a3a4eaddfe02c1adccd6[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Mon Sep 8 20:48:52 2025 +0600
+
+    restricted admin path for normal users
+
+[33mcommit 2deb7f9c162f323d5d9507f6a1d3aa784e64c7a8[m
+Merge: 01926b0 75db00f
+Author: Rakib Hasan Sohag <rakibhasansohag133@gmail.com>
+Date:   Mon Sep 8 19:37:30 2025 +0600
+
+    Merge pull request #59 from AsyncRifat/RS
+    
+    minor bug fix for login and authentication
+
+[33mcommit 53d35b90f8f7ac258576463e318a3e5cfb963a87[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Mon Sep 8 19:25:47 2025 +0600
+
+    added dynamic userInfo in shadcn Navbar
+
+[33mcommit 554f20cd9f5ee244cc0f629effe6b1a4ba05fd3b[m
+Merge: 6fe83e5 9cd65dc
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Mon Sep 8 10:15:37 2025 +0600
+
+    Merge pull request #52 from AsyncRifat/rayhan
+    
+    users table added
+
+[33mcommit 6fe83e58adfec7411273ab2030ef9a81af1ae825[m
+Merge: e4a0ce4 4557d13
+Author: Rakib Hasan Sohag <rakibhasansohag133@gmail.com>
+Date:   Mon Sep 8 04:56:03 2025 +0600
+
+    Merge pull request #54 from AsyncRifat/RS
+    
+    bug fix on most of the api
+
+[33mcommit 9559739d8eac7197db189ba2e865ad096809721c[m
+Author: Ashahab007 <ashahab007@gmail.com>
+Date:   Mon Sep 8 02:02:16 2025 +0600
+
+    added five buttons, NotFound and loading component
+
+[33mcommit 9cd65dcb0ffe092f731e48c9919997d7d6944f79[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Mon Sep 8 01:30:04 2025 +0600
+
+    users table added
+
+[33mcommit b9c389dd4927ca1fe918a8854fbcd409e7e857bd[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Mon Sep 8 00:13:36 2025 +0600
+
+     question api route fix and for usermenu dashabord link removed
+
+[33mcommit e4a0ce4c53d546ca1af256aceb362fdc3a2b383e[m
+Merge: 17159cc 8247a0d
+Author: Rakib Hasan Sohag <rakibhasansohag133@gmail.com>
+Date:   Sun Sep 7 23:39:43 2025 +0600
+
+    Merge pull request #51 from AsyncRifat/RS
+    
+    bug fix on the api what uses getuserfromcokkies lib
+
+[33mcommit 85b90d922e1d597c36f9320be2f3ad38bf09c521[m
+Merge: 848fd93 0484853
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sun Sep 7 23:32:56 2025 +0600
+
+    Merge pull request #49 from AsyncRifat/rifat
+    
+    Rifat
+
+[33mcommit 048485318272927c995fb5ab1e01707c2a2424e5[m
+Merge: c280e8d 68087f5
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sun Sep 7 23:31:25 2025 +0600
+
+    bug fixed
+
+[33mcommit 8247a0dcf4cdbfa734fab65ef5138658800f87ee[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Sun Sep 7 23:29:49 2025 +0600
+
+     bug fix on the api what uses getuserfromcokkies lib
+
+[33mcommit b805c54b5a28812d7687d74d29ce467a3004f216[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Sun Sep 7 23:03:10 2025 +0600
+
+     auth bug fix for callback hell
+
+[33mcommit 848fd936045494a271a20158cac70361a2c79af7[m
+Merge: 68087f5 bb17aa0
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 22:32:53 2025 +0600
+
+    Merge pull request #46 from AsyncRifat/sufian
+    
+    added quiz starting page with modal
+
+[33mcommit bb17aa017776800420de2682ec113b3f038dde81[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 22:31:44 2025 +0600
+
+    added quiz starting page with modal
+
+[33mcommit 1228140bb25352a69fee200a26c7f8b735f6392c[m
+Merge: cd5248e 32647fe
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 09:43:13 2025 +0600
+
+    Merge pull request #40 from AsyncRifat/sufian
+    
+    added pages for admin route and dashboard theme button changes
+
+[33mcommit 32647fed128e325524aeb88b87a0dc9367ff4650[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 09:41:32 2025 +0600
+
+    added pages for admin route and dashboard theme button changes
+
+[33mcommit cd5248e35d64fc76ceb0e4c05047fb85769d9478[m
+Merge: 2e26f55 a8c840b
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 09:27:57 2025 +0600
+
+    Merge pull request #39 from AsyncRifat/sufian
+    
+    added admin section (unconditionally)
+
+[33mcommit a8c840b1285412f2fc9088833b91133ecbb2282e[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 09:25:59 2025 +0600
+
+    added admin section (unconditionally)
+
+[33mcommit 2e26f558f6bf89dd008a2b988a737289c1b5d596[m
+Merge: 982b6da bc92522
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 09:00:31 2025 +0600
+
+    Merge pull request #38 from AsyncRifat/sufian
+    
+    added theme toggle in dashboard navbar
+
+[33mcommit bc92522af357f37de98cfa650dc68aee0ed57c12[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 08:58:59 2025 +0600
+
+    added theme toggle in dashboard navbar
+
+[33mcommit f32b7f0405ba7c3639bf1d05e4bb4895feda1400[m
+Merge: 9843be6 b8622be
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sun Sep 7 08:36:46 2025 +0600
+
+    Merge pull request #33 from AsyncRifat/rayhan
+    
+    footer edited About us and terms and conditions
+
+[33mcommit a4a7ca9669b3cb694720be0c9ac95d2ff8561175[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 08:22:39 2025 +0600
+
+    fixed navbar sticky position behaviour
+
+[33mcommit ebe857936106685d8e11c202c0aa18b842ed6777[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sun Sep 7 08:00:26 2025 +0600
+
+    added a demo history table design with animation
+
+[33mcommit b8622be3d418cad19ad30a4f772a742aacd580e1[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Sun Sep 7 03:04:51 2025 +0600
+
+    footer edited
+
+[33mcommit d8f907b51c069d482b9c9c857bec17d67773508b[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sat Sep 6 23:45:42 2025 +0600
+
+    Folder structure change: added questions to dashboard from homelayout and made dashboard navbar functional
+
+[33mcommit 5d797a7bcdfe4c3714f57026f1e6f48abd526a01[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sat Sep 6 23:03:46 2025 +0600
+
+    started reconstructing folder structure
+
+[33mcommit c9c55c7d46cdaeb6b7d085dcdbccc9fe9b87494f[m
+Merge: ef47942 7ec2bd5
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 21:46:45 2025 +0600
+
+    Merge pull request #28 from AsyncRifat/RS
+    
+    profile changed password and session show tab added
+
+[33mcommit 4ee0a75d70df8350b8b29d1c7fc63467c5d54095[m[33m ([m[1;31morigin/robiul[m[33m)[m
+Author: robiulalam02 <robiulbusiness02@gmail.com>
+Date:   Sat Sep 6 21:18:21 2025 +0600
+
+    fixed navbar responsiveness issue
+
+[33mcommit f5ac7d997e9eb3d68103e233aa76e2af460cd742[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Sat Sep 6 21:17:01 2025 +0600
+
+     profile page and profile related api added and also added upload to cloudinary for the images
+
+[33mcommit 1f81879b9c4449b8095612506f054c2bd324ca55[m
+Merge: 075eebe 0fd1066
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 20:38:55 2025 +0600
+
+    Merge pull request #26 from AsyncRifat/robiul
+    
+    added new routes in navbar
+
+[33mcommit 0fd1066dd2b8aecff6ef1e370fda83a638c72536[m
+Author: robiulalam02 <robiulbusiness02@gmail.com>
+Date:   Sat Sep 6 20:36:50 2025 +0600
+
+    added new routes in navbar
+
+[33mcommit 294f57b4014840ce9121ae9ad43ac6f4dbfa7920[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Sat Sep 6 20:23:10 2025 +0600
+
+    google  log in added
+
+[33mcommit cebfa2f4093744aab9d322cd00bbbf21d7c1d14b[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 20:17:26 2025 +0600
+
+    typography issue fixed
+
+[33mcommit ee945d4e9dd30ae0d01fd0fef39855e7434ca390[m
+Merge: 30c56e9 bcccf19
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 20:14:14 2025 +0600
+
+    Merge pull request #23 from AsyncRifat/rifat
+    
+    Rifat
+
+[33mcommit bcccf19d0f438d1fe72c9033ee0a298bb017def6[m
+Merge: 1552f28 e333fac
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 20:11:30 2025 +0600
+
+    sliktonLoder
+
+[33mcommit a2e3f960551961896856a12dba6e54dbfc92ac64[m
+Merge: 71c7d2a e333fac
+Author: Robiul Alam <robiulbusiness02@gmail.com>
+Date:   Sat Sep 6 19:50:14 2025 +0600
+
+    Merge branch 'development' into robiul
+
+[33mcommit e333fac505f0992c058f47858f12d20a579d8e00[m
+Merge: 870cde3 6a6cae2
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 19:41:40 2025 +0600
+
+    Merge pull request #20 from AsyncRifat/rayhan
+    
+    log in page edited
+
+[33mcommit ebf5a64feff2705576979b403538f4534b506299[m
+Merge: 19b3a43 d5ae11f
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 19:41:12 2025 +0600
+
+    Merge branch 'development' into rifat
+
+[33mcommit 19b3a4309b790c7359f6301065c974cff538a549[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 19:33:36 2025 +0600
+
+    QuestionForm emplement and sliktonLoade and search emplement
+
+[33mcommit 6a6cae2cf24ab2173b75201d40e60feee6506171[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Sat Sep 6 19:32:36 2025 +0600
+
+    login page  edited
+
+[33mcommit edbbe8a807ebb9673c874e48599eb41c0425d7c5[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Sat Sep 6 17:34:50 2025 +0600
+
+    google button on sign up page
+
+[33mcommit be6a311d70ef5b56f0746300ef371c083c15d0e9[m
+Merge: 98ebaf8 a644a5a
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 15:34:36 2025 +0600
+
+    Merge pull request #18 from AsyncRifat/rifat
+    
+    Rifat
+
+[33mcommit a644a5a3098216606e6c77a6d81dc2204402f18c[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 15:33:32 2025 +0600
+
+    hero section, footer,countup , and patnners done
+
+[33mcommit 01b49afee241714b46a62ae83706f6a78bc4c8bf[m
+Merge: f9336e1 5b436b9
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 13:23:41 2025 +0600
+
+    Merge branch 'development' into RS
+
+[33mcommit f9336e16f823869ba5e8e0d6cfd197e789072ee9[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Sat Sep 6 13:10:10 2025 +0600
+
+     quesitons related api and route added
+
+[33mcommit f3b26dee11dc9cbcbd16f952534cbf7339f58bd6[m
+Merge: e8cc5a2 3e5f3c8
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 10:44:59 2025 +0600
+
+    Merge branch 'development' into rayhan
+
+[33mcommit 71c7d2a125d596c84868aa94257d8638aaa632b2[m
+Author: robiulalam02 <robiulbusiness02@gmail.com>
+Date:   Sat Sep 6 10:42:22 2025 +0600
+
+    WIP: local changes before pulling latest development
+
+[33mcommit e8cc5a23bfc477ff9f525f9c9cf636cee03bfbb2[m
+Author: rayhan <mohammadrayhanx0@gmail.com>
+Date:   Sat Sep 6 01:44:08 2025 +0600
+
+    add lotties in sing up page
+
+[33mcommit debbdd6bc5bb8cf0b00240ccfd9ec9a5293da43a[m
+Merge: 0ff7773 fbcbe4e
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 01:31:37 2025 +0600
+
+    Merge branch 'development' into rifat
+
+[33mcommit 26bf6006ed0f2816672ce98d3352927e8600e14e[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Sat Sep 6 01:26:51 2025 +0600
+
+    countUp page and Marquee page done
+
+[33mcommit 85df4b73225cc1c1fe6d5b0a9a42268a97c05e4e[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Sat Sep 6 00:39:14 2025 +0600
+
+    added dashboard layout
+
+[33mcommit b5194e1a9274a1bcf829722b63840fe97df49386[m
+Merge: 544ba68 a23e70b
+Author: Ibrahim Rifat <ibrahim3rifat@gmail.com>
+Date:   Fri Sep 5 23:05:39 2025 +0600
+
+    Merge branch 'main' into development
+
+[33mcommit 1539b979eb4011b4777c9900ffa4d7a158ed7d6b[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 22:40:56 2025 +0600
+
+     added cateogires route and cateogires page and fix some issues on sign up page
+
+[33mcommit a9f973026c95d59cbac5e8ff5503dbf06a884152[m
+Author: robiulalam02 <robiulbusiness02@gmail.com>
+Date:   Fri Sep 5 21:49:44 2025 +0600
+
+    Improved heading sizes and responsive text
+
+[33mcommit a598542c1f14646cd29b729299dfd96f21fc9793[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 21:37:39 2025 +0600
+
+     pre defined obejct added
+
+[33mcommit f8192b7fedc50a9876dd0755fe01d9586327fb4c[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 19:58:03 2025 +0600
+
+     something changes
+
+[33mcommit e942753b1dd8eb439b76b04a14e7b611a4e27bde[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 19:42:26 2025 +0600
+
+     added sign up page and backend part as the project main setup
+
+[33mcommit 86de9469dec606bc63dd0994528c70e4cea5ec14[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 19:02:32 2025 +0600
+
+     hydration warning error fix
+
+[33mcommit 1b0bdd78c7becaeb426707c811b0cc5d869f9c26[m
+Author: Abu Sufian Mahin <abusufianmahin3@gmail.com>
+Date:   Fri Sep 5 18:37:31 2025 +0600
+
+    added responsive width provider and colors
+
+[33mcommit 3fb230a678a7ad323851c75153e6ad0c1e4d09ce[m
+Author: AsyncRifat <ibrahim3rifat@gmail.com>
+Date:   Fri Sep 5 17:43:50 2025 +0600
+
+    new branch created for rifat
+
+[33mcommit 4dea3e4e0a11e68953d25bc2ad99144af5eb8612[m
+Author: Devoloper_Rakib <rakibhasansohag133@gmail.com>
+Date:   Fri Sep 5 10:21:55 2025 +0600
+
+     added basic configiration of the proejct
