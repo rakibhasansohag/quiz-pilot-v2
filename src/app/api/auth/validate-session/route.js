@@ -1,10 +1,9 @@
-// file: /app/api/auth/validate-session/route.js
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 
 export async function POST(req) {
 	try {
-		// Read the body exactly once into a variable
+		// read body once
 		const body = await req.json();
 		console.log('/api/auth/validate-session called, body:', body);
 
@@ -17,14 +16,31 @@ export async function POST(req) {
 		}
 
 		const db = await getDb();
-		const sess = await db.collection('sessions').findOne({ sub, sid });
+		const now = new Date();
+
+		// find session by _id (sid) and userId (sub) and ensure active and not expired
+		const sess = await db.collection('sessions').findOne({
+			_id: sid,
+			userId: sub,
+			active: true,
+			expiresAt: { $gt: now },
+		});
 
 		if (!sess) {
+			console.log('/api/auth/validate-session: session not found or expired', {
+				sub,
+				sid,
+			});
 			return NextResponse.json(
 				{ ok: false, error: 'not_found' },
 				{ status: 401 },
 			);
 		}
+
+		// optional: update lastSeenAt
+		await db
+			.collection('sessions')
+			.updateOne({ _id: sid }, { $set: { lastSeenAt: now } });
 
 		return NextResponse.json({ ok: true }, { status: 200 });
 	} catch (err) {
