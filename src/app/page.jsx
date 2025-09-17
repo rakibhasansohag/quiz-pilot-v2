@@ -25,6 +25,7 @@ export default async function Home({ children }) {
         <Footer></Footer>
       </footer>
 
+
       <Chatbot />
     </div>
   );
