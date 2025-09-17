@@ -1,4 +1,3 @@
-// file: /middleware.js
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -16,18 +15,18 @@ export async function middleware(req) {
 
 	// Protected routes
 	if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin')) {
-		// ensure secret comes from same env name used in NextAuth
 		const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
 		const token = await getToken({ req, secret });
 		console.log('middleware token from getToken:', token);
 
+		// No token -> redirect to login as before
 		if (!token) {
 			const loginUrl = new URL('/login', req.url);
 			loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
 			return NextResponse.redirect(loginUrl);
 		}
 
-		// optional sid check (your existing logic)
+		// If there's a token, check sid cookie if present
 		const sid = req.cookies.get?.('sid')?.value ?? null;
 		console.log('middleware sid cookie:', sid);
 
@@ -45,22 +44,30 @@ export async function middleware(req) {
 				console.log('middleware validate res status:', res.status);
 				const json = await res.json().catch(() => ({ ok: false }));
 				console.log('middleware validate json:', json);
-				if (!res.ok || !json.ok) {
-					const loginUrl = new URL('/login', req.url);
-					loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
-					const out = NextResponse.redirect(loginUrl);
-					out.cookies.delete('sid');
-					return out;
+
+				// If validation succeeds, proceed normally
+				if (res.ok && json.ok) {
+					return NextResponse.next();
 				}
+
+				console.warn(
+					'sid validation failed; deleting sid and allowing client to recreate it',
+					json,
+				);
+				const out = NextResponse.next();
+				out.cookies.delete('sid');
+				return out;
 			} catch (e) {
-				console.warn('sid validate error', e);
+				console.warn('sid validate error (network):', e);
+				// allow request so client can handle session recreation
+				return NextResponse.next();
 			}
 		}
 
+		// If sid missing, allow request so client can create one after page load.
 		if (pathname.startsWith('/admin') && token.role !== 'admin') {
 			return NextResponse.redirect(new URL('/', req.url));
 		}
-
 		return NextResponse.next();
 	}
 
