@@ -45,7 +45,8 @@ export async function POST(req) {
 			path: '/',
 			maxAge: ttlSeconds,
 			sameSite: 'lax',
-			// secure: true in production (https). DON'T set secure: true on localhost http.
+			httpOnly: true, // cannot be read by JS (secure)
+			secure: process.env.NODE_ENV === 'production', // only sent over HTTPS in prod
 		});
 
 		return res;

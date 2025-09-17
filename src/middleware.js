@@ -1,3 +1,4 @@
+// file: /middleware.js
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -13,25 +14,24 @@ export async function middleware(req) {
 		return NextResponse.next();
 	}
 
-	// protected paths
+	// Protected routes
 	if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin')) {
-		const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-		console.log('token from middleware', token);
+		// ensure secret comes from same env name used in NextAuth
+		const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
+		const token = await getToken({ req, secret });
+		console.log('middleware token from getToken:', token);
+
 		if (!token) {
 			const loginUrl = new URL('/login', req.url);
 			loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
 			return NextResponse.redirect(loginUrl);
 		}
 
-		console.log('token', token);
+		// optional sid check (your existing logic)
+		const sid = req.cookies.get?.('sid')?.value ?? null;
+		console.log('middleware sid cookie:', sid);
 
-		const sid = req.cookies.get('sid')?.value ?? null;
-
-		console.log('sid', sid);
-
-		// ERROR GOT SOMETHING
 		if (sid) {
-			// validate server-side
 			try {
 				const validateUrl = new URL('/api/auth/validate-session', req.url);
 				const res = await fetch(validateUrl.toString(), {
@@ -42,10 +42,9 @@ export async function middleware(req) {
 					},
 					body: JSON.stringify({ sub: token.id ?? token.sub, sid }),
 				});
-				console.log('validate res', res);
-
+				console.log('middleware validate res status:', res.status);
 				const json = await res.json().catch(() => ({ ok: false }));
-				console.log('validate json', json);
+				console.log('middleware validate json:', json);
 				if (!res.ok || !json.ok) {
 					const loginUrl = new URL('/login', req.url);
 					loginUrl.searchParams.set('callbackUrl', req.nextUrl.href);
@@ -57,16 +56,18 @@ export async function middleware(req) {
 				console.warn('sid validate error', e);
 			}
 		}
-		// If sid missing, allow request so client can create it after page load.
+
 		if (pathname.startsWith('/admin') && token.role !== 'admin') {
 			return NextResponse.redirect(new URL('/', req.url));
 		}
+
 		return NextResponse.next();
 	}
 
-	// Don't let signed-in users visit /login or /signup
+	// Prevent signed-in users visiting auth pages
 	if (pathname === '/login' || pathname === '/signup') {
-		const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+		const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
+		const token = await getToken({ req, secret });
 		if (token) return NextResponse.redirect(new URL('/', req.url));
 	}
 

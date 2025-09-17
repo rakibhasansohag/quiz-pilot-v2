@@ -44,6 +44,7 @@ export function LoginForm({ className, ...props }) {
 				password,
 				callbackUrl,
 			});
+			console.log('client signIn result:', res);
 
 			if (!res) {
 				toast.error('Login request failed');
@@ -66,6 +67,8 @@ export function LoginForm({ className, ...props }) {
 					const s = await fetch('/api/auth/session', { credentials: 'include' })
 						.then((r) => r.json())
 						.catch(() => null);
+
+					console.log('/api/auth/session response:', s);
 					if (s && s.user) {
 						sessionVisible = true;
 						break;
@@ -73,7 +76,7 @@ export function LoginForm({ className, ...props }) {
 				} catch (e) {
 					// ignore
 				}
-				await new Promise((r) => setTimeout(r, 200));
+				await new Promise((r) => setTimeout(r, 500));
 			}
 
 			if (!sessionVisible) {
@@ -85,11 +88,20 @@ export function LoginForm({ className, ...props }) {
 
 			// Create readable sid for middleware by invoking your sessions/create API
 			// This endpoint requires the JWT to be valid; the above poll ensures server can read the NextAuth cookie.
+			let createRes = null;
 			try {
-				await fetch('/api/sessions/create', {
+				createRes = await fetch('/api/sessions/create', {
 					method: 'POST',
 					credentials: 'include', // important to allow cookie exchange
 				});
+
+				const createJson = await createRes?.json().catch(() => null);
+				console.log(
+					'/api/sessions/create response (json):',
+					createJson,
+					'responseObj:',
+					createRes,
+				);
 			} catch (err) {
 				console.warn('Failed to call /api/sessions/create (non-fatal):', err);
 			}
@@ -105,6 +117,10 @@ export function LoginForm({ className, ...props }) {
 		}
  };
 
+ console.log(
+		'document.cookie:',
+		typeof document !== 'undefined' ? document.cookie : 'no document',
+ );
 
   return (
     <>

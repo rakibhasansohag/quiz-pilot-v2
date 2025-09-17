@@ -4,6 +4,11 @@ import { signIn } from 'next-auth/react'
 
 export default function Google({method}) {
     const handleGoogleLogin = () => {
+        console.log(
+					'starting Google signIn from client, origin:',
+					typeof window !== 'undefined' ? window.location.origin : null,
+				);
+
         signIn("google",{callbackUrl : "/"});
     }
     
