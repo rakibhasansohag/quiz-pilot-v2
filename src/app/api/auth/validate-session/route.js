@@ -1,32 +1,37 @@
+// file: /app/api/auth/validate-session/route.js
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 
 export async function POST(req) {
 	try {
-		const body = await req.json().catch(() => null);
-		if (!body || !body.sub || !body.sid)
-			return NextResponse.json({ ok: false }, { status: 400 });
+		// Read the body exactly once into a variable
+		const body = await req.json();
+		console.log('/api/auth/validate-session called, body:', body);
 
-		const db = await getDb();
-		const sessions = db.collection('sessions');
-
-		// find active session by id and userId
-		const s = await sessions.findOne({
-			_id: String(body.sid),
-			userId: String(body.sub),
-			active: true,
-		});
-
-		if (!s) return NextResponse.json({ ok: false }, { status: 401 });
-
-		// optionally check expiresAt > now
-		if (s.expiresAt && new Date(s.expiresAt) <= new Date()) {
-			return NextResponse.json({ ok: false }, { status: 401 });
+		const { sub, sid } = body || {};
+		if (!sub || !sid) {
+			return NextResponse.json(
+				{ ok: false, error: 'missing_params' },
+				{ status: 400 },
+			);
 		}
 
-		return NextResponse.json({ ok: true });
+		const db = await getDb();
+		const sess = await db.collection('sessions').findOne({ sub, sid });
+
+		if (!sess) {
+			return NextResponse.json(
+				{ ok: false, error: 'not_found' },
+				{ status: 401 },
+			);
+		}
+
+		return NextResponse.json({ ok: true }, { status: 200 });
 	} catch (err) {
-		console.error('POST /api/auth/validate-session error', err);
-		return NextResponse.json({ ok: false }, { status: 500 });
+		console.error('/api/auth/validate-session error', err);
+		return NextResponse.json(
+			{ ok: false, error: 'server_error' },
+			{ status: 500 },
+		);
 	}
 }
