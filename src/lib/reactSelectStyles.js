@@ -5,7 +5,7 @@ export const getReactSelectStyles = (isDark = false) => {
 	const text = isDark ? '#f9fafb' : '#111827';
 	const placeholder = isDark ? '#9ca3af' : '#6b7280';
 	const optionHoverBg = isDark ? '#374151' : '#f3f4f6';
-	const MENU_PORTAL_Z = 2147483647; // very high z-index to beat overlays
+	const MENU_PORTAL_Z = 2147483647999; // very high z-index to beat overlays
 
 	return {
 		control: (provided, state) => ({
